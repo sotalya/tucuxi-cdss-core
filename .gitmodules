@@ -1,0 +1,3 @@
+[submodule "libs/tucuxi-core"]
+	path = libs/tucuxi-core
+	url = ../tucuxi-core

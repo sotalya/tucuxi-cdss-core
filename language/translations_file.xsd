@@ -1,0 +1,32 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- ##################################################################### -->
+<!-- XML Schema Definition -->
+<!-- ##################################################################### -->
+
+<xs:element name="translations">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="translation" type="translationType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:complexType name="translationType">
+    <xs:simpleContent>
+        <xs:extension base="xs:string">
+            <xs:attribute ref="key" use="required"/>
+        </xs:extension>
+    </xs:simpleContent>
+</xs:complexType>
+
+<xs:attribute name="key">
+    <xs:simpleType>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+</xs:attribute>
+
+
+</xs:schema>

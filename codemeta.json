@@ -1,0 +1,212 @@
+{
+    "@context": "https://w3id.org/codemeta/3.0",
+    "applicationCategory": "Pharmacology",
+    "author": [
+        {
+            "affiliation": {
+                "name": " School of Engineering and Management Vaud, HES-SO University of Applied Sciences and Arts Western Switzerland: Yverdon-les-Bains, CH",
+                "@type": "Organization"
+            },
+            "email": "yann.thoma@heig-vd.ch",
+            "familyName": "Thoma",
+            "givenName": "Yann",
+            "@id": "https://orcid.org/0000-0003-4374-6104",
+            "@type": "Person"
+        },
+        {
+            "affiliation": {
+                "name": " School of Engineering and Management Vaud, HES-SO University of Applied Sciences and Arts Western Switzerland: Yverdon-les-Bains, CH",
+                "@type": "Organization"
+            },
+            "email": "roberto.rigamonti@heig-vd.ch",
+            "familyName": "Rigamonti",
+            "givenName": "Roberto",
+            "@id": "https://orcid.org/0000-0001-7283-7203",
+            "@type": "Person"
+        },
+        {
+            "affiliation": {
+                "name": " School of Engineering and Management Vaud, HES-SO University of Applied Sciences and Arts Western Switzerland: Yverdon-les-Bains, CH",
+                "@type": "Organization"
+            },
+            "email": "bruno.darochacarvalho@heig-vd.ch",
+            "familyName": "Da Rocha Carvalho",
+            "givenName": "Bruno",
+            "@id": "https://orcid.org/0009-0008-3230-7345",
+            "@type": "Person"
+        }
+    ],
+    "codeRepository": "https://reds-gitlab.heig-vd.ch/reds-tucuxi/tucuxi-cdss-core",
+    "dateCreated": "2024-02-05",
+    "dateModified": "2026-05-06",
+    "datePublished": "2026-05-05",
+    "description": "This code allows to perform prediction of drug concentration in blood and to automaticaly propose dosage adaptations.",
+    "downloadUrl": "https://download_link/tucuxicli.tar.gz",
+    "funder": {
+        "name": "Swiss National Science Foundation",
+        "@type": "Organization"
+    },
+    "identifier": "One id",
+    "keywords": [
+        "pharmacology",
+        "drug concentration",
+        "dosage adaptation",
+        "Clinical Decision Support System",
+        "Model-Informed Precision Dosing",
+        "Therapeutic Drug Monitoring"
+    ],
+    "license": "https://spdx.org/licenses/AGPL-3.0-or-later",
+    "name": "Tucuxi-CDSS",
+    "operatingSystem": [
+        "Linux",
+        "Windows",
+        "MACOs"
+    ],
+    "programmingLanguage": [
+        "C++",
+        "HTML",
+        "JS",
+        "Python3",
+        "CMake"
+    ],
+    "referencePublication": [
+        {
+            "author": [
+                {
+                    "affiliation": {
+                        "name": " School of Engineering and Management Vaud, HES-SO University of Applied Sciences and Arts Western Switzerland: Yverdon-les-Bains, CH",
+                        "@type": "Organization"
+                    },
+                    "email": "yann.thoma@heig-vd.ch",
+                    "familyName": "Thoma",
+                    "givenName": "Yann",
+                    "@id": "https://orcid.org/0000-0003-4374-6104",
+                    "@type": "Person"
+                },
+                {
+                    "affiliation": {
+                        "name": "Klinikum rechts der Isar: Munich, Bavaria, DE",
+                        "@type": "Organization"
+                    },
+                    "familyName": "Cathignol",
+                    "givenName": "Annie E",
+                    "@id": "https://orcid.org/0009-0003-5029-4596",
+                    "@type": "Person"
+                },
+                {
+                    "affiliation": {
+                        "name": "Centre for Research and Innovation in Clinical Pharmaceutical Sciences, Lausanne University Hospital and University of Lausanne, Lausanne, Switzerland",
+                        "@type": "Organization"
+                    },
+                    "email": "yuan.petermann@chuv.ch",
+                    "familyName": "Pétermann",
+                    "givenName": "Yuan J",
+                    "@id": "https://orcid.org/0009-0006-8426-6157",
+                    "@type": "Person"
+                },
+                {
+                    "affiliation": {
+                        "name": "Kilimanjaro Clinical Research Institute: MOSHI, Moshi, TZ",
+                        "@type": "Organization"
+                    },
+                    "email": "m.sariko@kcri.ac.tz",
+                    "familyName": "Sariko",
+                    "givenName": "Margaretha L",
+                    "@id": "https://orcid.org/0000-0001-6264-773X",
+                    "@type": "Person"
+                },
+                {
+                    "affiliation": {
+                        "name": " Ministry of Health ,Kibog'oto Infectious Disease Hospital: Kilimanjaro, Kilimanjaro, TZ",
+                        "@type": "Organization"
+                    },
+                    "email": "bibiesd90@gmail.com",
+                    "familyName": "Said",
+                    "givenName": "Bibie",
+                    "@id": "https://orcid.org/0000-0002-3687-6827",
+                    "@type": "Person"
+                },
+                {
+                    "affiliation": {
+                        "name": " Centre Hospitalier Universitaire Vaudois et Université de Lausanne: Lausanne, VD, CH ",
+                        "@type": "Organization"
+                    },
+                    "email": "chantal.csajka@chuv.ch",
+                    "familyName": "Csajka",
+                    "givenName": "Chantal",
+                    "@id": "https://orcid.org/0000-0002-0660-082X",
+                    "@type": "Person"
+                },
+                {
+                    "affiliation": {
+                        "name": "Centre Hospitalier Universitaire Vaudois: Lausanne, Vaud, CH ",
+                        "@type": "Organization"
+                    },
+                    "email": "monia.guidi@chuv.ch",
+                    "familyName": "Guidi",
+                    "givenName": "Monia",
+                    "@id": "https://orcid.org/0000-0002-6419-9317",
+                    "@type": "Person"
+                },
+                {
+                    "affiliation": {
+                        "name": "Kibong'oto Infectious Diseases Hospital: Sanya Juu -Moshi, Kilimanjaro , TZ ",
+                        "@type": "Organization"
+                    },
+                    "email": "sempagama@yahoo.com",
+                    "familyName": "Mpagama",
+                    "givenName": "Stellah G",
+                    "@id": "https://orcid.org/0000-0002-0660-6930",
+                    "@type": "Person"
+                }
+            ],
+            "datePublished": "21.10.2024",
+            "identifier": "10.2196/58720",
+            "issn": "1929-0748",
+            "name": "Toward a Clinical Decision Support System for Monitoring Therapeutic Antituberculosis Medical Drugs in Tanzania (Project TuberXpert): Protocol for an Algorithm' Development and Implementation",
+            "url": "https://doi.org/10.2196/58720",
+            "@type": "ScholarlyArticle"
+        }
+    ],
+    "relatedLink": [
+        "https://future_doc.ch",
+        "https://www.tucuxi.ch/"
+    ],
+    "releaseNotes": "First public release of Tucuxi-CDSS.",
+    "softwareRequirements": [
+        {
+            "name": "CMake",
+            "version": ">=3.20"
+        },
+        {
+            "name": "Python",
+            "version": ">= 3"
+        },
+        {
+            "name": "Lcov",
+            "version": ">=1.14"
+        },
+        {
+            "name": "genhtml",
+            "version": ">=1.14"
+        },
+        {
+            "name": "clang-format",
+            "version": ">=18.1"
+        },
+        {
+            "name": "clang-tidy",
+            "version": ">=18.1"
+        }
+    ],
+    "version": "1.0.0",
+    "codemeta:contIntegration": {
+        "@id": "https://continuous_integration_tucuxicdsscli"
+    },
+    "continuousIntegration": "https://continuous_integration_tucuxicdsscli",
+    "developmentStatus": "active",
+    "funding": "IZSTZ0_208544",
+    "isSourceCodeOf": "Tucuxi",
+    "issueTracker": "https://reds-gitlab.heig-vd.ch/reds-tucuxi/tucuxi-cdss-core/-/issues",
+    "@type": "SoftwareSourceCode"
+}

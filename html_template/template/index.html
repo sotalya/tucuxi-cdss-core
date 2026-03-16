@@ -1,0 +1,162 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="application/json" id="jsonData">
+      {{ json_dump }}
+    </script>
+    <title>Tucuxi report file</title>
+
+    <!-- INLINE_CSS:css/style.css -->
+
+    <!-- INLINE_JS:drawGraph.js -->
+    <!-- INLINE_JS:graphcreator.js -->
+    <!-- INLINE_JS:graphdata.js -->
+    <!-- INLINE_JS:graphing.js -->
+
+    <!-- INLINE_JS:handle_input.js -->
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="left-column">
+        <div class="section">
+          <div>
+            <!-- Hospital logo -->
+            <img
+              class="img-logo"
+              width="100"
+              src="<!-- INLINE_IMG:assets/hospital_logo.txt -->"
+            />
+            <!-- Tucuxi logo-->
+            <img
+              class="img-logo"
+              width="150"
+              src="<!-- INLINE_IMG:assets/tucuxi_logo.txt -->"
+            />
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td><span id="hospital_translate"></span></td>
+                <td><span id="hospitalName">?</span></td>
+              </tr>
+              <tr>
+                <td>Contact</td>
+                <td><span id="hospitalContact">?</span></td>
+              </tr>
+              <tr>
+                <td><span id="report_date_translate"></span></td>
+                <td><span id="reportDate">?</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section" style="margin-top: 50px">
+          <div class="white-line-title">
+            <span id="requesting_practi_translate"></span>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td><span class="name_translate"></span></td>
+                <td><span id="practitionerName">?</span></td>
+              </tr>
+              <tr>
+                <td>Location</td>
+                <td><span id="practitionerLocation">?</span></td>
+              </tr>
+              <tr>
+                <td><span class="email_translation"></span></td>
+                <td><span id="practitionerEmail">?</span></td>
+              </tr>
+              <tr>
+                <td><span class="phone_translate"></span></td>
+                <td><span id="practitionerPhone">?</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section" style="margin-top: 50px">
+          <div class="white-line-title">
+            <span id="patient_translation"></span>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>ID</td>
+                <td><span id="patientId">?</span></td>
+              </tr>
+              <tr>
+                <td><span class="name_translate"></span></td>
+                <td><span id="patientName">?</span></td>
+              </tr>
+              <tr>
+                <td>Date of birth</td>
+                <td><span id="patientDOB">?</span></td>
+              </tr>
+              <tr>
+                <td><span class="address_translation"></span></td>
+                <td><span id="patientAddress">?</span></td>
+              </tr>
+              <tr>
+                <td><span class="email_translation"></span></td>
+                <td><span id="patientEmail">?</span></td>
+              </tr>
+              <tr>
+                <td><span class="phone_translate"></span></td>
+                <td><span id="patientPhone">?</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section" style="margin-top: 50px">
+          <div class="title">
+            Characteristics <span id="covariateDate"></span>
+          </div>
+          <div id="covariatesContainer">
+            <table>
+              <thead>
+                <tr>
+                  <th>Covariate</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="covariatesBody"></tbody>
+            </table>
+          </div>
+
+          <div id="warningsCDSSContainer" class="warnings-section">
+            <h3>CDSS Warning</h3>
+            <ul id="warningsCDSS"></ul>
+          </div>
+
+          <div id="warningsCovariateContainer" class="warnings-section">
+            <h3>Covariates Warnings</h3>
+            <ul id="warningsCovariateList"></ul>
+          </div>
+
+          <div id="warningsSampleContainer" class="warnings-section">
+            <h3>Samples Warnings</h3>
+            <ul id="warningsSampleList"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="right-column">
+        <div class="general-title">
+          <span id="page_title">?</span> <span class="drug_name">?</span>
+        </div>
+
+        <div id="current_dosage_container"></div>
+
+        <div id="sample_container"></div>
+
+        <div id="adjustmentContent"></div>
+      </div>
+    </div>
+
+    <script></script>
+  </body>
+</html>

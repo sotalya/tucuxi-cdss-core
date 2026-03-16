@@ -1,0 +1,346 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="application/json" id="jsonData">
+      {{ json_dump }}
+    </script>
+    <title>Tucuxi report file</title>
+
+    <!-- INLINE_CSS:css/style.css -->
+
+    <!-- INLINE_JS:drawGraph.js -->
+    <!-- INLINE_JS:graphcreator.js -->
+    <!-- INLINE_JS:graphdata.js -->
+    <!-- INLINE_JS:graphing.js -->
+    <!-- INLINE_JS:handle_input.js -->
+
+    <style>
+      /* Layout override (inventif) - garde tes CSS existants, on surcharge gentiment */
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      }
+      .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 18px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(6px);
+      }
+
+      .topbar-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .img-logo {
+        height: 46px;
+        width: auto;
+        object-fit: contain;
+      }
+
+      .headline {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .headline .title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .headline .subtitle {
+        opacity: 0.75;
+        font-size: 13px;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      @media (min-width: 980px) {
+        .content {
+          grid-template-columns: 1.15fr 0.85fr;
+          align-items: start;
+        }
+      }
+
+      .card {
+        border-radius: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: #fff;
+        overflow: hidden;
+      }
+      .card-header {
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .card-body {
+        padding: 14px;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      @media (min-width: 640px) {
+        .info-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .kv {
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+      .kv .k {
+        font-size: 12px;
+        opacity: 0.7;
+        margin-bottom: 4px;
+      }
+      .kv .v {
+        font-weight: 650;
+        word-break: break-word;
+      }
+
+      .table-wrap table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table-wrap th,
+      .table-wrap td {
+        text-align: left;
+        padding: 10px 8px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        vertical-align: top;
+      }
+      .table-wrap thead th {
+        font-size: 12px;
+        opacity: 0.7;
+        font-weight: 700;
+      }
+
+      .warnings {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      @media (min-width: 900px) {
+        .warnings {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+
+      .warnings-section {
+        border: 1px dashed rgba(0, 0, 0, 0.18);
+        border-radius: 14px;
+        padding: 10px 12px;
+      }
+      .warnings-section h3 {
+        margin: 0 0 8px;
+        font-size: 13px;
+      }
+      .warnings-section ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .sticky-panel {
+        position: relative;
+      }
+      @media (min-width: 980px) {
+        .sticky-panel {
+          position: sticky;
+          top: 14px;
+        }
+      }
+
+      /* Containers existants */
+      #current_dosage_container,
+      #sample_container,
+      #adjustmentContent {
+        display: grid;
+        gap: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page">
+      <!-- TOP BAR -->
+      <section class="topbar">
+        <div class="topbar-row">
+          <div class="brand">
+            <img
+              class="img-logo"
+              src="<!-- INLINE_IMG:assets/hospital_logo.txt -->"
+              alt="Hospital logo"
+            />
+            <img
+              class="img-logo"
+              src="<!-- INLINE_IMG:assets/tucuxi_logo.txt -->"
+              alt="Tucuxi logo"
+            />
+          </div>
+
+          <div class="headline">
+            <div class="title">
+              <span id="page_title">?</span> — <span class="drug_name">?</span>
+            </div>
+            <div class="subtitle">
+              <span id="hospital_translate"></span> <span id="hospitalName">?</span>
+              · <span id="report_date_translate"></span> <span id="reportDate">?</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="kv">
+            <div class="k">Contact</div>
+            <div class="v"><span id="hospitalContact">?</span></div>
+          </div>
+          <div class="kv">
+            <div class="k">Practitioner</div>
+            <div class="v"><span id="practitionerName">?</span></div>
+          </div>
+          <div class="kv">
+            <div class="k">Patient</div>
+            <div class="v"><span id="patientName">?</span> (ID: <span id="patientId">?</span>)</div>
+          </div>
+          <div class="kv">
+            <div class="k">DOB</div>
+            <div class="v"><span id="patientDOB">?</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content">
+        <!-- MAIN COLUMN -->
+        <div class="main">
+          <div class="card">
+            <div class="card-header">
+              <span id="requesting_practi_translate"></span>
+              <span style="opacity: 0.7; font-weight: 600"
+                ><span id="practitionerLocation">?</span
+              ></span>
+            </div>
+            <div class="card-body">
+              <div class="info-grid">
+                <div class="kv">
+                  <div class="k"><span class="email_translation"></span></div>
+                  <div class="v"><span id="practitionerEmail">?</span></div>
+                </div>
+                <div class="kv">
+                  <div class="k"><span class="phone_translate"></span></div>
+                  <div class="v"><span id="practitionerPhone">?</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span id="patient_translation"></span>
+              <span style="opacity: 0.7; font-weight: 600"
+                ><span class="address_translation"></span>: <span id="patientAddress">?</span
+              ></span>
+            </div>
+            <div class="card-body">
+              <div class="info-grid">
+                <div class="kv">
+                  <div class="k"><span class="email_translation"></span></div>
+                  <div class="v"><span id="patientEmail">?</span></div>
+                </div>
+                <div class="kv">
+                  <div class="k"><span class="phone_translate"></span></div>
+                  <div class="v"><span id="patientPhone">?</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span>Characteristics</span>
+              <span style="opacity: 0.7; font-weight: 600" id="covariateDate"></span>
+            </div>
+            <div class="card-body">
+              <div id="covariatesContainer" class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Covariate</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody id="covariatesBody"></tbody>
+                </table>
+              </div>
+
+              <div class="warnings" style="margin-top: 12px">
+                <div id="warningsCDSSContainer" class="warnings-section">
+                  <h3>CDSS Warning</h3>
+                  <ul id="warningsCDSS"></ul>
+                </div>
+
+                <div id="warningsCovariateContainer" class="warnings-section">
+                  <h3>Covariates Warnings</h3>
+                  <ul id="warningsCovariateList"></ul>
+                </div>
+
+                <div id="warningsSampleContainer" class="warnings-section">
+                  <h3>Samples Warnings</h3>
+                  <ul id="warningsSampleList"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STICKY SIDE PANEL -->
+        <aside class="sticky-panel">
+          <div class="card">
+            <div class="card-header">Therapy & Results</div>
+            <div class="card-body">
+              <div id="current_dosage_container"></div>
+              <div id="sample_container"></div>
+              <div id="adjustmentContent"></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>

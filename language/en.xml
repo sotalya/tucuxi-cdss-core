@@ -1,0 +1,215 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<translations
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="translations_file.xsd">
+
+    <!-- Dosages -->
+    <translation key="maximum_dosage_warning">Maximum recommended dosage reached</translation>
+    <translation key="minimum_dosage_warning">Minimum recommended dosage reached</translation>
+
+    <!-- Samples -->
+    <translation key="population_below">% of the population is below this measure</translation>
+    <translation key="population_above">% of the population is above this measure</translation>
+
+
+    <translation key="txt_measured_of_prefix">The measured level of </translation>
+    <translation key="txt_with_dose_prefix"> in patients receiving the drug at a dosage of </translation>
+
+    <translation key="txt_sample_in_ascending"> is difficult to interpret as it is taken during the drug absorption phase, which is characterized by high intra- and inter-individual variability. In general, it is recommended to perform sampling at least {hours}h post-dose for a more accurate interpretation. Nevertheless this level </translation>
+
+    <!-- Main clause according to the 5 ranges -->
+    <translation key="txt_expected_p25_p75"> corresponds to the concentrations usually observed</translation>
+    <translation key="txt_below_lt_p10"> is below the range of concentrations usually observed</translation>
+    <translation key="txt_below_p10_p25"> is within the lower part of the range of concentrations usually observed</translation>
+    <translation key="txt_above_p75_p90"> is within the upper part of the range of concentrations usually observed</translation>
+    <translation key="txt_above_gt_p90"> is above the range of concentrations usually observed</translation>
+
+    <!-- Optional suffixes (only for <P10 and >P90) -->
+    <translation key="txt_suffix_lt_p10">. Check that the patient is taking their treatment correctly and regularly (good compliance), as well as the absence of drug interaction (CYP inducer, including self-medication).</translation>
+    <translation key="txt_suffix_gt_p90">. Check that the patient is taking their treatment correctly and regularly (no temporary overcompliance), and rule out an interaction with a strong CYP inhibitor.</translation>
+
+    <!-- Dates -->
+    <translation key="meas_too_far_doses">Measurements too far in time from dosages</translation>
+    <translation key="meas_too_far_adj">Measurements too far in time from the adjustment date</translation>
+    <translation key="meas_after_adj">All measurements performed past the adjustement date</translation>
+
+    <!-- Report common -->
+    <translation key="drug">Drug</translation>
+    <translation key="none">None</translation>
+    <translation key="from">From</translation>
+    <translation key="to">To</translation>
+    <translation key="date">Date</translation>
+    <translation key="hour_acronym">h</translation>
+
+    <!-- Report header -->
+    <translation key="tuberxpert_report">TuberXpert report</translation>
+    <translation key="computed_on">Computed on</translation>
+
+    <!-- Report intro -->
+    <translation key="id">ID</translation>
+    <translation key="last_dose">Last dose</translation>
+    <translation key="drug_model">Drug model</translation>
+
+    <!-- Report contacts -->
+    <translation key="contacts">Contacts</translation>
+    <translation key="mandator">Mandator</translation>
+    <translation key="patient">Patient</translation>
+    <translation key="name">Name</translation>
+    <translation key="address">Address</translation>
+    <translation key="phone">Phone</translation>
+    <translation key="email">Email</translation>
+    <translation key="professional">professional</translation>
+    <translation key="private">private</translation>
+
+    <!-- Report clinical data -->
+    <translation key="clinical_data">Clinical data</translation>
+
+    <!-- Report Covariates -->
+    <translation key="covariates">Covariates</translation>
+    <translation key="value">Value</translation>
+    <translation key="source_patient">patient</translation>
+    <translation key="source_default">default</translation>
+    <translation key="yes">Yes</translation>
+    <translation key="no">No</translation>
+    <translation key="undefined">Undefined</translation>
+    <translation key="man">Man</translation>
+    <translation key="woman">Woman</translation>
+
+    <!-- Report Treatment -->
+    <translation key="treatment">Treatment</translation>
+    <translation key="type">Type</translation>
+    <translation key="continually">continually</translation>
+    <translation key="at_steady_state">at steady state with last dose on</translation>
+    <translation key="times">time(s)</translation>
+    <translation key="offset">offset</translation>
+    <translation key="interval">interval</translation>
+    <translation key="daily_at">daily at</translation>
+    <translation key="every">every</translation>
+    <translation key="day_1">Monday</translation>
+    <translation key="day_2">Tuesday</translation>
+    <translation key="day_3">Wednesday</translation>
+    <translation key="day_4">Thursday</translation>
+    <translation key="day_5">Friday</translation>
+    <translation key="day_6">Saturday</translation>
+    <translation key="day_7">Sunday</translation>
+    <translation key="at">at</translation>
+    <translation key="dosage">dosage</translation>
+
+    <translation key="oral">oral</translation>
+    <translation key="nasal">nasal</translation>
+    <translation key="rectal">rectal</translation>
+    <translation key="vaginal">vaginal</translation>
+    <translation key="sublingual">sublingual</translation>
+    <translation key="transdermal">transdermal</translation>
+    <translation key="subcutaneous">subcutaneous</translation>
+    <translation key="intramuscular">intramuscular</translation>
+    <translation key="intravenous_drip">intravenous drip</translation>
+    <translation key="intravenous_bolus">intravenous bolus</translation>
+
+    <!-- Report Samples -->
+    <translation key="samples">Samples</translation>
+    <translation key="measure">Measure</translation>
+    <translation key="percentile">Percentile</translation>
+
+    <!-- Report Adjustments -->
+    <translation key="adjustments">Adjustments found</translation>
+    <translation key="intro_phrase">Based on the above information, the following adjustments are relevant to achieve the targets.</translation>
+    <translation key="per_interval">Per interval</translation>
+    <translation key="displayed_adjustments">Displayed adjustments</translation>
+    <translation key="displayed_adjustment">Displayed adjustment</translation>
+    <translation key="score">Score</translation>
+    <translation key="adjustment_suggested">Adjustment suggested</translation>
+    <translation key="suggestion_phrase">Considering the above information, TuberXpert recommends the following adjustment.</translation>
+
+    <!-- Report Targets -->
+    <translation key="targets_phrase">With the best suggestion, the targets are expected to change as follows.</translation>
+    <translation key="unknown">Unknown</translation>
+    <translation key="residual">Residual</translation>
+    <translation key="peak">Peak</translation>
+    <translation key="mean">Mean</translation>
+    <translation key="auc">Area under the curve</translation>
+    <translation key="auc24">Area under the curve for 24 hours</translation>
+    <translation key="cumulative_auc">Cumulative area under the curve</translation>
+    <translation key="auc_over_mic">Area under the curve over minimum inhibitory concentration</translation>
+    <translation key="auc24_over_mic">Area under the curve for 24 hours over minimum inhibitory concentration</translation>
+    <translation key="time_over_mic">Time over minimum inhibitory concentration</translation>
+    <translation key="auc_divided_by_mic">Area under the curve divided by minimum inhibitory concentration</translation>
+    <translation key="auc24_divided_by_mic">Area under the curve for 24 hours divided by minimum inhibitory concentration</translation>
+    <translation key="peak_divided_by_mic">Peak divided by minimum inhibitory concentration</translation>
+    <translation key="residual_divided_by_mic">Residual divided by minimum inhibitory concentration</translation>
+    <translation key="fraction_time_over_mic">Fraction time over minimum inhibitory concentration</translation>
+
+    <translation key="inefficacy">Inefficacy</translation>
+    <translation key="min">Min</translation>
+    <translation key="best">Best</translation>
+    <translation key="max">Max</translation>
+    <translation key="toxicity">Toxicity</translation>
+
+    <!-- Report Pharmacokinetic parameters -->
+    <translation key="pharmacokinetic_parameters">Pharmacokinetic parameters</translation>
+    <translation key="typical_patient">Typical patient</translation>
+    <translation key="a_priori">A priori</translation>
+    <translation key="a_posteriori">A posteriori</translation>
+
+    <!-- Report Predictions -->
+    <translation key="predictions">Predictions</translation>
+    <translation key="extrapolated_steady_state_auc24">Extrapolated steady state AUC24</translation>
+    <translation key="steady_state_peak">Steady state peak</translation>
+    <translation key="steady_state_residual">Steady state residual</translation>
+
+    <!-- Report Computation covariates -->
+    <translation key="computation_covariates">Covariates used for computation</translation>
+    <translation key="covariate">Covariate</translation>
+
+    <!-- Error advertise -->
+    <translation key="warning">Warning</translation>
+    <translation key="error">Error</translation>
+
+    <!-- Covariate Checker -->
+    <translation key="no_covar_given">Was not given for calculation!</translation>
+    <translation key="empty_covar_value">Value should not be empty! Default is used.</translation>
+    <translation key="invalid_range">Value should be between</translation>
+    <translation key="and">and</translation>
+
+    <!-- Configuration range message -->
+    <translation key="exclude_range">exclude</translation>
+    <translation key="include_range">include</translation>
+
+    <!-- Justification sentences -->
+
+    <translation key="above_exposure">The daily drug exposure is above to the therapeutic target.</translation>
+    <translation key="bellow_exposure">The daily drug exposure is below to the therapeutic target.</translation>
+    <translation key="equal_exposure">The daily drug exposure is equal to the therapeutic target. </translation>
+    <translation key="increase_dosage">Therefore, it is recommended to increase the dose</translation>
+    <translation key="decrease_dosage">Therefore, it is recommended to decrease the dose</translation>
+    <translation key="equal_dosage">Therefore, it is recommended to keep the dose</translation>
+    <translation key="new_dosage">This first dosage should be the best, considering the information about this patient.</translation>
+    <translation key="starting_from">Starting from:</translation>
+    <translation key="justification_rest_period">A resting period shall be observed before the following dosage.</translation>
+    <translation key="justification_adaptative_dose">Take the following dose starting at</translation>
+    <translation key="justification_before_title">Before starting new dosage:</translation>
+    <translation key="justification_new_title">New dosage:</translation>
+    <translation key="higher_interval">at a higher interval.</translation>
+    <translation key="lower_interval">at a lower interval.</translation>
+    <translation key="equal_interval">at the same interval.</translation>
+
+    <translation key="hospital">Hospital</translation>
+    <translation key="report_date">Date of report</translation>
+    <translation key="requesting_practitioner">Requesting Practitioner</translation>
+    <translation key="page_title">Dosage recommendation for</translation>
+
+
+    <translation key="no_adjustments_phrase">No suitable adjustment was found for this patient</translation>
+
+
+    <!-- Graph Comp message -->
+    <translation key="before">Before</translation>
+    <translation key="after">After</translation>
+    <translation key="recommendation">Recommendation</translation>
+    <translation key="best_target">Best therapeutic target</translation>
+    <translation key="time">Time</translation>
+    <translation key="therapeutic_range">Thereupeutic range</translation>
+
+
+</translations>
