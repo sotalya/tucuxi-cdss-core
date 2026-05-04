@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+    <history>
+        <revisions>
+            <revision>
+                <revisionAction>creation</revisionAction>
+                <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                <institution>HEIG-VD</institution>
+                <email>yann.thoma@heig-vd.ch</email>
+                <date>2020-11-09</date>
+                <comments/>
+            </revision>
+            <revision>
+                <revisionAction>modification</revisionAction>
+                <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                <institution>HEIG-VD</institution>
+                <email>yann.thoma@heig-vd.ch</email>
+                <date>2021-01-15</date>
+                <comments>
+                    <comment lang='en'>Adding the fat-free mass covariate and variability on parameters + error model.</comment>
+                </comments>
+            </revision>
+            <revision>
+                <revisionAction>modification</revisionAction>
+                <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                <institution>HEIG-VD</institution>
+                <email>yann.thoma@heig-vd.ch</email>
+                <date>2021-01-21</date>
+                <comments>
+                    <comment lang='en'>Adding inter-occasion variability.</comment>
+                </comments>
+            </revision>
+            <revision>
+                <revisionAction>modification</revisionAction>
+                <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                <institution>HEIG-VD</institution>
+                <email>yann.thoma@heig-vd.ch</email>
+                <date>2021-04-01</date>
+                <comments>
+                    <comment lang='en'>Creation of this model from ch.tucuxi.rifampicin.svensson2017.iov</comment>
+                </comments>
+            </revision>
+            <revision>
+                <revisionAction>modification</revisionAction>
+                <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                <institution>HEIG-VD</institution>
+                <email>yann.thoma@heig-vd.ch</email>
+                <date>2021-07-28</date>
+                <comments>
+                    <comment lang='en'>Adding fields in the header</comment>
+                </comments>
+            </revision>
+        </revisions>
+    </history>
+    <head>
+        <drug>
+            <atcs>
+                <atc>J04AB02</atc>
+            </atcs>
+            <activeSubstances>
+                <activeSubstance>rifampicin</activeSubstance>
+            </activeSubstances>
+            <drugName>
+                <name lang='en'>Rifampicin</name>
+            </drugName>
+            <drugDescription>
+                <desc lang='en'>Rifampicin is an antibiotic used to treat several types of bacterial infections, including tuberculosis (TB). This model focuses on people infected by TB.</desc>
+            </drugDescription>
+            <tdmStrategy>
+                <text lang='en'>
+                </text>
+            </tdmStrategy>
+        </drug>
+        <study>
+            <studyName>
+                <name lang='en'>A Population Pharmacokinetic Model Incorporating Saturable Pharmacokinetics and Autoinduction for High Rifampicin Doses</name>
+            </studyName>
+            <studyAuthors>Robin J. Svensson, Rob E. Aarnoutse, Andreas H. Diacon, Rodney Dawson, Stephen H. Gillespie, Martin J. Boeree and Ulrika S.H. Simonsson</studyAuthors>
+            <description>
+                <desc lang='en'>This model is based on the paper of Svensson, but with a rerun. The original model exposed an IOV, and the rerun was made without it to comply with Tucuxi&apos;s features. Therefore the numbers are slightly different from the ones of the original paper.</desc>
+            </description>
+            <references>
+                <reference type='bibtex'>
+                    <![CDATA[@article{38977a4b3f444e09828faefee6947c90,  title     = "A population pharmacokinetic model incorporating saturable pharmacokinetics and autoinduction for high rifampicin doses",  abstract  = "Accumulating evidence suggest that increasing doses of rifampicin may shorten tuberculosis treatment. The PanACEA HIGHRIF1 trial assessed safety, pharmacokinetics and anti-mycobacterial activity of rifampicin at doses up to 40 mg/kg. Eighty-three pulmonary tuberculosis patients received 10, 20, 25, 30, 35 or 40 mg/kg rifampicin daily over 2 weeks, supplemented with standard doses of isoniazid, pyrazinamide and ethambutol in the second week.This study aimed at characterizing rifampicin pharmacokinetics observed in HIGHRIF1 using non-linear mixed effects modeling. The final population pharmacokinetic model included an enzyme turn-over model accounting for time-dependent elimination due to auto-induction, concentration-dependent clearance and dose-dependent bioavailability. The relationship between clearance and concentration was characterized by a Michaelis-Menten relationship. The relationship between bioavailability and dose was described using an Emax relationship. The model will be key in determining exposure-response relationships for rifampicin and should be considered when designing future trials and when treating future patients with high dose rifampicin.",  keywords  = "Rifampin, Tuberculosis, Pharmacokinetics, Modeling, Nonlinear models",  author    = "Svensson, {Robin J.} and Aarnoutse, {Rob E.} and Diacon, {Andreas H} and Rodney Dawson and Gillespie, {Stephen H.} and Boeree, {Martin J.} and Simonsson, {Ulrika S. H.}",  note      = "The research leading to these results has received funding from the Swedish Research Council in addition to the Innovative Medicines Initiative Joint Undertaking (www.imi.europe.eu) under grant agreement n°115337, resources of which are composed of financial contribution from the European Union{\textquoteright}s Seventh Framework Programme (FP7/2007-2013) and EFPIA companies{\textquoteright} in kind contribution.",  year      = "2018",  month     = apr,  doi       = "10.1002/cpt.778",  language  = "English",  volume    = "103",  pages     = "674--683",  journal   = "Clinical Pharmacology & Therapeutics",  issn      = "1532-6535",  publisher = "Wiley-Blackwell", } ]]>
+                </reference>
+            </references>
+        </study>
+        <comments/>
+    </head>
+    <drugModel>
+        <drugId>rifampicin</drugId>
+        <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
+        <domain>
+            <description>
+                <desc lang='en'>Adults</desc>
+            </description>
+            <constraints />
+        </domain>
+        <covariates>
+            <covariate>
+                <covariateId>bodyweight</covariateId>
+                <covariateName>
+                    <name lang='en'>Total Body Weight</name>
+                    <name lang='fr'>Poids total</name>
+                </covariateName>
+                <description>
+                    <desc lang='en'>Total body weight of patient, in kilogramms</desc>
+                    <desc lang='fr'>Poids total du patient, en kilogramme</desc>
+                </description>
+                <unit>kg</unit>
+                <covariateType>standard</covariateType>
+                <dataType>double</dataType>
+                <interpolationType>linear</interpolationType>
+                <refreshPeriod>
+                    <unit>d</unit>
+                    <value>30</value>
+                </refreshPeriod>
+                <covariateValue>
+                    <standardValue>54</standardValue>
+                </covariateValue>
+                <validation>
+                    <errorMessage>
+                        <text lang='fr'>The body weight shall be in the interval [40.2,84.2].</text>
+                    </errorMessage>
+                    <operation>
+                        <softFormula>
+                            <inputs>
+                                <input>
+                                    <id>bodyweight</id>
+                                    <type>double</type>
+                                </input>
+                            </inputs>
+                            <code>
+                                <![CDATA[
+                                return ((bodyweight >= 40.2) && (bodyweight <= 84.2));
+                                ]]>
+                            </code>
+                        </softFormula>
+                        <comments/>
+                    </operation>
+                    <comments/>
+                </validation>
+                <comments/>
+            </covariate>
+            <covariate>
+                <covariateId>sex</covariateId>
+                <covariateName>
+                    <name lang='en'>Sex</name>
+                    <name lang='fr'>Sexe</name>
+                </covariateName>
+                <description>
+                    <desc lang='en'>Sex of the patient
+                        1 = Male
+                    0 = Female</desc>
+                    <desc lang='fr'>Sexe du patient
+                        1 = Mâle
+                    0 = Femelle</desc>
+                </description>
+                <unit>
+                </unit>
+                <covariateType>sex</covariateType>
+                <dataType>double</dataType>
+                <interpolationType>direct</interpolationType>
+                <covariateValue>
+                    <standardValue>0.5</standardValue>
+                </covariateValue>
+                <validation>
+                    <errorMessage>
+                        <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                    </errorMessage>
+                    <operation>
+                        <softFormula>
+                            <inputs>
+                                <input>
+                                    <id>sex</id>
+                                    <type>double</type>
+                                </input>
+                            </inputs>
+                            <code>
+                                <![CDATA[
+                                return ((sex >= 0.0) && (sex <= 1.0));
+                                ]]>
+                            </code>
+                        </softFormula>
+                        <comments/>
+                    </operation>
+                    <comments/>
+                </validation>
+                <comments/>
+            </covariate>
+            <covariate>
+                <covariateId>height</covariateId>
+                <covariateName>
+                    <name lang='en'>Height</name>
+                </covariateName>
+                <description>
+                    <desc lang='en'>Height in m</desc>
+                    <desc lang='fr'>Taille en m</desc>
+                </description>
+                <unit>m</unit>
+                <covariateType>standard</covariateType>
+                <dataType>double</dataType>
+                <interpolationType>linear</interpolationType>
+                <refreshPeriod>
+                    <unit>d</unit>
+                    <value>30</value>
+                </refreshPeriod>
+                <covariateValue>
+                    <standardValue>1.65</standardValue>
+                </covariateValue>
+                <validation>
+                    <errorMessage>
+                        <text lang='fr'>Assuming a minimum height of 1.10 m (since meant for adult) and a maximal height of 2.52 (Tallest man alive)</text>
+                    </errorMessage>
+                    <operation>
+                        <softFormula>
+                            <inputs>
+                                <input>
+                                    <id>height</id>
+                                    <type>double</type>
+                                </input>
+                            </inputs>
+                            <code>
+                                <![CDATA[
+                                return ((height >= 1.10) && (height <= 2.51));
+                                ]]>
+                            </code>
+                        </softFormula>
+                        <comments/>
+                    </operation>
+                    <comments/>
+                </validation>
+                <comments>
+                    <comment lang='en'>No comment</comment>
+                </comments>
+            </covariate>
+        </covariates>
+        <activeMoieties>
+            <activeMoiety>
+                <activeMoietyId>rifampicin</activeMoietyId>
+                <activeMoietyName>
+                    <name lang='en'>Rifampicin</name>
+                </activeMoietyName>
+                <unit>mg/l</unit>
+                <analyteIdList>
+                    <analyteId>rifampicin</analyteId>
+                </analyteIdList>
+                <analytesToMoietyFormula>
+                    <hardFormula>direct</hardFormula>
+                    <comments/>
+                </analytesToMoietyFormula>
+                <targets>
+                    <target>
+                        <targetType>peak</targetType>
+                        <targetValues>
+                            <unit>mg/l</unit>
+                            <min>
+                                <standardValue>8</standardValue>
+                            </min>
+                            <max>
+                                <standardValue>24</standardValue>
+                            </max>
+                            <best>
+                                <standardValue>16</standardValue>
+                            </best>
+                            <toxicityAlarm>
+                                <standardValue>30</standardValue>
+                            </toxicityAlarm>
+                            <inefficacyAlarm>
+                                <standardValue>7</standardValue>
+                            </inefficacyAlarm>
+                        </targetValues>
+                        <times>
+                            <unit>h</unit>
+                            <min>
+                                <standardValue>1</standardValue>
+                            </min>
+                            <max>
+                                <standardValue>6</standardValue>
+                            </max>
+                            <best>
+                                <standardValue>4</standardValue>
+                            </best>
+                        </times>
+                        <comments>
+                            <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
+                        </comments>
+                    </target>
+                </targets>
+            </activeMoiety>
+        </activeMoieties>
+        <analyteGroups>
+            <analyteGroup>
+                <groupId>group</groupId>
+                <pkModelId>michaelismenten.enzyme.1comp</pkModelId>
+                <analytes>
+                    <analyte>
+                        <analyteId>rifampicin</analyteId>
+                        <unit>mg/l</unit>
+                        <molarMass>
+                            <value>1</value>
+                            <unit>g/mol</unit>
+                        </molarMass>
+                        <description>
+                            <desc lang='en'>
+                            </desc>
+                        </description>
+                        <errorModel>
+                            <errorModelType>exponential</errorModelType>
+                            <sigmas>
+                                <sigma>
+                                    <standardValue>0.57</standardValue>
+                                </sigma>
+                            </sigmas>
+                            <comments/>
+                        </errorModel>
+                        <comments/>
+                    </analyte>
+                </analytes>
+                <dispositionParameters>
+                    <parameters>
+                        <parameter>
+                            <parameterId>Km</parameterId>
+                            <unit>mg/l</unit>
+                            <parameterValue>
+                                <standardValue>36.5</standardValue>
+                            </parameterValue>
+                            <bsv>
+                                <bsvType>exponential</bsvType>
+                                <stdDevs>
+                                    <stdDev>0.37</stdDev>
+                                </stdDevs>
+                            </bsv>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>Km</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return Km > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments/>
+                        </parameter>
+                        <parameter>
+                            <parameterId>Vmax</parameterId>
+                            <unit>l/h</unit>
+                            <parameterValue>
+                                <standardValue>504</standardValue>
+                            </parameterValue>
+                            <bsv>
+                                <bsvType>exponential</bsvType>
+                                <stdDevs>
+                                    <stdDev>0.316</stdDev>
+                                </stdDevs>
+                            </bsv>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>Vmax</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return Vmax > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments/>
+                        </parameter>
+                        <parameter>
+                            <parameterId>V</parameterId>
+                            <unit>l</unit>
+                            <parameterValue>
+                                <standardValue>89.8</standardValue>
+                                <aprioriComputation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>bodyweight</id>
+                                                <type>double</type>
+                                            </input>
+                                            <input>
+                                                <id>height</id>
+                                                <type>double</type>
+                                            </input>
+                                            <input>
+                                                <id>sex</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            if (sex > 0.5) {
+                                                    WHS_max = 42.92;
+                                                    WHS_50 = 30.93;
+                                                }
+                                                else{
+                                                    WHS_max = 37.99;
+                                                    WHS_50 = 35.98;
+                                                    }
+                                            ffm = WHS_max * Math.pow(height,2) * (bodyweight / (WHS_50 * (Math.pow(height,2)) + bodyweight));
+                                            
+                                            return 89.8 * ffm / 70.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </aprioriComputation>
+                            </parameterValue>
+                            <bsv>
+                                <bsvType>exponential</bsvType>
+                                <stdDevs>
+                                    <stdDev>0.0806</stdDev>
+                                </stdDevs>
+                            </bsv>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>V</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return V > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments/>
+                        </parameter>
+                        <parameter>
+                            <parameterId>Kenz</parameterId>
+                            <unit>1/h</unit>
+                            <parameterValue>
+                                <standardValue>0.00605</standardValue>
+                            </parameterValue>
+                            <bsv>
+                                <bsvType>none</bsvType>
+                                <stdDevs />
+                            </bsv>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>Kenz</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return Kenz > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments/>
+                        </parameter>
+                        <parameter>
+                            <parameterId>Emax</parameterId>
+                            <unit>l</unit>
+                            <parameterValue>
+                                <standardValue>1.16</standardValue>
+                            </parameterValue>
+                            <bsv>
+                                <bsvType>none</bsvType>
+                                <stdDevs />
+                            </bsv>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>Emax</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return Emax > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments/>
+                        </parameter>
+                        <parameter>
+                            <parameterId>ECmid</parameterId>
+                            <unit>l</unit>
+                            <parameterValue>
+                                <standardValue>0.0601</standardValue>
+                            </parameterValue>
+                            <bsv>
+                                <bsvType>none</bsvType>
+                                <stdDevs />
+                            </bsv>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>ECmid</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return ECmid > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments/>
+                        </parameter>
+                        <parameter>
+                            <parameterId>AllmCL</parameterId>
+                            <unit>l</unit>
+                            <parameterValue>
+                                <standardValue>1</standardValue>
+                                <aprioriComputation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>bodyweight</id>
+                                                <type>double</type>
+                                            </input>
+                                            <input>
+                                                <id>sex</id>
+                                                <type>double</type>
+                                            </input>
+                                            <input>
+                                                <id>height</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            if (sex > 0.5) {
+                                                    WHS_max = 42.92;
+                                                    WHS_50 = 30.93;
+                                                }
+                                                else{
+                                                    WHS_max = 37.99;
+                                                    WHS_50 = 35.98;
+                                                    }
+                                            ffm = WHS_max * Math.pow(height,2) * (bodyweight / (WHS_50 * (Math.pow(height,2)) + bodyweight));
+                                            return 1.0 * Math.pow(ffm / 70.0, 0.75);
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </aprioriComputation>
+                            </parameterValue>
+                            <bsv>
+                                <bsvType>none</bsvType>
+                                <stdDevs />
+                            </bsv>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>AllmCL</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return AllmCL > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments/>
+                        </parameter>
+                    </parameters>
+                    <correlations>
+                        <correlation>
+                            <param1>Vmax</param1>
+                            <param2>Km</param2>
+                            <value>0.427</value>
+                            <comments/>
+                        </correlation>
+                    </correlations>
+                </dispositionParameters>
+            </analyteGroup>
+        </analyteGroups>
+        <formulationAndRoutes>
+            <formulationAndRoute>
+                <formulationAndRouteId>id1</formulationAndRouteId>
+                <formulation>parenteralSolution</formulation>
+                <administrationName>admname</administrationName>
+                <administrationRoute>oral</administrationRoute>
+                <absorptionModel>extra</absorptionModel>
+                <dosages>
+                    <analyteConversions>
+                        <analyteConversion>
+                            <analyteId>rifampicin</analyteId>
+                            <factor>1</factor>
+                        </analyteConversion>
+                    </analyteConversions>
+                    <availableDoses>
+                        <unit>mg</unit>
+                        <default>
+                            <standardValue>600</standardValue>
+                        </default>
+                        <rangeValues>
+                            <from>
+                                <standardValue>100</standardValue>
+                            </from>
+                            <to>
+                                <standardValue>1400</standardValue>
+                            </to>
+                            <step>
+                                <standardValue>100</standardValue>
+                            </step>
+                        </rangeValues>
+                        <fixedValues>
+                            <value>600</value>
+                            <value>800</value>
+                        </fixedValues>
+                    </availableDoses>
+                    <availableIntervals>
+                        <unit>h</unit>
+                        <default>
+                            <standardValue>24</standardValue>
+                        </default>
+                        <fixedValues>
+                            <value>12</value>
+                            <value>24</value>
+                        </fixedValues>
+                    </availableIntervals>
+                    <comments/>
+                </dosages>
+                <absorptionParameters>
+                    <parameterSetAnalyteGroup>
+                        <analyteGroupId>group</analyteGroupId>
+                        <absorptionModel>extra</absorptionModel>
+                        <parameterSet>
+                            <parameters>
+                                <parameter>
+                                    <parameterId>F</parameterId>
+                                    <unit>%</unit>
+                                    <parameterValue>
+                                        <standardValue>1</standardValue>
+                                    </parameterValue>
+                                    <bsv>
+                                        <bsvType>none</bsvType>
+                                        <stdDevs />
+                                    </bsv>
+                                    <validation>
+                                        <errorMessage>
+                                            <text lang='fr'>
+                                            </text>
+                                        </errorMessage>
+                                        <operation>
+                                            <softFormula>
+                                                <inputs>
+                                                    <input>
+                                                        <id>F</id>
+                                                        <type>double</type>
+                                                    </input>
+                                                </inputs>
+                                                <code>
+                                                    <![CDATA[
+                                                    return F <= 1.0 and F > 0.0;
+                                                        ]]>
+                                                    </code>
+                                                </softFormula>
+                                                <comments/>
+                                            </operation>
+                                            <comments/>
+                                        </validation>
+                                        <comments/>
+                                    </parameter>
+                                    <parameter>
+                                        <parameterId>EDmid</parameterId>
+                                        <unit>l</unit>
+                                        <parameterValue>
+                                            <standardValue>69</standardValue>
+                                        </parameterValue>
+                                        <bsv>
+                                            <bsvType>none</bsvType>
+                                            <stdDevs />
+                                        </bsv>
+                                        <validation>
+                                            <errorMessage>
+                                                <text lang='fr'>
+                                                </text>
+                                            </errorMessage>
+                                            <operation>
+                                                <softFormula>
+                                                    <inputs>
+                                                        <input>
+                                                            <id>EDmid</id>
+                                                            <type>double</type>
+                                                        </input>
+                                                    </inputs>
+                                                    <code>
+                                                        <![CDATA[
+                                                        return EDmid > 0.0;
+                                                        ]]>
+                                                    </code>
+                                                </softFormula>
+                                                <comments/>
+                                            </operation>
+                                            <comments/>
+                                        </validation>
+                                        <comments/>
+                                    </parameter>
+                                    <parameter>
+                                        <parameterId>Fmax</parameterId>
+                                        <unit>l</unit>
+                                        <parameterValue>
+                                            <standardValue>0.514</standardValue>
+                                        </parameterValue>
+                                        <bsv>
+                                            <bsvType>none</bsvType>
+                                            <stdDevs />
+                                        </bsv>
+                                        <validation>
+                                            <errorMessage>
+                                                <text lang='fr'>
+                                                </text>
+                                            </errorMessage>
+                                            <operation>
+                                                <softFormula>
+                                                    <inputs>
+                                                        <input>
+                                                            <id>Fmax</id>
+                                                            <type>double</type>
+                                                        </input>
+                                                    </inputs>
+                                                    <code>
+                                                        <![CDATA[
+                                                        return Fmax > 0.0;
+                                                        ]]>
+                                                    </code>
+                                                </softFormula>
+                                                <comments/>
+                                            </operation>
+                                            <comments/>
+                                        </validation>
+                                        <comments/>
+                                    </parameter>
+                                    <parameter>
+                                        <parameterId>DoseMid</parameterId>
+                                        <unit>mg/l</unit>
+                                        <parameterValue>
+                                            <standardValue>450</standardValue>
+                                        </parameterValue>
+                                        <bsv>
+                                            <bsvType>none</bsvType>
+                                            <stdDevs />
+                                        </bsv>
+                                        <validation>
+                                            <errorMessage>
+                                                <text lang='fr'>
+                                                </text>
+                                            </errorMessage>
+                                            <operation>
+                                                <softFormula>
+                                                    <inputs>
+                                                        <input>
+                                                            <id>DoseMid</id>
+                                                            <type>double</type>
+                                                        </input>
+                                                    </inputs>
+                                                    <code>
+                                                        <![CDATA[
+                                                        return DoseMid > 0.0;
+                                                        ]]>
+                                                    </code>
+                                                </softFormula>
+                                                <comments/>
+                                            </operation>
+                                            <comments/>
+                                        </validation>
+                                        <comments/>
+                                    </parameter>
+                                    <parameter>
+                                        <parameterId>Ka</parameterId>
+                                        <unit>l</unit>
+                                        <parameterValue>
+                                            <standardValue>1.8</standardValue>
+                                        </parameterValue>
+                                        <bsv>
+                                            <bsvType>exponential</bsvType>
+                                            <stdDevs>
+                                                <stdDev>0.345</stdDev>
+                                            </stdDevs>
+                                        </bsv>
+                                        <validation>
+                                            <errorMessage>
+                                                <text lang='fr'>
+                                                </text>
+                                            </errorMessage>
+                                            <operation>
+                                                <softFormula>
+                                                    <inputs>
+                                                        <input>
+                                                            <id>Ka</id>
+                                                            <type>double</type>
+                                                        </input>
+                                                    </inputs>
+                                                    <code>
+                                                        <![CDATA[
+                                                        return Ka > 0.0;
+                                                        ]]>
+                                                    </code>
+                                                </softFormula>
+                                                <comments/>
+                                            </operation>
+                                            <comments/>
+                                        </validation>
+                                        <comments/>
+                                    </parameter>
+                                    <parameter>
+                                        <parameterId>NN</parameterId>
+                                        <unit>l</unit>
+                                        <parameterValue>
+                                            <standardValue>24.4</standardValue>
+                                        </parameterValue>
+                                        <bsv>
+                                            <bsvType>exponential</bsvType>
+                                            <stdDevs>
+                                                <stdDev>0.796</stdDev>
+                                            </stdDevs>
+                                        </bsv>
+                                        <validation>
+                                            <errorMessage>
+                                                <text lang='fr'>
+                                                </text>
+                                            </errorMessage>
+                                            <operation>
+                                                <softFormula>
+                                                    <inputs>
+                                                        <input>
+                                                            <id>NN</id>
+                                                            <type>double</type>
+                                                        </input>
+                                                    </inputs>
+                                                    <code>
+                                                        <![CDATA[
+                                                        return NN > 0.0;
+                                                        ]]>
+                                                    </code>
+                                                </softFormula>
+                                                <comments/>
+                                            </operation>
+                                            <comments/>
+                                        </validation>
+                                        <comments/>
+                                    </parameter>
+                                    <parameter>
+                                        <parameterId>MTT</parameterId>
+                                        <unit>l</unit>
+                                        <parameterValue>
+                                            <standardValue>0.524</standardValue>
+                                        </parameterValue>
+                                        <bsv>
+                                            <bsvType>exponential</bsvType>
+                                            <stdDevs>
+                                                <stdDev>0.39</stdDev>
+                                            </stdDevs>
+                                        </bsv>
+                                        <validation>
+                                            <errorMessage>
+                                                <text lang='fr'>
+                                                </text>
+                                            </errorMessage>
+                                            <operation>
+                                                <softFormula>
+                                                    <inputs>
+                                                        <input>
+                                                            <id>MTT</id>
+                                                            <type>double</type>
+                                                        </input>
+                                                    </inputs>
+                                                    <code>
+                                                        <![CDATA[
+                                                        return MTT > 0.0;
+                                                        ]]>
+                                                    </code>
+                                                </softFormula>
+                                                <comments/>
+                                            </operation>
+                                            <comments/>
+                                        </validation>
+                                        <comments/>
+                                    </parameter>
+                                </parameters>
+                                <correlations />
+                            </parameterSet>
+                        </parameterSetAnalyteGroup>
+                    </absorptionParameters>
+                </formulationAndRoute>
+            </formulationAndRoutes>
+            <timeConsiderations>
+                <halfLife>
+                    <unit>h</unit>
+                    <duration>
+                        <standardValue>10</standardValue>
+                    </duration>
+                    <multiplier>493</multiplier>
+                    <comments>
+                        <comment lang='en'>
+                        </comment>
+                    </comments>
+                </halfLife>
+                <outdatedMeasure>
+                    <unit>d</unit>
+                    <duration>
+                        <standardValue>10</standardValue>
+                    </duration>
+                    <comments>
+                        <comment lang='en'>
+                        </comment>
+                    </comments>
+                </outdatedMeasure>
+            </timeConsiderations>
+            <comments/>
+        </drugModel>
+    </model>

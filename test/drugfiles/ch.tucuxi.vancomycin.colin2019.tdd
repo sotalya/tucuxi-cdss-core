@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+    <history>
+        <revisions>
+            <revision>
+                <revisionAction>creation</revisionAction>
+                <revisionAuthorName>Philip Drennan</revisionAuthorName>
+                <institution>RPAH</institution>
+                <email>pgdrennan@gmail.com</email>
+                <date>2019-04-13</date>
+                <comments>
+                    <comment lang='en'>This file is based on the first version of vaconcomycin validated by Sylvain Goutelle : ch.heig-vd.ezechiel.vancomycin.xml</comment>
+                </comments>
+            </revision>
+            <revision>
+                <revisionAction>modification</revisionAction>
+                <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                <institution>HEIG-VD</institution>
+                <email>yann.thoma@heig-vd.ch</email>
+                <date>2021-01-04</date>
+                <comments>
+                    <comment lang='en'>Modified some covariates validations</comment>
+                </comments>
+            </revision>
+        </revisions>
+    </history>
+    <head>
+        <drug>
+            <atcs>
+                <atc>J01XA01</atc>
+            </atcs>
+            <activeSubstances>
+                <activeSubstance>vancomycin</activeSubstance>
+            </activeSubstances>
+            <drugName>
+                <name lang='en'>Vancomycin</name>
+                <name lang='fr'>Vancomycine</name>
+            </drugName>
+            <drugDescription>
+                <desc lang='en'>TODO : Add a description here</desc>
+            </drugDescription>
+            <tdmStrategy>
+                <text lang='en'>TODO : AUC24/MIC</text>
+            </tdmStrategy>
+        </drug>
+        <study>
+            <studyName>
+                <name lang='en'>Vancomycin Pharmacokinetics Throughout Life: Results from a Pooled Population Analysis and Evaluation of Current Dosing Recommendations</name>
+            </studyName>
+            <studyAuthors>Colin PJ, Allegaert K, Thomson AH, Touw DJ, Dolton M, de Hoog M, Roberts JA, Adane ED, Yamamoto M, Santos-Buelga D, Martín-Suarez A, Simon N, Taccone FS, Lo YL, Barcia E, Struys MMRF, Eleveld DJ</studyAuthors>
+            <description>
+                <desc lang='en'>...</desc>
+            </description>
+            <references>
+                <reference type='bibtex'>
+                    <![CDATA[@article{colin_vancomycin_2019,
+                    	title = {Vancomycin {Pharmacokinetics} {Throughout} {Life}: {Results} from a {Pooled} {Population} {Analysis} and {Evaluation} of {Current} {Dosing} {Recommendations}},
+                    	issn = {1179-1926},
+                    	shorttitle = {Vancomycin {Pharmacokinetics} {Throughout} {Life}},
+                    	doi = {10.1007/s40262-018-0727-5},
+                    	abstract = {BACKGROUND AND OBJECTIVES: Uncertainty exists regarding the optimal dosing regimen for vancomycin in different patient populations, leading to a plethora of subgroup-specific pharmacokinetic models and derived dosing regimens. We aimed to investigate whether a single model for vancomycin could be developed based on a broad dataset covering the extremes of patient characteristics. Furthermore, as a benchmark for current dosing recommendations, we evaluated and optimised the expected vancomycin exposure throughout life and for specific patient subgroups.
+                    METHODS: A pooled population-pharmacokinetic model was built in NONMEM based on data from 14 different studies in different patient populations. Steady-state exposure was simulated and compared across patient subgroups for two US Food and Drug Administration/European Medicines Agency-approved drug labels and optimised doses were derived.
+                    RESULTS: The final model uses postmenstrual age, weight and serum creatinine as covariates. A 35-year-old, 70-kg patient with a serum creatinine level of 0.83 mg dL-1 (73.4 µmol L-1) has a V1, V2, CL and Q2 of 42.9 L, 41.7 L, 4.10 L h-1 and 3.22 L h-1. Clearance matures with age, reaching 50\% of the maximal value (5.31 L h-1 70 kg-1) at 46.4 weeks postmenstrual age then declines with age to 50\% at 61.6 years. Current dosing guidelines failed to achieve satisfactory steady-state exposure across patient subgroups. After optimisation, increased doses for the Food and Drug Administration label achieve consistent target attainment with minimal (± 20\%) risk of under- and over-dosing across patient subgroups.
+                    CONCLUSIONS: A population model was developed that is useful for further development of age and kidney function-stratified dosing regimens of vancomycin and for individualisation of treatment through therapeutic drug monitoring and Bayesian forecasting.},
+                    	language = {eng},
+                    	journal = {Clinical Pharmacokinetics},
+                    	author = {Colin, Pieter J. and Allegaert, Karel and Thomson, Alison H. and Touw, Daan J. and Dolton, Michael and de Hoog, Matthijs and Roberts, Jason A. and Adane, Eyob D. and Yamamoto, Masato and Santos-Buelga, Dolores and Martín-Suarez, Ana and Simon, Nicolas and Taccone, Fabio S. and Lo, Yoke-Lin and Barcia, Emilia and Struys, Michel M. R. F. and Eleveld, Douglas J.},
+                    	month = jan,
+                    	year = {2019},
+                    	pmid = {30656565},
+                    	file = {Full Text:C\:\\Users\\Philip\\Zotero\\storage\\NJ225ZWX\\Colin et al. - 2019 - Vancomycin Pharmacokinetics Throughout Life Resul.pdf:application/pdf}
+                    }]]>
+                </reference>
+            </references>
+        </study>
+        <comments/>
+    </head>
+    <drugModel>
+        <drugId>vancomycin</drugId>
+        <drugModelId>ch.tucuxi.vancomycin.colin2019</drugModelId>
+        <domain>
+            <description>
+                <desc lang='en'>A pooled population-pharmacokinetic model built in NONMEM based on data from 14 different studies in different patient populations. The pooled dataset contains information across a broad range of patient subgroups ranging from premature neonates to extremely obese patients and from adult Japanese healthy volun-teers to critically ill and trauma patients In total, 8300 vancomycin drug concentrations from 2554 individuals were included in the dataset. Individuals were adults (720), newborns (559), elderly patients (512), obese adults (274), very elderly patients (213), underweight adults, (158) and children and adolescents (118).</desc>
+            </description>
+            <constraints>
+                <constraint>
+                    <constraintType>hard</constraintType>
+                    <errorMessage>
+                        <text lang='en'>The age shall be greater or equal to 18</text>
+                    </errorMessage>
+                    <requiredCovariates>
+                        <covariateId>age</covariateId>
+                    </requiredCovariates>
+                    <checkOperation>
+                        <softFormula>
+                            <inputs>
+                                <input>
+                                    <id>age</id>
+                                    <type>int</type>
+                                </input>
+                            </inputs>
+                            <code>
+                                <![CDATA[return (age > 0);
+                                ]]>
+                            </code>
+                        </softFormula>
+                        <comments/>
+                    </checkOperation>
+                    <comments/>
+                </constraint>
+                <constraint>
+                    <constraintType>hard</constraintType>
+                    <errorMessage>
+                        <text lang='en'>The age shall be greater or smaller or equal to 77</text>
+                    </errorMessage>
+                    <requiredCovariates>
+                        <covariateId>age</covariateId>
+                    </requiredCovariates>
+                    <checkOperation>
+                        <softFormula>
+                            <inputs>
+                                <input>
+                                    <id>age</id>
+                                    <type>int</type>
+                                </input>
+                            </inputs>
+                            <code>
+                                <![CDATA[return (age < 120);
+                                ]]>
+                            </code>
+                        </softFormula>
+                        <comments/>
+                    </checkOperation>
+                    <comments/>
+                </constraint>
+                <constraint>
+                    <constraintType>hard</constraintType>
+                    <errorMessage>
+                        <text lang='en'>The weight should be in the [50,130] margin</text>
+                    </errorMessage>
+                    <requiredCovariates>
+                        <covariateId>bodyweight</covariateId>
+                    </requiredCovariates>
+                    <checkOperation>
+                        <softFormula>
+                            <inputs>
+                                <input>
+                                    <id>bodyweight</id>
+                                    <type>double</type>
+                                </input>
+                            </inputs>
+                            <code>
+                                <![CDATA[return ((bodyweight < 400) && (bodyweight > 0.1));
+                                    ]]>
+                                </code>
+                            </softFormula>
+                            <comments/>
+                        </checkOperation>
+                        <comments/>
+                    </constraint>
+                </constraints>
+            </domain>
+            <covariates>
+                <covariate>
+                    <covariateId>bodyweight</covariateId>
+                    <covariateName>
+                        <name lang='en'>Total Body Weight</name>
+                        <name lang='fr'>Poids total</name>
+                    </covariateName>
+                    <description>
+                        <desc lang='en'>Total body weight of patient, in kilogramms</desc>
+                        <desc lang='fr'>Poids total du patient, en kilogramme</desc>
+                    </description>
+                    <unit>kg</unit>
+                    <covariateType>standard</covariateType>
+                    <dataType>double</dataType>
+                    <interpolationType>linear</interpolationType>
+                    <refreshPeriod>
+                        <unit>d</unit>
+                        <value>1</value>
+                    </refreshPeriod>
+                    <covariateValue>
+                        <standardValue>70</standardValue>
+                    </covariateValue>
+                    <validation>
+                        <errorMessage>
+                            <text lang='fr'>
+                            </text>
+                        </errorMessage>
+                        <operation>
+                            <softFormula>
+                                <inputs>
+                                    <input>
+                                        <id>bodyweight</id>
+                                        <type>double</type>
+                                    </input>
+                                </inputs>
+                                <code>
+                                    <![CDATA[
+                                    return ((bodyweight < 131) && (bodyweight > 49));
+                                        ]]>
+                                    </code>
+                                </softFormula>
+                                <comments/>
+                            </operation>
+                            <comments/>
+                        </validation>
+                        <comments>
+                            <comment lang='en'>About the mean value in the study population group A</comment>
+                        </comments>
+                    </covariate>
+                    <covariate>
+                        <covariateId>sex</covariateId>
+                        <covariateName>
+                            <name lang='en'>Sex</name>
+                        </covariateName>
+                        <description>
+                            <desc lang='en'>Sex of the patient</desc>
+                        </description>
+                        <unit>-</unit>
+                        <covariateType>sex</covariateType>
+                        <dataType>double</dataType>
+                        <interpolationType>direct</interpolationType>
+                        <refreshPeriod>
+                            <unit>d</unit>
+                            <value>1000</value>
+                        </refreshPeriod>
+                        <covariateValue>
+                            <standardValue>0.5</standardValue>
+                        </covariateValue>
+                        <validation>
+                            <errorMessage>
+                                <text lang='fr'>The sex shall be in [0,1].</text>
+                            </errorMessage>
+                            <operation>
+                                <softFormula>
+                                    <inputs>
+                                        <input>
+                                            <id>sex</id>
+                                            <type>double</type>
+                                        </input>
+                                    </inputs>
+                                    <code>
+                                        <![CDATA[if (sex < 0.0) return false;if (sex > 1.0) return false;return true;]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments>
+                                <comment lang='en'>The validation still needs to be defined precisely.</comment>
+                            </comments>
+                        </covariate>
+                        <covariate>
+                            <covariateId>age</covariateId>
+                            <covariateName>
+                                <name lang='en'>Age</name>
+                            </covariateName>
+                            <description>
+                                <desc lang='en'>Age in years</desc>
+                            </description>
+                            <unit>y</unit>
+                            <covariateType>ageInYears</covariateType>
+                            <dataType>double</dataType>
+                            <interpolationType>direct</interpolationType>
+                            <refreshPeriod>
+                                <unit>y</unit>
+                                <value>1</value>
+                            </refreshPeriod>
+                            <covariateValue>
+                                <standardValue>35</standardValue>
+                            </covariateValue>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>The age shall be positive.</text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>age</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[return age > 0.0;]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments>
+                                <comment lang='en'>The validation still needs to be defined precisely.</comment>
+                            </comments>
+                        </covariate>
+                        <covariate>
+                            <covariateId>scr</covariateId>
+                            <covariateName>
+                                <name lang='en'>serum creatinine concentration</name>
+                            </covariateName>
+                            <description>
+                                <desc lang='en'>Serum creatinine concentration.</desc>
+                            </description>
+                            <unit>umol/l</unit>
+                            <covariateType>standard</covariateType>
+                            <dataType>double</dataType>
+                            <interpolationType>linear</interpolationType>
+                            <refreshPeriod>
+                                <unit>h</unit>
+                                <value>1</value>
+                            </refreshPeriod>
+                            <covariateValue>
+                                <standardValue>73.4</standardValue>
+                            </covariateValue>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>The SCR shall be positive.</text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>scr</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[return scr > 0.0;]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments>
+                                <comment lang='en'>The value for the standard population Cr is taken from the abstract, and applies to an adult male</comment>
+                            </comments>
+                        </covariate>
+                        <covariate>
+                            <covariateId>CLcr</covariateId>
+                            <covariateName>
+                                <name lang='en'>Creatinine clearance</name>
+                                <name lang='fr'>Clairance de la créatinine</name>
+                            </covariateName>
+                            <description>
+                                <desc lang='en'>Creatinine clearance</desc>
+                                <desc lang='fr'>Clairance de la créatinine</desc>
+                            </description>
+                            <unit>ml/min</unit>
+                            <covariateType>standard</covariateType>
+                            <dataType>double</dataType>
+                            <interpolationType>linear</interpolationType>
+                            <refreshPeriod>
+                                <unit>h</unit>
+                                <value>1</value>
+                            </refreshPeriod>
+                            <covariateValue>
+                                <standardValue>70</standardValue>
+                                <aprioriComputation>
+                                    <hardFormula>OperationEGFRCockcroftGaultGeneral</hardFormula>
+                                    <comments/>
+                                </aprioriComputation>
+                            </covariateValue>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>CLcr</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return true;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments>
+                                <comment lang='en'>About the mean value in the study population group A</comment>
+                            </comments>
+                        </covariate>
+                        <covariate>
+                            <covariateId>creatinine</covariateId>
+                            <covariateName>
+                                <name lang='en'>Creatinine</name>
+                                <name lang='fr'>Créatinine</name>
+                            </covariateName>
+                            <description>
+                                <desc lang='en'>Creatinine</desc>
+                                <desc lang='fr'>Créatinine</desc>
+                            </description>
+                            <unit>mg/l</unit>
+                            <covariateType>standard</covariateType>
+                            <dataType>double</dataType>
+                            <interpolationType>linear</interpolationType>
+                            <refreshPeriod>
+                                <unit>h</unit>
+                                <value>1</value>
+                            </refreshPeriod>
+                            <covariateValue>
+                                <standardValue>0.83</standardValue>
+                                <aprioriComputation>
+                                  <softFormula>
+                                      <inputs>
+                                          <input>
+                                              <id>scr</id>
+                                              <type>double</type>
+                                          </input>
+                                      </inputs>
+                                      <code>
+                                          <![CDATA[
+                                          return scr / 88.4;
+                                          ]]>
+                                      </code>
+                                  </softFormula>
+                                  <comments/>
+                                </aprioriComputation>
+                            </covariateValue>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>creatinine</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[
+                                            return creatinine > 0.0;
+                                            ]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments>
+                                <comment lang='en'>About the mean value in the study population group A. Not sure about the units here.</comment>
+                            </comments>
+                        </covariate>
+                        <covariate>
+                            <covariateId>ga</covariateId>
+                            <covariateName>
+                                <name lang='en'>Gestational age</name>
+                            </covariateName>
+                            <description>
+                                <desc lang='en'>Gestational age (weeks)
+                                                                                                                                                                </desc>
+                            </description>
+                            <unit>weeks</unit>
+                            <covariateType>standard</covariateType>
+                            <dataType>double</dataType>
+                            <interpolationType>linear</interpolationType>
+                            <refreshPeriod>
+                                <unit>w</unit>
+                                <value>1</value>
+                            </refreshPeriod>
+                            <covariateValue>
+                                <standardValue>34</standardValue>
+                            </covariateValue>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>ga</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[return ga > 20;]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments>
+                                <comment lang='en'>
+                                </comment>
+                            </comments>
+                        </covariate>
+                        <covariate>
+                            <covariateId>pna</covariateId>
+                            <covariateName>
+                                <name lang='en'>Post natal age</name>
+                            </covariateName>
+                            <description>
+                                <desc lang='en'>Post natal age</desc>
+                            </description>
+                            <unit>days</unit>
+                            <covariateType>ageInDays</covariateType>
+                            <dataType>double</dataType>
+                            <interpolationType>direct</interpolationType>
+                            <refreshPeriod>
+                                <unit>d</unit>
+                                <value>1</value>
+                            </refreshPeriod>
+                            <covariateValue>
+                                <standardValue>12775</standardValue>
+                                    <!--<standardValue>6552</standardValue>-->
+                            </covariateValue>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='fr'>
+                                    </text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>pna</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[return pna > 0;]]>
+                                        </code>
+                                    </softFormula>
+                                    <comments/>
+                                </operation>
+                                <comments/>
+                            </validation>
+                            <comments>
+                                <comment lang='en'>
+                                </comment>
+                            </comments>
+                        </covariate>
+                        <covariate>
+                            <covariateId>haem</covariateId>
+                            <covariateName>
+                                <name lang='en'>Haematological malignancy</name>
+                            </covariateName>
+                            <description>
+                                <desc lang='en'>
+                                </desc>
+                            </description>
+                            <unit>
+                            </unit>
+                            <covariateType>standard</covariateType>
+                            <dataType>double</dataType>
+                            <interpolationType>direct</interpolationType>
+                            <refreshPeriod>
+                                <unit>d</unit>
+                                <value>10</value>
+                            </refreshPeriod>
+                            <covariateValue>
+                                <standardValue>0</standardValue>
+                            </covariateValue>
+                            <validation>
+                                <errorMessage>
+                                    <text lang='en'>Set to 0 if patient is not treated for haematological malignancy, and 1 if they are.</text>
+                                </errorMessage>
+                                <operation>
+                                    <softFormula>
+                                        <inputs>
+                                            <input>
+                                                <id>haem</id>
+                                                <type>double</type>
+                                            </input>
+                                        </inputs>
+                                        <code>
+                                            <![CDATA[if (haem < 0.0) return false;if (haem > 1.0) return false;return true;]]>
+                                            </code>
+                                        </softFormula>
+                                        <comments/>
+                                    </operation>
+                                    <comments/>
+                                </validation>
+                                <comments>
+                                    <comment lang='en'>
+                                    </comment>
+                                </comments>
+                            </covariate>
+                        </covariates>
+                        <activeMoieties>
+                            <activeMoiety>
+                                <activeMoietyId>vancomycin</activeMoietyId>
+                                <activeMoietyName>
+                                    <name lang='en'>Vancomycin</name>
+                                </activeMoietyName>
+                                <unit>mg/l</unit>
+                                <analyteIdList>
+                                    <analyteId>vancomycin</analyteId>
+                                </analyteIdList>
+                                <analytesToMoietyFormula>
+                                    <hardFormula>direct</hardFormula>
+                                    <comments/>
+                                </analytesToMoietyFormula>
+                                <targets>
+                                    <target>
+                                        <targetType>auc24DividedByMic</targetType>
+                                        <targetValues>
+                                            <unit>h</unit>
+                                            <min>
+                                                <standardValue>300.0</standardValue>
+                                            </min>
+                                            <max>
+                                                <standardValue>700.0</standardValue>
+                                            </max>
+                                            <best>
+                                                <standardValue>500</standardValue>
+                                            </best>
+                                            <toxicityAlarm>
+                                                <standardValue>1000.0</standardValue>
+                                            </toxicityAlarm>
+                                            <inefficacyAlarm>
+                                                <standardValue>300.0</standardValue>
+                                            </inefficacyAlarm>
+                                            <mic>
+                                                <unit>mg/l</unit>
+                                                <micValue>
+                                                    <standardValue>1.0</standardValue>
+                                                </micValue>
+                                            </mic>
+                                        </targetValues>
+                                        <comments>
+                                            <comment lang='en'>Targets suggested by Philip Drennan -- 500 is the middle of the target range 400 - 600 and is an arbitrary choice</comment>
+                                        </comments>
+                                    </target>
+                                </targets>
+                            </activeMoiety>
+                        </activeMoieties>
+                        <analyteGroups>
+                            <analyteGroup>
+                                <groupId>vancomycin</groupId>
+                                <pkModelId>linear.2comp.macro</pkModelId>
+                                <analytes>
+                                    <analyte>
+                                        <analyteId>vancomycin</analyteId>
+                                        <unit>mg/l</unit>
+                                        <molarMass>
+                                            <value>1449.3</value>
+                                            <unit>g/mol</unit>
+                                        </molarMass>
+                                        <description>
+                                            <desc lang='en'>
+                                            </desc>
+                                        </description>
+                                        <errorModel>
+                                            <errorModelType>mixed</errorModelType>
+                                            <sigmas>
+                                                <sigma>
+                                                    <standardValue>1.23</standardValue>
+                                                </sigma>
+                                                <sigma>
+                                                    <standardValue>0.215</standardValue>
+                                                </sigma>
+                                            </sigmas>
+                                            <comments>
+                                            </comments>
+                                        </errorModel>
+                                        <comments/>
+                                    </analyte>
+                                </analytes>
+                                <dispositionParameters>
+                                    <parameters>
+                                        <parameter>
+                                            <parameterId>CL</parameterId>
+                                            <unit>l/h</unit>
+                                            <parameterValue>
+                                                <standardValue>5.31</standardValue>
+                                                <aprioriComputation>
+                                                    <softFormula>
+                                                        <inputs>
+                                                            <input>
+                                                                <id>bodyweight</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                            <input>
+                                                                <id>ga</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                            <input>
+                                                                <id>pna</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                            <input>
+                                                                <id>scr</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                            <input>
+                                                                <id>haem</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                        </inputs>
+                                                        <code>
+                                                            <![CDATA[
+                                                            theta_CL = 5.31;
+                                                            theta_v1 = 42.9;
+                                                            gamma1 = 2.89;
+                                                            gamma2 = 2.24;
+                                                            PMA50 = 46.4;
+                                                            AGE50 = 61.6;
+                                                            theta_scr = 0.649;
+                                                            theta_stdy10 = 0.294;
+                                                            theta_v1 = 42.9;
+
+
+                                                            F_size = bodyweight / 70.0;
+                                                            v1 = theta_v1 * F_size;
+                                                            scr = scr/88.4;
+
+                                                            PMA_wk = ga + pna / 7.0;
+                                                            PMA_yr = (ga * 7.0 + pna) / 365.0;
+                                                            SCR_std = Math.exp(-1.228 + Math.log10(PMA_yr)*0.672+6.27*Math.exp(-3.11*PMA_yr));
+                                                            F_scr = Math.exp(-theta_scr*(scr-SCR_std));
+                                                            F_mat = Math.pow(PMA_wk, gamma1)/(Math.pow(PMA_wk, gamma1) + Math.pow(PMA50, gamma1));
+                                                            F_decline = Math.pow(PMA_yr, -gamma2)/(Math.pow(PMA_yr,-gamma2) + Math.pow(AGE50,-gamma2));
+
+                                                            newCL = theta_CL * Math.pow(v1/theta_v1, 0.75) * F_mat * F_decline * F_scr * (1 + theta_stdy10 * haem);
+
+                                                            return newCL;
+                                                            ]]>
+                                                        </code>
+                                                    </softFormula>
+                                                    <comments>
+                                                        <comment lang='en'>F decline formula is wrong in the paper. should be F_decline = Math.pow(PMA_yr, -gamma2) / (Math.pow(PMA_yr, -gamma2) + Math.pow(AGE50, -gamma2));
+                                                                                                                                                                                                                                                                                                    (sub PMA_yr = 61.6 into the formula - should be 0.5 by definition).
+
+                                                                                                                                                                                                                                                                                Also I don&apos;t understand the theta_stdy13_v1 parameter (and the other ones like it). It looks like there should be an indicator function here, which =1 if heelprick sampling is used and 0 if it is not. But they haven&apos;t written it like this. Heel prick sampling is not done in practice, so we can ignre this, but I think we need to have &apos;haematology patient&apos; as a boolean/logical variable. I have coded it double (like sex has been coded).   </comment>
+                                                    </comments>
+                                                </aprioriComputation>
+                                            </parameterValue>
+                                            <bsv>
+                                                <bsvType>lognormal</bsvType>
+                                                <stdDevs>
+                                                    <stdDev>0.07495997</stdDev>
+                                                </stdDevs>
+                                            </bsv>
+                                            <comments>
+                                                <comment lang='en'>Paper states these were lognormally distributed</comment>
+                                            </comments>
+                                        </parameter>
+                                        <parameter>
+                                            <parameterId>V1</parameterId>
+                                            <unit>l</unit>
+                                            <parameterValue>
+                                                <standardValue>42.9</standardValue>
+                                                <aprioriComputation>
+                                                    <softFormula>
+                                                        <inputs>
+                                                            <input>
+                                                                <id>bodyweight</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                        </inputs>
+                                                        <code>
+                                                            <![CDATA[
+                                                            theta_v1 = 42.9;
+
+                                                            F_size = bodyweight / 70.0;
+                                                            newV1 = theta_v1 * F_size;
+                                                            return newV1;
+                                                            ]]>
+                                                        </code>
+                                                    </softFormula>
+                                                    <comments/>
+                                                </aprioriComputation>
+                                            </parameterValue>
+                                            <bsv>
+                                                <bsvType>lognormal</bsvType>
+                                                <stdDevs>
+                                                    <stdDev>0.07188243</stdDev>
+                                                </stdDevs>
+                                            </bsv>
+                                            <comments>
+                                                <comment lang='en'>Typical volume calculated for a patients with weight = 70kg (table 3).</comment>
+                                            </comments>
+                                        </parameter>
+                                        <parameter>
+                                            <parameterId>V2</parameterId>
+                                            <unit>l</unit>
+                                            <parameterValue>
+                                                <standardValue>41.7</standardValue>
+                                                <aprioriComputation>
+                                                    <softFormula>
+                                                        <inputs>
+                                                            <input>
+                                                                <id>bodyweight</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                        </inputs>
+                                                        <code>
+                                                            <![CDATA[theta_v2 = 41.7;
+
+                                                            TVV2 = theta_v2 * bodyweight / 70.0;
+                                                            return TVV2;
+                                                            ]]>
+                                                        </code>
+                                                    </softFormula>
+                                                    <comments/>
+                                                </aprioriComputation>
+                                            </parameterValue>
+                                            <bsv>
+                                                <bsvType>lognormal</bsvType>
+                                                <stdDevs>
+                                                    <stdDev>0.6721487</stdDev>
+                                                </stdDevs>
+                                            </bsv>
+                                            <comments>
+                                                <comment lang='en'>Typical volume calculated for a patients with weight = 70 kg</comment>
+                                            </comments>
+                                        </parameter>
+                                        <parameter>
+                                            <parameterId>Q</parameterId>
+                                            <unit>l/h</unit>
+                                            <parameterValue>
+                                                <standardValue>3.22</standardValue>
+                                                <aprioriComputation>
+                                                    <softFormula>
+                                                        <inputs>
+                                                            <input>
+                                                                <id>bodyweight</id>
+                                                                <type>double</type>
+                                                            </input>
+                                                        </inputs>
+                                                        <code>
+                                                            <![CDATA[
+                                                            theta_v2 = 41.7;
+                                                            TVV2 = theta_v2 * bodyweight / 70.0;
+                                                            theta_q2 = 3.22;
+                                                            TQ = theta_q2 * Math.pow(TVV2/theta_v2, 0.75);
+
+                                                            return TQ;
+                                                            ]]>
+                                                        </code>
+                                                    </softFormula>
+                                                    <comments/>
+                                                </aprioriComputation>
+                                            </parameterValue>
+                                            <bsv>
+                                                <bsvType>none</bsvType>
+                                            </bsv>
+                                            <validation>
+                                                <errorMessage>
+                                                    <text lang='fr'>
+                                                    </text>
+                                                </errorMessage>
+                                                <operation>
+                                                    <softFormula>
+                                                        <inputs>
+                                                            <input>
+                                                                <id>
+                                                                </id>
+                                                                <type>double</type>
+                                                            </input>
+                                                        </inputs>
+                                                        <code>
+                                                            <![CDATA[return true;]]>
+                                                        </code>
+                                                    </softFormula>
+                                                    <comments/>
+                                                </operation>
+                                                <comments/>
+                                            </validation>
+                                            <comments/>
+                                        </parameter>
+                                    </parameters>
+                                    <correlations/>
+                                </dispositionParameters>
+                            </analyteGroup>
+                        </analyteGroups>
+                        <formulationAndRoutes default='id0'>
+                            <formulationAndRoute>
+                                <formulationAndRouteId>id0</formulationAndRouteId>
+                                <formulation>parenteralSolution</formulation>
+                                <administrationName>champ libre</administrationName>
+                                <administrationRoute>intravenousDrip</administrationRoute>
+                                <absorptionModel>infusion</absorptionModel>
+                                <dosages>
+                                    <analyteConversions>
+                                        <analyteConversion>
+                                            <analyteId>vancomycin</analyteId>
+                                            <factor>1</factor>
+                                        </analyteConversion>
+                                    </analyteConversions>
+                                    <availableDoses>
+                                        <unit>mg</unit>
+                                        <default>
+                                            <standardValue>1000</standardValue>
+                                        </default>
+                                        <rangeValues>
+                                            <from>
+                                                <standardValue>250</standardValue>
+                                            </from>
+                                            <to>
+                                                <standardValue>6000</standardValue>
+                                            </to>
+                                            <step>
+                                                <standardValue>250</standardValue>
+                                            </step>
+                                        </rangeValues>
+                                    </availableDoses>
+                                    <availableIntervals>
+                                        <unit>h</unit>
+                                        <default>
+                                            <standardValue>12</standardValue>
+                                        </default>
+                                        <fixedValues>
+                                            <value>12</value>
+                                        </fixedValues>
+                                    </availableIntervals>
+                                    <availableInfusions>
+                                        <unit>min</unit>
+                                        <default>
+                                            <standardValue>120</standardValue>
+                                        </default>
+                                        <fixedValues>
+                                            <value>120</value>
+                                            <value>240</value>
+                                        </fixedValues>
+                                    </availableInfusions>
+                                    <comments/>
+                                </dosages>
+                                <absorptionParameters/>
+                            </formulationAndRoute>
+                        </formulationAndRoutes>
+                        <timeConsiderations>
+                            <halfLife>
+                                <unit>h</unit>
+                                <duration>
+                                    <standardValue>6</standardValue>
+                                </duration>
+                                <multiplier>100</multiplier>
+                                <comments>
+                                    <comment lang='en'>Taken from this website: https://www.rxlist.com/vancomycin-injection-drug.htm</comment>
+                                </comments>
+                            </halfLife>
+                            <outdatedMeasure>
+                                <unit>d</unit>
+                                <duration>
+                                    <standardValue>100</standardValue>
+                                </duration>
+                                <comments>
+                                    <comment lang='en'>TODO : This value is not set now</comment>
+                                </comments>
+                            </outdatedMeasure>
+                        </timeConsiderations>
+                        <comments/>
+                    </drugModel>
+                </model>
