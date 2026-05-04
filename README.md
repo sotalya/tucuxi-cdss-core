@@ -157,7 +157,7 @@ See `./scripts/linux/run help` for additional options.
 The CLI accepts a Tucuxi XML query file and writes an HTML report:
 
 ```sh
-./tucuxi_cdss_cli --config config.xml --query patient_query.tqf --output report.html
+./tucuxi_cdss_cli --config config.xml --query patient_query.tqf --output <output_folder>
 ```
 
 For integration into other applications, link against the `tucucdss-core` CMake target and use the `Tucuxi::Xpert` API directly:
