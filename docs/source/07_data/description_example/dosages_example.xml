@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<dosages>
+  <standardTreatment></standardTreatment>
+  <analyteConversions></analyteConversions>
+  <availableDoses></availableDoses>
+  <intervals></intervals>
+  <infusions></infusions>
+  <comments>
+    <comment lang="en">Here is my comment</comment>
+    <comment lang="fr">Voila mon commentaire</comment>
+  </comments>
+</dosages>

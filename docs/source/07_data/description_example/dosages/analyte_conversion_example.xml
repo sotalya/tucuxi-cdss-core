@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<analyteConversions>
+  <analyteConversion>
+    <analyteId>vanco</analyteId>
+    <factor>1</factor>
+  </analyteConversion>
+  <analyteConversion>
+    <analyteId>analyte2</analyteId>
+    <factor>0.4</factor>
+  </analyteConversion>
+</analyteConversions>
+

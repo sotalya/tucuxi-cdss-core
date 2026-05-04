@@ -1,0 +1,197 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<query version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+    <date>2018-07-11T13:45:30</date> <!-- Date that defines the computation time -->
+
+    <admin>
+		<mandator>
+			<person>
+				<firstName>John</firstName>
+				<lastName>Doe</lastName>
+				<address>
+					<street>Av. de l'Ours 2</street>
+					<postalCode>1010</postalCode>
+					<city>Lausanne</city>
+				</address>
+				<phone>
+					<number>0213140002</number>
+				</phone>
+				<email>
+					<address>john.doe@chuv.com</address>
+				</email>
+			</person>
+			<institute>
+				<name>CHUV</name>
+				<address>
+					<street>Av. de l'Ours 1</street>
+					<postalCode>1010</postalCode>
+					<city>Lausanne</city>
+				</address>
+				<phone>
+					<number>0213140001</number>
+				</phone>
+				<email>
+					<address>info@chuv.com</address>
+				</email>
+			</institute>
+		</mandator>
+		<patient>
+			<person>
+				<firstName>Alice</firstName>
+				<lastName>Aupaysdesmerveilles</lastName>
+				<address>
+					<street>Av. d'Ouchy 27</street>
+					<postalCode>1006</postalCode>
+					<city>Lausanne</city>
+				</address>
+				<phone>
+					<number>0216170002</number>
+				</phone>
+				<email>
+					<address>alice.apdm@gmail.com</address>
+				</email>
+			</person>
+            <institute>
+				<name>EHNV</name>
+				<address>
+					<street>Av. des Bains 34</street>
+					<postalCode>1400</postalCode>
+					<city>Yverdon-les-Bains</city>
+				</address>
+				<phone>
+					<number>987654321</number>
+				</phone>
+				<email>
+					<address>info@ehnv.com</address>
+				</email>
+			</institute>
+		</patient>
+	</admin>
+
+    <drugTreatment>
+        <!-- All the information regarding the patient -->
+        <patient>
+            <covariates>
+                <covariate>
+                    <covariateId>ffm</covariateId>
+                    <date>2018-07-11T10:45:30</date>
+                    <value>50</value>
+                    <unit>kg</unit>
+                      <dataType>double</dataType>
+                    <nature>continuous</nature>
+                </covariate>
+            </covariates>
+        </patient>
+        <!-- List of the drugs informations we have concerning the patient -->
+        <drugs>
+            <!-- All the information regarding the drug -->
+            <drug>
+                <drugId>rifampicin</drugId>
+                <activePrinciple>something</activePrinciple>
+                <brandName>somebrand</brandName>
+                <atc>something</atc>
+                <!-- All the information regarding the treatment -->
+                <treatment>
+                    <dosageHistory>
+                        <dosageTimeRange>
+                            <start>2018-06-20T08:00:00</start>
+                            <end>2018-07-06T08:00:00</end>
+                            <dosage>
+                                <dosageRepeat>
+                                    <iterations>2</iterations>
+                                    <weeklyDosage>
+                                        <day>2</day>
+                                        <time>11:00:00</time>
+                                        <dose>
+                                            <value>50</value>
+                                            <unit>mg</unit>
+                                            <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                        </dose>
+                                        <formulationAndRoute>
+                                            <formulation>parenteralSolution</formulation>
+                                            <administrationName>foo bar</administrationName>
+                                            <administrationRoute>oral</administrationRoute>
+                                            <absorptionModel>extravascular</absorptionModel>
+                                        </formulationAndRoute>
+                                    </weeklyDosage>
+                                </dosageRepeat>
+                            </dosage>
+                        </dosageTimeRange>
+                        <dosageTimeRange>
+                            <start>2018-07-06T08:00:00</start>
+                            <end>2018-07-18T08:00:00</end>
+                            <dosage>
+                                <dosageLoop>
+                                    <lastingDosage>
+                                        <interval>12:00:00</interval>
+                                        <dose>
+                                            <value>800</value>
+                                            <unit>mg</unit>
+                                            <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                        </dose>
+                                        <formulationAndRoute>
+                                            <formulation>parenteralSolution</formulation>
+                                            <administrationName>foo bar</administrationName>
+                                            <administrationRoute>oral</administrationRoute>
+                                            <absorptionModel>extravascular</absorptionModel>
+                                        </formulationAndRoute>
+                                    </lastingDosage>
+                                </dosageLoop>
+                            </dosage>
+                        </dosageTimeRange>
+                    </dosageHistory>
+                </treatment>
+                <!-- Samples history -->
+                <samples>
+                    <sample>
+                        <sampleId>123456</sampleId>
+                        <sampleDate>2018-07-07T03:00:00</sampleDate>
+                        <concentrations>
+                            <concentration>
+                                <analyteId>rifampicin</analyteId>
+                                <value>7</value>
+                                <unit>mg/l</unit>
+                            </concentration>
+                        </concentrations>
+                    </sample>
+                </samples>
+                <!-- Personalised targets -->
+                <targets>
+                    <!-- It's the same node we can find in the drug model xml file -->
+                    <target>
+                        <activeMoietyId>rifampicin</activeMoietyId>
+                        <targetType>residual</targetType>
+                        <unit>mg/l</unit>
+                        <min>20</min>
+                        <best>25</best>
+                        <max>30</max>
+                        <inefficacyAlarm>15</inefficacyAlarm>
+                        <toxicityAlarm>50</toxicityAlarm>
+                    </target>
+                </targets>
+            </drug>
+        </drugs>
+    </drugTreatment>
+    <!-- List of the requests we want the server to take care of -->
+    <requests>
+
+        <!-- List of the requests we want the TuberXpert to take care of -->
+        <xpertRequest>
+            <drugId>rifampicin</drugId>
+            <output>
+                <format>html</format>
+                <language>en</language>
+            </output>
+            <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
+            <options>
+                <loadingOption>loadingDoseAllowed</loadingOption>
+                <restPeriodOption>restPeriodAllowed</restPeriodOption>
+                <targetExtractionOption>populationValues</targetExtractionOption>
+                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+            </options>
+        </xpertRequest>
+    </requests>
+</query>

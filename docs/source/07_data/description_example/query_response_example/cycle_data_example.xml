@@ -1,0 +1,30 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<cycleDatas>
+  <cycleData>
+    <start>2018-10-05T10:00:00</start>
+    <end>2018-10-05T10:00:24</end>
+    <unit>ug/l</unit>
+    <parameters>
+      <parameter>
+        <id></id>
+        <value></value>
+      </parameter>
+    </parameters>
+    <covariates>
+      <covariate>
+        <id></id>
+        <value></value>
+      </covariate>
+    </covariates>
+    <times></times>
+    <values></values>
+    <statistics>
+      <mean></mean>
+      <auc></auc>
+      <auc24></auc24>
+      <cumulativeAuc></cumulativeAuc>
+      <residual></residual>
+      <peak></peak>
+    </statistics>
+  </cycleData>
+<cycleDatas>

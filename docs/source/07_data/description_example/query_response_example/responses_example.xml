@@ -1,0 +1,10 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<responses>
+  <response>
+    <requestId>request</requestId>
+    <requestStatus></requestStatus>
+    <requestType>adjustment</requestType>
+    <COMPUTING_TRAIT></COMPUTING_TRAIT>
+  </response>
+</responses>
+

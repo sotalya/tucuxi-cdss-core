@@ -1,0 +1,92 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<query version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+    <date>2022-06-24T13:45:30</date> <!-- Date that defines the computation time -->
+
+    <drugTreatment>
+        <!-- All the information regarding the patient -->
+        <patient>
+            <covariates> 
+            </covariates>
+        </patient>
+        <!-- List of the drugs informations we have concerning the patient -->
+        <drugs>
+            <!-- All the information regarding the drug -->
+            <drug>
+                <drugId>imatinib</drugId>
+                <activePrinciple>something</activePrinciple>
+                <brandName>somebrand</brandName>
+                <atc>something</atc>
+                <!-- All the information regarding the treatment -->
+                <treatment>
+                    <dosageHistory>
+                        <dosageTimeRange>
+                            <start>2022-07-06T08:00:00</start>
+                            <end>2023-07-08T08:00:00</end>
+                            <dosage>
+                                <dosageLoop>
+                                    <lastingDosage>
+                                        <interval>12:00:00</interval>
+                                        <dose>
+                                            <value>300</value>
+                                            <unit>mg</unit>
+                                            <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                        </dose>
+                                        <formulationAndRoute>
+                                            <formulation>oralSolution</formulation>
+                                            <administrationName>foo bar</administrationName>
+                                            <administrationRoute>oral</administrationRoute>
+                                            <absorptionModel>extravascular</absorptionModel>
+                                        </formulationAndRoute>
+                                    </lastingDosage>
+                                </dosageLoop>
+                            </dosage>
+                        </dosageTimeRange>
+                    </dosageHistory>
+                </treatment>
+                <!-- Samples history -->
+                <samples>
+                    <sample>
+                        <sampleId>11</sampleId>
+                        <sampleDate>2018-07-08T06:00:30</sampleDate>
+                        <concentrations>
+                            <concentration>
+                                <analyteId>imatinib</analyteId>
+                                <value>5</value>
+
+                                <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+                                <!--           Defective unit causes sample validator to fail           -->
+                                <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+                                <unit>kg</unit>
+                            </concentration>
+                        </concentrations>
+                    </sample>
+                </samples>
+                <!-- Personalised targets -->
+                <targets>
+                </targets>
+            </drug>
+        </drugs>
+    </drugTreatment>
+    <requests>
+        <!-- List of the requests we want the TuberXpert to take care of -->
+        <xpertRequest>
+            <drugId>imatinib</drugId>
+            <output>
+                <format>html</format>
+                <language>fr</language>
+            </output>
+            <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
+            <options>
+                <loadingOption>loadingDoseAllowed</loadingOption>
+                <restPeriodOption>restPeriodAllowed</restPeriodOption>
+                <targetExtractionOption>individualTargets</targetExtractionOption>
+                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+            </options>
+        </xpertRequest>
+    </requests>
+</query>

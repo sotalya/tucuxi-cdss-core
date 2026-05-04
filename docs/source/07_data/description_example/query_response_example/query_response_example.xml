@@ -1,0 +1,8 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<tucuxiComputation xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+ xsi:noNamespaceSchemaLocation='computing_response.xsd'>
+  <queryId>ch.tucuxi.tobramycin_test</queryId>
+  <queryStatus></queryStatus>
+  <responses></responses>
+</tucuxiComputation>
+

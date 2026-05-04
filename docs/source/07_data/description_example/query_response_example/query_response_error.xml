@@ -1,0 +1,14 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+status code: 400
+<tucuxiComputation xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+ xsi:noNamespaceSchemaLocation='computing_response.xsd'>
+  <queryId>imatinib_2</queryId>
+  <queryStatus>
+    <statusCode>3</statusCode>
+    <statusCodeLit>ImportError</statusCodeLit>
+    <message>
+      <covariates> not found in xml request
+    </message>
+    <description/>
+  </queryStatus>
+</tucuxiComputation>

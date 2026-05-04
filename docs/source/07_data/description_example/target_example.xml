@@ -1,0 +1,56 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<targets>
+  <target>
+    <targetType>auc24DividedByMic</targetType>
+    <targetValues>
+    <unit>h</unit>
+      <min>
+        <standardValue>10</standardValue>
+      </min>
+      <max>
+        <standardValue>20</standardValue>
+        <aprioriComputation>
+          <formula type="softcoded"><![CDATA[
+            if gist then
+            return 20;
+            else
+            return 30;
+            ]]>
+          </formula>
+          <comments/>
+        </aprioriComputation>
+      </max>
+      <best>
+        <standardValue>15</standardValue>
+      </best>
+      <toxicityAlarm>
+        <standardValue>15</standardValue>
+      </toxicityAlarm>
+      <inefficacyAlarm>
+        <standardValue>3</standardValue>
+      </inefficacyAlarm>
+      <mic>
+        <unit>mg/l</unit>
+        <micValue>
+          <standardValue>1.0</standardValue>
+        </micValue>
+      </mic>
+    </targetValues>
+    <times>
+      <unit>h</unit>
+      <min>
+        <standardValue>10</standardValue>
+      </min>
+      <max>
+        <standardValue>20</standardValue>
+      </max>
+      <best>
+        <standardValue>15</standardValue>
+      </best>
+    </times>
+    <comments>
+      <comment lang="en">As seen with Aline for the residual concentration</comment>
+      <comment lang="fr">Vu avec Aline pour la concentration résiduelle</comment>
+    </comments>
+  </target>
+</targets>

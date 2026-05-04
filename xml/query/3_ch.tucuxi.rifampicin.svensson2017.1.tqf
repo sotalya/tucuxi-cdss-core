@@ -1,0 +1,83 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<query version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+    <date>2018-07-11T13:45:30</date> <!-- Date that defines the computation time -->
+
+    <admin>
+		<mandator>
+			<person>
+				<firstName>John</firstName>
+				<lastName>Doe</lastName>
+			</person>
+            <institute>
+				<name>CHUV</name>
+			</institute>
+		</mandator>
+		<patient>
+			<person>
+				<firstName>Alice</firstName>
+				<lastName>Aupaysdesmerveilles</lastName>
+			</person>
+            <institute>
+				<name>EHNV</name>
+			</institute>
+		</patient>
+		<clinicalDatas/>
+	</admin>
+
+    <drugTreatment>
+        <!-- All the information regarding the patient -->
+        <patient>
+            <covariates>
+            </covariates>
+        </patient>
+        <!-- List of the drugs informations we have concerning the patient -->
+        <drugs>
+            <!-- All the information regarding the drug -->
+            <drug>
+                <drugId>rifampicin</drugId>
+                <activePrinciple>something</activePrinciple>
+                <brandName>somebrand</brandName>
+                <atc>something</atc>
+                <!-- All the information regarding the treatment -->
+                <treatment>
+                </treatment>
+                <!-- Personalised targets -->
+                <targets>
+                    <!-- It's the same node we can find in the drug model xml file -->
+                    <target>
+                        <activeMoietyId>rifampicin</activeMoietyId>
+                        <targetType>residual</targetType>
+                        <unit>mg/l</unit>
+                        <min>20</min>
+                        <best>25</best>
+                        <max>30</max>
+                        <inefficacyAlarm>15</inefficacyAlarm>
+                        <toxicityAlarm>50</toxicityAlarm>
+                    </target>
+                </targets>
+            </drug>
+        </drugs>
+    </drugTreatment>
+    <!-- List of the requests we want the server to take care of -->
+    <requests>
+
+        <!-- List of the requests we want the TuberXpert to take care of -->
+        <xpertRequest>
+            <drugId>rifampicin</drugId>
+            <output>
+                <format>pdf</format>
+                <language>en</language>
+            </output>
+            <options>
+                <loadingOption>loadingDoseAllowed</loadingOption>
+                <restPeriodOption>restPeriodAllowed</restPeriodOption>
+                <targetExtractionOption>populationValues</targetExtractionOption>
+                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+            </options>
+        </xpertRequest>
+    </requests>
+</query>

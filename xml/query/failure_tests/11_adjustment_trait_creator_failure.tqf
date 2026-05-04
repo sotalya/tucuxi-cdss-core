@@ -1,0 +1,82 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<query version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+    <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
+
+    <drugTreatment>
+        <!-- All the information regarding the patient -->
+        <patient>
+            <covariates>
+            </covariates>
+        </patient>
+        <!-- List of the drugs informations we have concerning the patient -->
+        <drugs>
+            <!-- All the information regarding the drug -->
+            <drug>
+                <drugId>busulfan</drugId>
+                <activePrinciple>something</activePrinciple>
+                <brandName>somebrand</brandName>
+                <atc>something</atc>
+                <!-- All the information regarding the treatment -->
+                <treatment>
+                    <dosageHistory>
+                        <dosageTimeRange>
+                            <start>2018-07-06T08:00:00</start>
+                            <end>2018-07-08T08:00:00</end>
+                            <dosage>
+                                <dosageLoop>
+                                    <lastingDosage>
+                                        <interval>06:00:00</interval>
+                                        <dose>
+                                            <value>10</value>
+                                            <unit>mg</unit>
+                                            <infusionTimeInMinutes>120</infusionTimeInMinutes>
+                                        </dose>
+                                        <formulationAndRoute>
+                                            <formulation>parenteralSolution</formulation>
+                                            <administrationName>foo bar</administrationName>
+                                            <administrationRoute>intravenousDrip</administrationRoute>
+                                            <absorptionModel>infusion</absorptionModel>
+                                        </formulationAndRoute>
+                                    </lastingDosage>
+                                </dosageLoop>
+                            </dosage>
+                        </dosageTimeRange>
+                    </dosageHistory>
+                </treatment>
+                <!-- Samples history -->
+                <samples>
+                </samples>
+                <!-- Personalised targets -->
+                <targets>
+                </targets>
+            </drug>
+        </drugs>
+    </drugTreatment>
+    <!-- List of the requests we want the server to take care of -->
+    <requests>
+        <xpertRequest>
+            <drugId>busulfan</drugId>
+            <output>
+                <format>xml</format>
+                <language>fr</language>
+            </output>
+
+
+            <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+            <!--        Standard treatment is over before the adjustment date       -->
+            <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+            <adjustmentDate>2022-06-20T10:00:00</adjustmentDate>
+            <options>
+                <loadingOption>noLoadingDose</loadingOption>
+                <restPeriodOption>noRestPeriod</restPeriodOption>
+                <targetExtractionOption>populationValues</targetExtractionOption>
+                <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+            </options>
+        </xpertRequest>
+    </requests>
+</query>

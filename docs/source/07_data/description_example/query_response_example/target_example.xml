@@ -1,0 +1,9 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<targetEvaluations>
+  <targetEvaluation>
+    <targetType></targetType>
+    <unit></unit>
+    <value></value>
+    <score></score>
+  </targetEvaluation>
+</targetEvaluations>

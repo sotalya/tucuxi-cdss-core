@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+type: software
+title: "Tucuxi Cdss Core"
+message: "If you use this software, please cite the forthcoming paper."
+authors:
+  - family-names: Thoma
+    given-names: Yann
+  - family-names: Rigamonti
+    given-names: Roberto
+  - family-names: Da Rocha Carvalho
+    given-names: Bruno
+  - family-names: Herzig
+    given-names: Melvyn
+  - family-names: Cathignol
+    given-names: Annie E.
+  - family-names: Pétermann
+    given-names: Yuan J.
+
+version: 0.1.0
+
+preferred-citation:
+  type: article
+  title: "A Configurable Clinical Decision Support System for Model-Informed Precision Dosing: System Architecture and Operational Principles"
+  authors:
+    - family-names: Rigamonti
+      given-names: Roberto
+    - family-names: Pétermann
+      given-names: Yuan J.
+    - family-names: Herzig
+      given-names: Melvyn
+    - family-names: Cathignol
+      given-names: Annie E.
+    - family-names: Da Rocha Carvalho
+      given-names: Bruno
+    - family-names: Mpagama
+      given-names: Stellah G.
+    - family-names: Said
+      given-names: Bibie
+    - family-names: Sariko
+      given-names: Margaretha L.
+    - family-names: Csajka
+      given-names: Chantal
+    - family-names: Guidi
+      given-names: Monia
+    - family-names: Thoma
+      given-names: Yann
+  year: 2026
+  status: "under review"

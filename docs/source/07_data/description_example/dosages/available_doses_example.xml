@@ -1,0 +1,25 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<availableDoses>
+  <unit>mg</unit>
+  <default>
+    <standardValue>1000</standardValue>
+  </default>
+  <rangeValues>
+    <from>
+      <standardValue>5</standardValue>
+    </from>
+    <to>
+      <standardValue>1500</standardValue>
+    </to>
+    <step>
+      <standardValue>5</standardValue>
+    </step>
+  </rangeValues>
+  <fixedValues>
+    <value>250</dose>
+    <value>500</dose>
+    <value>750</dose>
+    <value>1000</dose>
+    <value>1250</dose>
+  </fixedValues>
+</availableDoses>

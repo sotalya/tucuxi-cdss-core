@@ -1,0 +1,14 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<dataAdjustment>
+  <analyteIds>
+    <analyteId></analyteId>
+  </analyteIds>
+  <adjustments>
+    <adjustment>
+      <score>0.972919</score>
+      <targetEvaluations></targetEvaluations>
+      <dosageHistory></dosageHistory>
+      <cycleDatas></cycleDatas>
+    </adjustment>
+  </adjustments>
+</dataAdjustment>

@@ -1,0 +1,70 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<query version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+    <date>2022-06-24T13:45:30</date> <!-- Date that defines the computation time -->
+
+    <drugTreatment>
+        <!-- All the information regarding the patient -->
+        <patient>
+            <covariates> 
+            </covariates>
+        </patient>
+        <!-- List of the drugs informations we have concerning the patient -->
+        <drugs>
+            <!-- All the information regarding the drug -->
+            <drug>
+                <drugId>imatinib</drugId>
+                <activePrinciple>something</activePrinciple>
+                <brandName>somebrand</brandName>
+                <atc>something</atc>
+                <!-- All the information regarding the treatment -->
+                <treatment>
+                    <dosageHistory>
+                    </dosageHistory>
+                </treatment>
+                <!-- Samples history -->
+                <samples>
+                </samples>
+                <!-- Personalised targets -->
+                <targets>
+                    <!-- It's the same node we can find in the drug model xml file -->
+                    <target>
+
+                        <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+                        <!--        Random active moiety causes target validator to fail        -->
+                        <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+                        <activeMoietyId>unknownMoiety</activeMoietyId>
+                        <targetType>residual</targetType>
+                        <unit>mg/l</unit>
+                        <min>0.8</min>
+                        <best>1.05</best>
+                        <max>1.650</max>
+                        <inefficacyAlarm>0.6</inefficacyAlarm>
+                        <toxicityAlarm>20</toxicityAlarm>
+                    </target>
+                </targets>
+            </drug>
+        </drugs>
+    </drugTreatment>
+    <requests>
+        <!-- List of the requests we want the TuberXpert to take care of -->
+        <xpertRequest>
+            <drugId>imatinib</drugId>
+            <output>
+                <format>html</format>
+                <language>fr</language>
+            </output>
+            <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
+            <options>
+                <loadingOption>loadingDoseAllowed</loadingOption>
+                <restPeriodOption>restPeriodAllowed</restPeriodOption>
+                <targetExtractionOption>individualTargets</targetExtractionOption>
+                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+            </options>
+        </xpertRequest>
+    </requests>
+</query>

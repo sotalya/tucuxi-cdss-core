@@ -1,0 +1,9 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<standardTreatment>
+  <isFixedDuration>true</isFixedDuration>
+  <timeValue>
+    <unit>d</unit>
+    <value>5</value>
+  </timeValue>
+</standardTreatment>
+

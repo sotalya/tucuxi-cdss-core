@@ -1,0 +1,7 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<STATUS_TYPE>
+  <statusCode>0</statusCode>
+  <statusCodeLit>Ok</statusCodeLit>
+  <message>everything ok</message>
+  <description>description</description>
+</STATUS_TYPE>

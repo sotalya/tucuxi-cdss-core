@@ -1,0 +1,8 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<formulationAndRoutes default="id0">
+  <formulationAndRoute>
+    <formulation>parenteralSolution</formulation>
+    <administrationName>champ libre</administrationName>
+    <administrationRoute>i.v.</administrationRoute>
+  </formulationAndRoute>
+</formulationAndRoutes>

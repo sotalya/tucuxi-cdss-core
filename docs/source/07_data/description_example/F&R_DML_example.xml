@@ -1,0 +1,11 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<formulationAndRoutes default="id0">
+  <formulationAndRoute>
+    <formulationAndRouteId>id0</formulationAndRouteId>
+    <formulation>parenteralSolution</formulation>
+    <administrationName>champ libre</administrationName>
+    <administrationRoute>intravenousDrip</administrationRoute>
+    <absorptionModel>infusion</absorptionModel>
+    <dosages></dosages>
+  </formulationAndRoute>
+</formulationAndRoutes>

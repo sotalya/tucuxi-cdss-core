@@ -1,0 +1,23 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<infusions>
+  <unit>min</unit>
+  <default>
+    <standardValue>60</standardValue>
+  </default>
+  <rangeValues>
+	<from>
+      <standardValue>?</standardValue>
+    </from>
+    <to>
+      <standardValue>?</standardValue>
+    </to>
+    <step>
+      <standardValue>?</standardValue>
+    </step>
+  <rangeValues>
+  <fixedInfusions>
+    <infusion>60</infusion>
+    <infusion>120</infusion>
+    <infusion>240</infusion>
+  </fixedInfusions>
+</infusions>

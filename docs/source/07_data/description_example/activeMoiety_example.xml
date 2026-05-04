@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<activeMoieties>
+  <activeMoiety>
+    <activeMoietyId>vancomycin</activeMoietyId>
+    <activeMoietyName>
+      <name lang="fr">        </name>
+    </activeMoietyName>
+    <unit>mg/l</unit>
+    <!-- Drug targets -->
+    <targets></targets>
+  </activeMoiety> <!--fraction active -->
+</activeMoieties>

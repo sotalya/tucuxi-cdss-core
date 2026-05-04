@@ -1,0 +1,24 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<covariate>
+  <covariateId>age</covariateId>
+  <covariateName>
+    <name lang='en'>Age</name>
+  </covariateName>
+  <description>
+    <desc lang='en'>Age in years</desc>
+  </description>
+  <unit>y</unit>
+  <covariateType>ageInYears</covariateType>
+  <dataType>double</dataType>
+  <interpolationType>linear</interpolationType>
+  <refreshPeriod>
+    <unit>y</unit>
+    <value>1</value>
+  </refreshPeriod>
+  <covariateValue>
+    <standardValue>18</standardValue>
+  </covariateValue>
+  <comments>
+    <comment lang='en'>comment</comment>
+  </comments>
+</covariate>
