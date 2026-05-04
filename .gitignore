@@ -84,6 +84,7 @@ test/covariate_boundaries_driver/tqf*
 test/covariate_boundaries_driver/out*
 test/fuzzing/output*
 test/fuzzing/tmptqf*
+test/system/imatinib/output/
 
 !libs/wkhtmltox/windows/wkhtmltox.dll
 !libs/wkhtmltox/ubuntu/libwkhtmltox.so.0.12.6
