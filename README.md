@@ -1,6 +1,7 @@
 # Tucuxi-CDSS-Core
 
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20024722.svg)](https://doi.org/10.5281/zenodo.20024722)
 
 A configurable **Clinical Decision Support System (CDSS)** for **Model-Informed Precision Dosing (MIPD)** and **Therapeutic Drug Monitoring (TDM)**. Given a patient's drug treatment history and pharmacokinetic (PK) drug models, Tucuxi-CDSS-Core predicts drug concentrations in blood and automatically proposes dosage adaptations. The output consists in an HTML report or of a more structure XML file.
 
