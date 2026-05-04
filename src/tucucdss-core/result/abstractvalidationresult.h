@@ -35,7 +35,7 @@ public:
     }
 
     /// \brief Destructor.
-    virtual ~AbstractValidationResult(){};
+    virtual ~AbstractValidationResult(){}; // LCOV_EXCL_LINE
 
     // Getters
 

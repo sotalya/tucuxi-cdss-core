@@ -39,12 +39,18 @@ file(GLOB TESTS_SOURCE_FILES
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_dosevalidator.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_justificationcreator.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_languagemanager.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/gtest_padcollector.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/gtest_reportprinter.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_requestexecutor.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_samplevalidator.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/gtest_samplevalidationresult.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_targetvalidator.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/gtest_timeafterdoseexporter.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_xpertqueryimport.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/gtest_xpertqueryresult.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_xpertqueryresultcreation.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_xpertquerytocoreextractor.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/gtest_xpertrequestresulthtmlexport.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/gtest_xpertutils.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/testutils.cpp
 )

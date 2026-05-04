@@ -49,11 +49,11 @@ bool SampleValidationResult::isAscending() const
 }
 
 std::string SampleValidationResult::computePercentileSentence(
-        unsigned percentile,
-        double sampleValue,
-        const std::string& sampleUnit,
-        const std::string& doseText,
-        bool isAscending)
+        unsigned _percentile,
+        double _sampleValue,
+        const std::string& _sampleUnit,
+        const std::string& _doseText,
+        bool _isAscending)
 {
 
     LanguageManager& langMgr = LanguageManager::getInstance();
@@ -61,13 +61,13 @@ std::string SampleValidationResult::computePercentileSentence(
     std::string prefixDose = langMgr.translate("txt_with_dose_prefix");
 
     std::ostringstream oss;
-    oss << std::fixed << std::setprecision(2) << sampleValue;
-    std::string valueStr = oss.str() + " " + sampleUnit;
+    oss << std::fixed << std::setprecision(2) << _sampleValue;
+    std::string valueStr = oss.str() + " " + _sampleUnit;
 
     std::string body;
     std::string optSuffix;
 
-    switch (bucketOf(percentile)) {
+    switch (bucketOf(_percentile)) {
     case PercentileBucket::LT_P10:
         body = langMgr.translate("txt_below_lt_p10");
         optSuffix = langMgr.translate("txt_suffix_lt_p10");
@@ -88,11 +88,11 @@ std::string SampleValidationResult::computePercentileSentence(
     }
     std::string sentence = fmt::format("{} {} ", prefixMeasured, valueStr);
 
-    if (isAscending) {
+    if (_isAscending) {
         sentence += fmt::format(langMgr.translate("txt_sample_in_ascending"), fmt::arg("hours", "N"));
     }
 
-    sentence += fmt::format("{} {} {}", body, prefixDose, doseText);
+    sentence += fmt::format("{} {} {}", body, prefixDose, _doseText);
 
     if (!optSuffix.empty()) {
         sentence += optSuffix;
@@ -121,18 +121,18 @@ std::string SampleValidationResult::computeWarning(unsigned _groupNumberOver99Pe
     return "";
 }
 
-PercentileBucket SampleValidationResult::bucketOf(unsigned p)
+PercentileBucket SampleValidationResult::bucketOf(unsigned _percentile)
 {
-    if (p <= 10) {
+    if (_percentile <= 10) {
         return PercentileBucket::LT_P10;
     }
-    if (p <= 25) {
+    if (_percentile <= 25) {
         return PercentileBucket::P10_P25;
     }
-    if (p <= 75) {
+    if (_percentile <= 75) {
         return PercentileBucket::P25_P75;
     }
-    if (p <= 90) {
+    if (_percentile <= 90) {
         return PercentileBucket::P75_P90;
     }
     return PercentileBucket::GT_P90;

@@ -14,8 +14,11 @@ class AbstractXpertFlowStep
 {
 
 public:
+    /// \brief Empty constructor.
+    AbstractXpertFlowStep() = default;
+
     /// \brief Destructor.
-    virtual ~AbstractXpertFlowStep(){};
+    virtual ~AbstractXpertFlowStep(){}; // LCOV_EXCL_LINE
 
     /// \brief Method to call in order to perform the flow step.
     /// \param _xpertRequestResult XpertRequestResult object which will contain the

@@ -7,17 +7,9 @@
 #include "tucucdss-core/computer.h"
 #include "tucuxi-core/libs/cxxopts/include/cxxopts.hpp"
 
-using namespace std;
-
 /*********************************************************************************
  *                                 Result Codes                                  *
  * *******************************************************************************/
-
-/// \brief CODE_BAD_ARGUMENTS_ERROR Exit code when an error is present in the arguments.
-const int CODE_BAD_ARGUMENTS_ERROR = -2;
-
-/// \brief CODE_IMPORT_ERROR Exit code when the query could not be loaded.
-const int CODE_IMPORT_ERROR = -1;
 
 /// \brief CODE_EXECUTION_SUCCESS Exit code when everything went fine.
 const int CODE_ALL_REQUESTS_SUCCEEDED = 0;
@@ -28,13 +20,26 @@ const int CODE_SOME_REQUESTS_SUCCEEDED = 1;
 /// \brief CODE_NO_REQUESTS_SUCCEEDED Exit code when all the requests could not be fulfilled.
 const int CODE_NO_REQUESTS_SUCCEEDED = 2;
 
+/// \brief CODE_BAD_ARGUMENTS_ERROR Exit code when an error is present in the arguments.
+const int CODE_BAD_ARGUMENTS_ERROR = 3;
+
+/// \brief CODE_IMPORT_ERROR Exit code when the query could not be loaded.
+const int CODE_IMPORT_ERROR = 4;
+
+enum class ParseResult
+{
+    ContinueProcessing,
+    ExitNormally,
+    BadArguments,
+};
+
 /// \brief Parses the program arguments argc/argv into a ComputingConfig and an input file name.
 /// \param _argc Program argument count.
 /// \param _argv Program arguments.
 /// \param _config ComputingConfig to populate (languagePath and templatePath should be pre-filled with defaults).
 /// \param _inputFileName String value to store parsed input file path.
-/// \return true if parsing went ok otherwise false.
-bool parse(
+/// \return ParseResult describing whether processing should continue, exit normally, or fail with bad arguments.
+ParseResult parse(
         int _argc,
         char* _argv[], // NOLINT(cppcoreguidelines-avoid-c-arrays)
         Tucuxi::Xpert::ComputingConfig& _config,
@@ -45,7 +50,7 @@ bool parse(
     try {
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-        cxxopts::Options options(_argv[0], " - TuberXpert command line");
+        cxxopts::Options options(_argv[0], " - Tucuxi-CDSS command line");
         options.positional_help("[optional args]").show_positional_help();
 
         options.allow_unrecognised_options().add_options()(
@@ -74,8 +79,8 @@ bool parse(
         auto result = options.parse(_argc, _argv);
 
         if (result.count("help") > 0) {
-            cout << options.help({"", "Group"}) << "\n";
-            return EXIT_SUCCESS;
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::ExitNormally;
         }
 
         _config.jsonDump = result["jsondump"].as<bool>();
@@ -84,56 +89,56 @@ bool parse(
             _config.drugPath = result["drugpath"].as<std::string>();
         }
         else {
-            cout << "The drug model files directory is mandatory\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The drug model files directory is mandatory\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
         if (!std::filesystem::exists(_config.drugPath)) {
-            cout << "The drug model files directory: " << _config.drugPath << " is missing\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The drug model files directory: " << _config.drugPath << " is missing\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
 
         if (result.count("input") > 0) {
             _inputFileName = result["input"].as<std::string>();
         }
         else {
-            cout << "The input query file is mandatory\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The input query file is mandatory\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
         if (!std::filesystem::exists(_inputFileName)) {
-            cout << "The specified input query file: " << _inputFileName << " is missing\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The specified input query file: " << _inputFileName << " is missing\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
 
         if (result.count("config") > 0) {
             _config.configFileName = result["config"].as<std::string>();
         }
         else {
-            cout << "Configuration file not specified --- "
-                 << "set by default to ./config.xml\n\n";
+            std::cout << "Configuration file not specified --- "
+                      << "set by default to ./config.xml\n\n";
             _config.configFileName = "./config.xml";
         }
         if (!std::filesystem::exists(_config.configFileName)) {
-            cout << "The configuration file: " << _config.configFileName << " is missing\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The configuration file: " << _config.configFileName << " is missing\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
 
         if (result.count("outputpath") > 0) {
             _config.outputPath = result["outputpath"].as<std::string>();
         }
         else {
-            cout << "The output directory path is mandatory\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The output directory path is mandatory\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
         if (!std::filesystem::exists(_config.outputPath)) {
-            cout << "The output directory: " << _config.outputPath
-                 << " is not existent, it will be created automatically"
-                 << "\n\n";
+            std::cout << "The output directory: " << _config.outputPath
+                      << " is not existent, it will be created automatically"
+                      << "\n\n";
             std::filesystem::create_directory(_config.outputPath);
         }
 
@@ -141,58 +146,58 @@ bool parse(
             _config.templatePath = result["templatepath"].as<std::string>();
         }
         else {
-            cout << "The HTML template directory has not been specified --- "
-                 << "defaulting to " << _config.templatePath << "\n\n";
+            std::cout << "The HTML template directory has not been specified --- "
+                      << "defaulting to " << _config.templatePath << "\n\n";
         }
         if (!std::filesystem::exists(_config.templatePath)) {
-            cout << "The  HTML template directory: " << _config.templatePath << " is missing\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The  HTML template directory: " << _config.templatePath << " is missing\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
 
         if (result.count("templatename") > 0) {
             _config.templateName = result["templatename"].as<std::string>();
         }
         else {
-            cout << "The HTML template name is mandatory\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The HTML template name is mandatory\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
         std::filesystem::path templatePath =
                 std::filesystem::path(_config.templatePath) / std::filesystem::path(_config.templateName);
         if (!std::filesystem::exists(templatePath)) {
-            cout << "The selected HTML template: " << _config.templateName << " is missing\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The selected HTML template: " << _config.templateName << " is missing\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
         if (result.count("languagepath") > 0) {
             _config.languagePath = result["languagepath"].as<std::string>();
         }
         else {
-            cout << "The language files directory has not been specified ---  defaulting to " << _config.languagePath
-                 << "\n\n";
+            std::cout << "The language files directory has not been specified ---  defaulting to "
+                      << _config.languagePath << "\n\n";
         }
 
         if (result.count("language") > 0) {
             std::string desiredLanguage = result["language"].as<std::string>();
 
             std::transform(
-                    desiredLanguage.begin(), desiredLanguage.end(), desiredLanguage.begin(), [](unsigned char c) {
-                        return std::tolower(c);
+                    desiredLanguage.begin(), desiredLanguage.end(), desiredLanguage.begin(), [](unsigned char _c) {
+                        return std::tolower(_c);
                     });
 
             if (desiredLanguage.empty()) {
                 std::cout << "The desired language is empty\n\n" << options.help({"", "Group"}) << "\n";
-                return false;
+                return ParseResult::BadArguments;
             }
 
             _config.language = desiredLanguage;
         }
 
         if (!std::filesystem::exists(_config.languagePath)) {
-            cout << "The language files directory: " << _config.languagePath << " is missing\n\n";
-            cout << options.help({"", "Group"}) << "\n";
-            return false;
+            std::cout << "The language files directory: " << _config.languagePath << " is missing\n\n";
+            std::cout << options.help({"", "Group"}) << "\n";
+            return ParseResult::BadArguments;
         }
 
         logHelper.info("Drugs directory : {}", _config.drugPath);
@@ -214,18 +219,18 @@ bool parse(
             logHelper.info("Json dump enabled in output directory");
         }
 
-        return true;
+        return ParseResult::ContinueProcessing;
     }
     catch (const cxxopts::exceptions::exception& e) {
         logHelper.error("error parsing options: {}", e.what());
 
-        return false;
+        return ParseResult::BadArguments;
     }
 }
 
 
-/// \brief The tuberXpert console application.
-/// The tuberXpert console application offers a simple command line interface to
+/// \brief The tucuxi-cdss-cli console application.
+/// The tucuxi-cdss-cli console application offers a simple command line interface to
 /// launch the computation.
 int main(int argc, char** argv)
 {
@@ -235,7 +240,11 @@ int main(int argc, char** argv)
     config.templatePath = std::string(TUCU_BUILD_DIR) + "/html_template";
 
     std::string inputFileName;
-    if (!parse(argc, argv, config, inputFileName)) {
+    ParseResult parseResult = parse(argc, argv, config, inputFileName);
+    if (parseResult == ParseResult::ExitNormally) {
+        return CODE_ALL_REQUESTS_SUCCEEDED;
+    }
+    if (parseResult == ParseResult::BadArguments) {
         return CODE_BAD_ARGUMENTS_ERROR;
     }
 
@@ -246,13 +255,13 @@ int main(int argc, char** argv)
     Tucuxi::Common::LoggerHelper logHelper;
 
     logHelper.info("********************************************************");
-    logHelper.info("Tuberxpert console application is starting up...");
+    logHelper.info("Tucuxi-cdss-cli console application is starting up...");
 
     // Computation start
     Tucuxi::Xpert::Computer xpertComputer;
     Tucuxi::Xpert::ComputingStatus result = xpertComputer.computeFromFile(config, inputFileName);
 
-    logHelper.info("Tuberxpert console application is exiting...");
+    logHelper.info("Tucuxi-cdss-cli console application is exiting...");
     logHelper.info("********************************************************");
 
     // Clean logger

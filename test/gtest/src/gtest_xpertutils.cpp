@@ -797,8 +797,8 @@ TEST_F(RequestExecuterTest, ResultGetter)
     unique_ptr<Core::PercentilesData> failResult = nullptr;
 
     // Execution
-    executeRequestAndGetResult(move(goodTrait), xpertRequestResult, goodResult);
-    executeRequestAndGetResult(move(failTrait), xpertRequestResult, failResult);
+    executeRequestAndGetResult(std::move(goodTrait), xpertRequestResult, goodResult);
+    executeRequestAndGetResult(std::move(failTrait), xpertRequestResult, failResult);
 
     EXPECT_EQ(failResult.get(), nullptr);
     EXPECT_NE(goodResult.get(), nullptr);

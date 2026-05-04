@@ -37,14 +37,14 @@ public:
     /// \param val The value to be evaluated.
     /// \return True if the evaluation is successful, otherwise false.
     ///
-    bool evaluate(double _val) const;
+    [[nodiscard]] bool evaluate(double _val) const;
 
     ///
     /// \brief getDescription
     /// Provides a string description of the constraint.
     /// \return A string that describes the constraint.
     ///
-    std::string getDescription() const;
+    [[nodiscard]] std::string getDescription() const;
 
 private:
     double m_value;
@@ -76,28 +76,28 @@ public:
     /// \return An EvaluationResult enum representing the evaluation result. Returns NotInRange if not in range,
     ///         InValidRange if in valid range, and InTypicalRange if in typical range.
     ///
-    EvaluationResult evaluateValue(double _val) const;
+    [[nodiscard]] EvaluationResult evaluateValue(double _val) const;
 
     ///
     /// \brief getCovariateId
     /// Retrieves the ID of the covariate.
     /// \return A string representing the covariate ID.
     ///
-    std::string getCovariateId() const;
+    [[nodiscard]] const std::string& getCovariateId() const;
 
     ///
     /// \brief getValidRangeDescription
     /// Provides a string description of the valid range constraints for the covariate.
     /// \return A string that describes the valid range constraints.
     ///
-    std::string getValidRangeDescription() const;
+    [[nodiscard]] std::string getValidRangeDescription() const;
 
     ///
     /// \brief getTypicalRangeDescription
     /// Provides a string description of the typical range constraints for the covariate.
     /// \return A string that describes the typical range constraints.
     ///
-    std::string getTypicalRangeDescription() const;
+    [[nodiscard]] std::string getTypicalRangeDescription() const;
 
 private:
     std::string m_covariateId;
@@ -147,28 +147,28 @@ public:
     /// Retrieves the name of the configuration.
     /// \return A string representing the configuration name.
     ///
-    std::string getName() const;
+    [[nodiscard]] const std::string& getName() const;
 
     ///
     /// \brief getDrug
     /// Retrieves the ID of the drug associated with the configuration.
     /// \return A string representing the drug ID.
     ///
-    std::string getDrug() const;
+    [[nodiscard]] const std::string& getDrug() const;
 
     ///
     /// \brief getDrugModel
     /// Retrieves the ID of the drug model associated with the configuration.
     /// \return A string representing the drug model ID.
     ///
-    std::string getDrugModel() const;
+    [[nodiscard]] const std::string& getDrugModel() const;
 
     ///
     /// \brief getCovariatesIds
     /// Retrieves the IDs of all covariates associated with the configuration.
     /// \return A vector of strings representing the IDs of the covariates.
     ///
-    std::vector<std::string> getCovariatesIds() const;
+    [[nodiscard]] std::vector<std::string> getCovariatesIds() const;
 
     ///
     /// \brief validateBoolValue
@@ -177,7 +177,7 @@ public:
     /// \param _val The value to be validated, in string form (only "0", "1", "true", "false" are accepted.
     /// \return An EvalutationResult enum representing the validation result. Returns CovariateNotExist if the covariate name is not found.
     ///
-    EvaluationResult validateBoolValue(const std::string& _covariateName, std::string const& _val) const;
+    [[nodiscard]] EvaluationResult validateBoolValue(const std::string& _covariateName, std::string const& _val) const;
 
     ///
     /// \brief validateValue
@@ -186,14 +186,14 @@ public:
     /// \param _val The value to be validated.
     /// \return An EvalutationResult enum representing the validation result. Returns CovariateNotExist if the covariate name is not found.
     ///
-    EvaluationResult validateValue(const std::string& _covariateName, double _val) const;
+    [[nodiscard]] EvaluationResult validateValue(const std::string& _covariateName, double _val) const;
 
     ///
     /// \brief isValid
     /// Return true if the configuration contain value, false if the config is empty.
     /// \return A boolean representing if the configuration is valid. True if valid else False.
     ///
-    bool isValid() const;
+    [[nodiscard]] bool isValid() const;
 
     ///
     /// \brief getValidRange
@@ -201,7 +201,7 @@ public:
     /// \param _covariateName The name of the covariate.
     /// \return A string representing the valid range of the specified covariate.
     ///
-    std::string getValidRange(const std::string& _covariateName) const;
+    [[nodiscard]] std::string getValidRange(const std::string& _covariateName) const;
 
     ///
     /// \brief getTypicalRange
@@ -209,7 +209,7 @@ public:
     /// \param _covariateName The name of the covariate.
     /// \return A string representing the typical range of the specified covariate.
     ///
-    std::string getTypicalRange(const std::string& _covariateName) const;
+    [[nodiscard]] std::string getTypicalRange(const std::string& _covariateName) const;
 
 private:
     std::string m_configName;
@@ -237,7 +237,7 @@ public:
     /// \param _configName The name of the configuration to be retrieved.
     /// \return The Configuration object associated with the specified name.
     ///
-    Configuration getConfiguration(const std::string& _configName) const;
+    [[nodiscard]] Configuration getConfiguration(const std::string& _configName) const;
 
 private:
     std::vector<Configuration> m_configurations;
@@ -262,30 +262,30 @@ public:
     /// Retrieves the number of prediction points to be used.
     /// \return Number of prediction points to be used.
     ///
-    size_t getPredPointsNo() const
+    [[nodiscard]] size_t getPredPointsNo() const
     {
         return m_predPointsNo;
-    };
+    }
 
     ///
     /// \brief getPctPointsNo
     /// Retrieves the number of percentiles points to be used.
     /// \return Number of percentiles points to be used.
     ///
-    size_t getPctPointsNo() const
+    [[nodiscard]] size_t getPctPointsNo() const
     {
         return m_pctPointsNo;
-    };
+    }
 
     ///
     /// \brief getDosagePossibilitiesNo
     /// Retrieves the number of dosage possibilities to consider.
     /// \return Number of dosage possibilities to consider.
     ///
-    size_t getDosagePossibilitiesNo() const
+    [[nodiscard]] size_t getDosagePossibilitiesNo() const
     {
         return m_dosagePossibilitiesNo;
-    };
+    }
 
     ///
     /// \brief setPredPointsNo
@@ -295,7 +295,7 @@ public:
     void setPredPointsNo(size_t const _predPointsNo)
     {
         m_predPointsNo = _predPointsNo;
-    };
+    }
 
     ///
     /// \brief setPctPointsNo
@@ -305,7 +305,7 @@ public:
     void setPctPointsNo(size_t const _pctPointsNo)
     {
         m_pctPointsNo = _pctPointsNo;
-    };
+    }
 
     ///
     /// \brief setDosagePossibilitiesNo
@@ -315,7 +315,7 @@ public:
     void setDosagePossibilitiesNo(size_t const _dosagePossibilitiesNo)
     {
         m_dosagePossibilitiesNo = _dosagePossibilitiesNo;
-    };
+    }
 
 private:
     size_t m_predPointsNo;

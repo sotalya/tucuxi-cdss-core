@@ -182,5 +182,19 @@ TEST_F(TranslationsLoaderTest, EmptyTranslationsLoader)
     ASSERT_THROW(languageManager.loadTranslations(""), Xpert::LanguageException);
 }
 
+TEST(LanguageExceptionTest, StringConstructor)
+{
+    std::string message = "This is a language exception.";
+    LanguageException exception(message);
+    EXPECT_EQ(message, exception.what());
+}
+
+TEST(LanguageExceptionTest, CharArrayConstructor)
+{
+    const char* message = "This is a language exception.";
+    LanguageException exception(message);
+    EXPECT_EQ(std::strcmp(message, exception.what()), 0);
+}
+
 } // namespace Xpert
 } // namespace Tucuxi

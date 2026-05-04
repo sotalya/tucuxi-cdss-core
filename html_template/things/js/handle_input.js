@@ -58,7 +58,7 @@ function renderHospital(data) {
   setHTML("#hospitalContact", data.contacts?.mandator?.institute?.phone ?? "N/A");
   setHTML(
     "#reportDate",
-    data.header?.computation_time ? fmtDate(data.header.computation_time) : "N/A"
+    data.header?.computation_time ? data.header.computation_time : "N/A"
   );
 }
 

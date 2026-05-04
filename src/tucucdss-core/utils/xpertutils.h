@@ -133,7 +133,7 @@ void executeRequestAndGetResult(
 {
     // Make the computing request and response.
     Core::ComputingRequest computingRequest{
-            "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(_trait)};
+            "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), std::move(_trait)};
     std::unique_ptr<Core::ComputingResponse> computingResponse = std::make_unique<Core::ComputingResponse>("");
 
     // Start the computation in tucuxi-core.
@@ -163,7 +163,7 @@ void executeRequestAndGetResult(
         std::unique_ptr<U>& _responsePointer)
 {
     // Make the computing request and response.
-    Core::ComputingRequest computingRequest{"", *_xpertRequestResult.getDrugModel(), _treatment, move(_trait)};
+    Core::ComputingRequest computingRequest{"", *_xpertRequestResult.getDrugModel(), _treatment, std::move(_trait)};
     std::unique_ptr<Core::ComputingResponse> computingResponse = std::make_unique<Core::ComputingResponse>("");
 
     // Start the computation in tucuxi-core.

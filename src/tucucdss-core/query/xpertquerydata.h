@@ -40,13 +40,13 @@ public:
 
     /// \brief Give the admin data unique pointer ownership.
     /// \return A right value reference on the administrative data unique pointer.
-    std::unique_ptr<AdminData>&& moveAdminData();
+    [[nodiscard]] std::unique_ptr<AdminData> moveAdminData();
 
     /// \brief Give the ownership of an XpertRequest unique pointer.
     /// \param _i Index of the XpertRequest to give. _i must be smaller than the number of xpertRequests.
     /// \return A right value reference on the xpertRequest unique pointer.
     /// \throw out_of_range if _i is bigger or equal to the number of xpertRequests.
-    std::unique_ptr<XpertRequestData>&& moveXpertRequest(size_t _i);
+    [[nodiscard]] std::unique_ptr<XpertRequestData> moveXpertRequest(size_t _i);
 
     // Getters
 

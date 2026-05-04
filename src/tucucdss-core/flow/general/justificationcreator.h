@@ -135,6 +135,9 @@ private:
     /// \param _doseText Output parameter to store the textual representation of the dose.
     ///
     void getSingleDose(const Core::SingleDose& _dosage, DosageInfo& _dosageInfo) const;
+
+    template<typename T>
+    bool tryGetDosage(const Core::Dosage& _dosage, DosageInfo& _dosageInfo) const;
 };
 
 } // namespace Xpert

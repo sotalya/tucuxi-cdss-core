@@ -328,22 +328,43 @@ void JustificationCreator::getDosage(const Core::WeeklyDose& _dosage, DosageInfo
     getSingleDose(_dosage, _dosageInfo);
 }
 
-#define TRY_GET_JSON(Type)                                                                 \
-    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                               \
-        return getDosage(*dynamic_cast<const Tucuxi::Core::Type*>(&_dosage), _dosageInfo); \
-    }
 
+template<typename T>
+bool JustificationCreator::tryGetDosage(const Core::Dosage& _dosage, DosageInfo& _dosageInfo) const
+{
+    if (const auto* typedDosage = dynamic_cast<const T*>(&_dosage)) {
+        getDosage(*typedDosage, _dosageInfo);
+        return true;
+    }
+    return false;
+}
 
 void JustificationCreator::getAbstractDosage(const Core::Dosage& _dosage, DosageInfo& _dosageInfo) const
 {
-    TRY_GET_JSON(WeeklyDose);
-    TRY_GET_JSON(DailyDose);
-    TRY_GET_JSON(LastingDose);
-    TRY_GET_JSON(ParallelDosageSequence);
-    TRY_GET_JSON(DosageLoop);
-    TRY_GET_JSON(DosageSteadyState);
-    TRY_GET_JSON(DosageRepeat);
-    TRY_GET_JSON(DosageSequence);
+    if (tryGetDosage<Core::WeeklyDose>(_dosage, _dosageInfo)) {
+        return;
+    }
+    if (tryGetDosage<Core::DailyDose>(_dosage, _dosageInfo)) {
+        return;
+    }
+    if (tryGetDosage<Core::LastingDose>(_dosage, _dosageInfo)) {
+        return;
+    }
+    if (tryGetDosage<Core::ParallelDosageSequence>(_dosage, _dosageInfo)) {
+        return;
+    }
+    if (tryGetDosage<Core::DosageLoop>(_dosage, _dosageInfo)) {
+        return;
+    }
+    if (tryGetDosage<Core::DosageSteadyState>(_dosage, _dosageInfo)) {
+        return;
+    }
+    if (tryGetDosage<Core::DosageRepeat>(_dosage, _dosageInfo)) {
+        return;
+    }
+    if (tryGetDosage<Core::DosageSequence>(_dosage, _dosageInfo)) {
+        return;
+    }
 }
 
 std::string JustificationCreator::prefixDosage(

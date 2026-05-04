@@ -23,12 +23,12 @@ XpertRequestData::XpertRequestData(
 {
 }
 
-std::string XpertRequestData::getDrugId() const
+const std::string& XpertRequestData::getDrugId() const
 {
     return m_drugId;
 }
 
-std::string XpertRequestData::getConfigId() const
+const std::string& XpertRequestData::getConfigId() const
 {
     return m_configId;
 }
@@ -67,12 +67,6 @@ Core::FormulationAndRouteSelectionOption XpertRequestData::getFormulationAndRout
 {
     return m_formulationAndRouteSelectionOption;
 }
-
-// bool XpertRequestData::setConfiguration(const ConfigImport& importer) {
-//     m_configuration = importer.getConfiguration(m_configId);
-
-//     return m_configuration.isValid();
-// }
 
 } // namespace Xpert
 } // namespace Tucuxi

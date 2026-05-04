@@ -41,7 +41,6 @@ std::string doubleToString(const double& _double)
 {
     stringstream stream;
     stream << fixed << setprecision(2) << _double;
-    std::string i = stream.str();
     return stream.str();
 }
 
@@ -89,25 +88,39 @@ std::string dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime)
         return "";
     }
 
-    std::string result;
-    result = std::to_string(_dateTime.year()) + "." + std::to_string(_dateTime.month()) + "."
-             + std::to_string(_dateTime.day()) + "T" + std::to_string(_dateTime.hour()) + ":"
-             + std::to_string(_dateTime.minute()) + ":" + std::to_string(_dateTime.second());
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(4) << _dateTime.year() << "-" << std::setw(2) << _dateTime.month() << "-"
+        << std::setw(2) << _dateTime.day() << "T" << std::setw(2) << _dateTime.hour() << ":" << std::setw(2)
+        << _dateTime.minute() << ":" << std::setw(2) << _dateTime.second();
 
-    char str[20]; // NOLINT(cppcoreguidelines-avoid-c-arrays)
-    snprintf(
-            str,
-            20,
-            "%04d-%02d-%02dT%02d:%02d:%02d",
-            _dateTime.year(),
-            _dateTime.month(),
-            _dateTime.day(),
-            _dateTime.hour(),
-            _dateTime.minute(),
-            _dateTime.second());
-    result = str;
-    return result;
+    return oss.str();
 }
+
+// std::string dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime)
+// {
+//     if (_dateTime.isUndefined()) {
+//         return "";
+//     }
+
+//     std::string result;
+//     result = std::to_string(_dateTime.year()) + "." + std::to_string(_dateTime.month()) + "."
+//              + std::to_string(_dateTime.day()) + "T" + std::to_string(_dateTime.hour()) + ":"
+//              + std::to_string(_dateTime.minute()) + ":" + std::to_string(_dateTime.second());
+
+//     std::array<char, 256> str{};
+//     snprintf(
+//             str.data(),
+//             20,
+//             "%04d-%02d-%02dT%02d:%02d:%02d",
+//             _dateTime.year(),
+//             _dateTime.month(),
+//             _dateTime.day(),
+//             _dateTime.hour(),
+//             _dateTime.minute(),
+//             _dateTime.second());
+//     result = str.data();
+//     return result;
+// }
 
 std::string timeOfDayToString(const Common::TimeOfDay& _timeOfDay)
 {

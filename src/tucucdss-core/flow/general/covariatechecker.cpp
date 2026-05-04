@@ -108,16 +108,8 @@ void CovariateChecker::perform(XpertRequestResult& _xpertRequestResult)
     if (idToPatient.find("birthdate") != idToPatient.end()) {
         // Extract and replace birthdate key by age
         auto nodeHandler = idToPatient.extract("birthdate");
-        const Core::PatientCovariate* birthdateCovariate = nodeHandler.mapped();
         nodeHandler.key() = "age";
         idToPatient.insert(std::move(nodeHandler));
-
-        // logHelper.info(birthdateCovariate->getValue());
-        // _xpertRequestResult.getXpertQueryResult().getAdminData()->getPatient()->getPerson().setBirthday(birthdateCovariate->getValue());
-
-
-        // auto& person = _xpertRequestResult.getXpertQueryResult().getAdminData()->getPatient()->getPerson();
-        // person.setBirthday(birthdateCovariate->getValue());
     }
 
     for (auto& idToPatientIt : idToPatient) {

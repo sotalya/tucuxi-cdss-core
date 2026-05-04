@@ -148,55 +148,55 @@ public:
     /// \brief Retrieves the text of the first dose.
     /// \return A constant reference to the first dose text.
     ///
-    const std::string& getFirstDoseText() const;
+    [[nodiscard]] const std::string& getFirstDoseText() const;
 
     ///
     /// \brief Retrieves the date of the first dose.
     /// \return A constant reference to the first dose date.
     ///
-    const Common::DateTime& getFirstDoseDate() const;
+    [[nodiscard]] const Common::DateTime& getFirstDoseDate() const;
 
     ///
     /// \brief Retrieves the value of the first dose.
     /// \return The first dose value.
     ///
-    double getFirstDoseValue() const;
+    [[nodiscard]] double getFirstDoseValue() const;
 
     ///
     /// \brief Retrieves the text of the second dose.
     /// \return A constant reference to the second dose text.
     ///
-    const std::string& getSecondDoseText() const;
+    [[nodiscard]] const std::string& getSecondDoseText() const;
 
     ///
     /// \brief Retrieves the date of the second dose.
     /// \return A constant reference to the second dose date.
     ///
-    const Common::DateTime& getSecondDoseDate() const;
+    [[nodiscard]] const Common::DateTime& getSecondDoseDate() const;
 
     ///
     /// \brief Retrieves the type of justification.
     /// \return The type of justification (SIMPLE or DOUBLE).
     ///
-    JustificationType getJustificationType() const;
+    [[nodiscard]] JustificationType getJustificationType() const;
 
     ///
     /// \brief Retrieves the sign of justification.
     /// \return The sign of justification (DECREASE, INCREASE, EQUAL, NEW).
     ///
-    JustificationDoseSign getJustificationDoseSign() const;
+    [[nodiscard]] JustificationDoseSign getJustificationDoseSign() const;
 
     ///
     /// \brief Retrieves the sign of justification exposure.
     /// \return The exposure sign (ABOVE, BELOW, EQUAL).
     ///
-    JustificationExposureSign getJustificationExposureSign() const;
+    [[nodiscard]] JustificationExposureSign getJustificationExposureSign() const;
 
     ///
     /// \brief Retrieves the change in dosing interval.
     /// \return The interval change (LOWER, HIGHER, EQUAL, NEW).
     ///
-    JustificationInterval getJustificationInterval() const;
+    [[nodiscard]] JustificationInterval getJustificationInterval() const;
 };
 
 } // namespace Xpert

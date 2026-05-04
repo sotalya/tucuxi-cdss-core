@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "xpertqueryimport.h"
 
-#include "tucucommon/loggerhelper.h"
 #include "tucucommon/xmliterator.h"
 
 #include "tucucdss-core/query/admindata.h"
@@ -25,7 +24,7 @@ Common::IImport::Status XpertQueryImport::importFromFile(
     // Create the xml document from file.
     Tucuxi::Common::XmlDocument document;
     if (!document.open(_fileName)) {
-        setStatus(Status::CantCreateXmlDocument, "file could not be opened");
+        setStatus(Status::CantOpenFile, "file could not be opened");
         return Status::CantOpenFile;
     }
 
@@ -53,7 +52,6 @@ Common::IImport::Status XpertQueryImport::importFromString(unique_ptr<XpertQuery
 Common::IImport::Status XpertQueryImport::importDocument(
         unique_ptr<XpertQueryData>& _query, Common::XmlDocument& _document)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     static const std::string QUERY_ID_NODE_NAME = "queryId";
     static const std::string CLIENT_ID_NODE_NAME = "clientId";
     static const std::string DATE_NODE_NAME = "date";
@@ -69,16 +67,15 @@ Common::IImport::Status XpertQueryImport::importDocument(
         queryId = queryIdIterator->getValue();
     }
 
-    auto clientIdIterator = root.getChildren(QUERY_ID_NODE_NAME);
+    auto clientIdIterator = root.getChildren(CLIENT_ID_NODE_NAME);
     std::string clientId;
-    root.getChildren(CLIENT_ID_NODE_NAME)->getValue();
     if (clientIdIterator->isValid()) {
         clientId = clientIdIterator->getValue();
     }
 
     Common::XmlNodeIterator languageIterator = root.getChildren(LANGUAGE_NODE_NAME);
     std::string language;
-    if (queryIdIterator->isValid()) {
+    if (languageIterator->isValid()) {
         language = languageIterator->getValue();
     }
 
@@ -103,7 +100,7 @@ Common::IImport::Status XpertQueryImport::importDocument(
 
     vector<unique_ptr<XpertRequestData> > requestsXpert;
     while (requestsXpertIterator != Common::XmlNodeIterator::none()) {
-        requestsXpert.emplace_back(createXpertRequesData(requestsXpertIterator));
+        requestsXpert.emplace_back(createXpertRequestData(requestsXpertIterator));
         requestsXpertIterator++;
     }
 
@@ -123,7 +120,7 @@ Common::IImport::Status XpertQueryImport::importDocument(
     }
     else {
         if (!requestsXpert.empty()) {
-            logHelper.warn("Missing query date, replacing it with request date");
+            m_logHelper.warn("Missing query date, replacing it with request date");
             date = requestsXpert.front()->getAdjustmentTime();
             if (getErrorMessage() == "\n<date> not found in xml input\n") {
                 setStatus(Status::Ok);
@@ -146,12 +143,10 @@ Common::IImport::Status XpertQueryImport::importDocument(
 
 unique_ptr<AdminData> XpertQueryImport::createAdminData(Common::XmlDocument& _document)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     static const std::string ADMIN_NODE_NAME = "admin";
     static const std::string MANDATOR_NODE_NAME = "mandator";
     static const std::string PATIENT_NODE_NAME = "patient";
     static const std::string CLINICAL_DATAS_NODE_NAME = "clinicalDatas";
-    std::string birthdate;
 
     Common::XmlNode root = _document.getRoot();
 
@@ -210,11 +205,10 @@ unique_ptr<FullPersonData> XpertQueryImport::createFullPersonData(Common::XmlNod
 }
 
 unique_ptr<PersonData> XpertQueryImport::createPersonData(
-        Common::XmlNodeIterator& _personDataRootIterator, const std::optional<std::string>& _birthdate = std::nullopt)
+        Common::XmlNodeIterator& _personDataRootIterator, const std::optional<std::string>& _birthdate)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     if (!_personDataRootIterator->isValid()) {
-        logHelper.warn("Invalid personal data, setting empty fields");
+        m_logHelper.warn("Invalid personal data, setting empty fields");
         return createEmptyPersonData();
     }
 
@@ -247,8 +241,7 @@ unique_ptr<PersonData> XpertQueryImport::createEmptyPersonData()
     unique_ptr<PhoneData> pPhone = createEmptyPhoneData();
     unique_ptr<EmailData> pEmail = createEmptyEmailData();
 
-    Tucuxi::Common::LoggerHelper logHelper;
-    logHelper.warn("Setting empty person data!");
+    m_logHelper.warn("Setting empty person data!");
 
     return make_unique<PersonData>(
             "", "", "", "", std::move(pAddress), std::move(pPhone), std::move(pEmail), std::nullopt);
@@ -257,7 +250,6 @@ unique_ptr<PersonData> XpertQueryImport::createEmptyPersonData()
 
 std::optional<std::string> XpertQueryImport::extractBirthdate(Common::XmlNode& _root)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     static const std::string DRUGTREATMENT_NODE_NAME = "drugTreatment";
     static const std::string PATIENT_NODE_NAME = "patient";
     static const std::string COVARIATES_NODE_NAME = "covariates";
@@ -294,9 +286,8 @@ std::optional<std::string> XpertQueryImport::extractBirthdate(Common::XmlNode& _
 
 unique_ptr<InstituteData> XpertQueryImport::createInstituteData(Common::XmlNodeIterator& _instituteRootIterator)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     if (!_instituteRootIterator->isValid()) {
-        logHelper.warn("Invalid institute data, setting empty fields");
+        m_logHelper.warn("Invalid institute data, setting empty fields");
         return createEmptyInstituteData();
     }
 
@@ -324,8 +315,7 @@ unique_ptr<InstituteData> XpertQueryImport::createEmptyInstituteData()
     unique_ptr<PhoneData> pPhone = createEmptyPhoneData();
     unique_ptr<EmailData> pEmail = createEmptyEmailData();
 
-    Tucuxi::Common::LoggerHelper logHelper;
-    logHelper.warn("Setting empty institute data!");
+    m_logHelper.warn("Setting empty institute data!");
 
     return make_unique<InstituteData>("", "", std::move(pAddress), std::move(pPhone), std::move(pEmail));
 }
@@ -333,9 +323,8 @@ unique_ptr<InstituteData> XpertQueryImport::createEmptyInstituteData()
 
 unique_ptr<AddressData> XpertQueryImport::createAddressData(Common::XmlNodeIterator& _addressRootIterator)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     if (!_addressRootIterator->isValid()) {
-        logHelper.warn("Invalid address, setting empty fields");
+        m_logHelper.warn("Invalid address, setting empty fields");
         return createEmptyAddressData();
     }
 
@@ -362,9 +351,8 @@ unique_ptr<AddressData> XpertQueryImport::createEmptyAddressData()
 
 unique_ptr<PhoneData> XpertQueryImport::createPhoneData(Common::XmlNodeIterator& _phoneRootIterator)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     if (!_phoneRootIterator->isValid()) {
-        logHelper.warn("Invalid phone data, setting empty fields");
+        m_logHelper.warn("Invalid phone data, setting empty fields");
         return createEmptyPhoneData();
     }
 
@@ -385,9 +373,8 @@ unique_ptr<PhoneData> XpertQueryImport::createEmptyPhoneData()
 
 unique_ptr<EmailData> XpertQueryImport::createEmailData(Common::XmlNodeIterator& _emailRootIterator)
 {
-    Tucuxi::Common::LoggerHelper logHelper;
     if (!_emailRootIterator->isValid()) {
-        logHelper.warn("Invalid e-mail data, setting empty fields");
+        m_logHelper.warn("Invalid e-mail data, setting empty fields");
         return createEmptyEmailData();
     }
 
@@ -427,7 +414,8 @@ unique_ptr<ClinicalDatas> XpertQueryImport::createClinicalDatas(Common::XmlNodeI
     return make_unique<ClinicalDatas>(data);
 }
 
-unique_ptr<XpertRequestData> XpertQueryImport::createXpertRequesData(Common::XmlNodeIterator& _xpertRequestRootIterator)
+unique_ptr<XpertRequestData> XpertQueryImport::createXpertRequestData(
+        Common::XmlNodeIterator& _xpertRequestRootIterator)
 {
     static const std::string DRUG_ID_NODE_NAME = "drugId";
     static const std::string CONFIG_ID_NODE_NAME = "configId";
@@ -444,7 +432,7 @@ unique_ptr<XpertRequestData> XpertQueryImport::createXpertRequesData(Common::Xml
     static const std::string LANGUAGE_NODE_NAME = "language";
 
     std::string formatStr = getChildString(outputRootIterator, FORMAT_NODE_NAME);
-    OutputFormat format;
+    OutputFormat format = OutputFormat::HTML; // Default HTML output
 
     if (formatStr == "xml") {
         format = OutputFormat::XML;
@@ -461,7 +449,7 @@ unique_ptr<XpertRequestData> XpertQueryImport::createXpertRequesData(Common::Xml
 
     std::string languageStr = getChildString(outputRootIterator, LANGUAGE_NODE_NAME);
 
-    OutputLang language;
+    OutputLang language = OutputLang::ENGLISH;
 
     if (languageStr == "en") {
         language = OutputLang::ENGLISH;

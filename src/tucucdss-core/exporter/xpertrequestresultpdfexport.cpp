@@ -10,7 +10,7 @@ namespace Tucuxi {
 namespace Xpert {
 
 XpertRequestResultPdfExport::XpertRequestResultPdfExport(unique_ptr<AbstractHtmlExport> _htmlExport)
-    : m_htmlExport(move(_htmlExport))
+    : m_htmlExport(std::move(_htmlExport))
 {
 }
 

@@ -50,7 +50,7 @@ AbstractXpertFlowStep* GeneralXpertFlowStepProvider::getJustificationCreator() c
     return m_justificationCreator.get();
 }
 
-AbstractXpertFlowStep* GeneralXpertFlowStepProvider::getTDAExporter() const
+AbstractXpertFlowStep* GeneralXpertFlowStepProvider::getTADExporter() const
 {
     return m_tdaExporter.get();
 }

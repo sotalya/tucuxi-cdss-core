@@ -35,23 +35,23 @@ public:
 
     /// \brief Get the street.
     /// \return The name of the street as a string.
-    [[nodiscard]] std::string getStreet() const;
+    [[nodiscard]] const std::string& getStreet() const;
 
     /// \brief Get the postal code.
     /// \return The postal code as a string.
-    [[nodiscard]] std::string getPostalCode() const;
+    [[nodiscard]] const std::string& getPostalCode() const;
 
     /// \brief Get the city.
     /// \return The name of the city as a string.
-    [[nodiscard]] std::string getCity() const;
+    [[nodiscard]] const std::string& getCity() const;
 
     /// \brief Get the state.
     /// \return The name of the state as a string.
-    [[nodiscard]] std::string getState() const;
+    [[nodiscard]] const std::string& getState() const;
 
     /// \brief Gets the country.
     /// \return The name of the country as a string.
-    [[nodiscard]] std::string getCountry() const;
+    [[nodiscard]] const std::string& getCountry() const;
 
 protected:
     /// \brief Street of the address.
@@ -84,11 +84,11 @@ public:
 
     /// \brief Get the phone number.
     /// \return The phone number as a string.
-    [[nodiscard]] std::string getNumber() const;
+    [[nodiscard]] const std::string& getNumber() const;
 
     /// \brief Get the phone number type.
     /// \return The phone number type string.
-    [[nodiscard]] std::string getType() const;
+    [[nodiscard]] const std::string& getType() const;
 
 protected:
     /// \brief Phone number.
@@ -112,11 +112,11 @@ public:
 
     /// \brief Get the email address.
     /// \return The email address as a string.
-    [[nodiscard]] std::string getAddress() const;
+    [[nodiscard]] const std::string& getAddress() const;
 
     /// \brief Get the email address type.
     /// \return The email address type as a string.
-    [[nodiscard]] std::string getType() const;
+    [[nodiscard]] const std::string& getType() const;
 
 protected:
     /// \brief Email address.
@@ -148,7 +148,7 @@ public:
             std::unique_ptr<AddressData> _address,
             std::unique_ptr<PhoneData> _phone,
             std::unique_ptr<EmailData> _email,
-            std::optional<std::string> _birthdate);
+            std::optional<std::string> _birthdate = std::nullopt);
 
     /// \brief Copy constructor is not supported because of unique pointers.
     PersonData(PersonData& _other) = delete;
@@ -157,19 +157,19 @@ public:
 
     /// \brief Get the person's identifier.
     /// \return The person's identifier string.
-    [[nodiscard]] std::string getId() const;
+    [[nodiscard]] const std::string& getId() const;
 
     /// \brief Get the person's title.
     /// \return The person's title string.
-    [[nodiscard]] std::string getTitle() const;
+    [[nodiscard]] const std::string& getTitle() const;
 
     /// \brief Get the person's first name.
     /// \return The person's first name string.
-    [[nodiscard]] std::string getFirstName() const;
+    [[nodiscard]] const std::string& getFirstName() const;
 
     /// \brief Get the person's last name.
     /// \return The person's last name string.
-    [[nodiscard]] std::string getLastName() const;
+    [[nodiscard]] const std::string& getLastName() const;
 
     [[nodiscard]] std::optional<std::string> getBirthdate() const;
 
@@ -236,11 +236,11 @@ public:
 
     /// \brief Get the identifier of the institute.
     /// \return The identifier string of the institute.
-    [[nodiscard]] std::string getId() const;
+    [[nodiscard]] const std::string& getId() const;
 
     /// \brief Get the name of the institute.
     /// \return The name string of the institute.
-    [[nodiscard]] std::string getName() const;
+    [[nodiscard]] const std::string& getName() const;
 
     /// \brief Get the address of the institute.
     /// \return The address of the institute. May be nullptr.

@@ -35,7 +35,7 @@ public:
 
     [[nodiscard]] AbstractXpertFlowStep* getJustificationCreator() const override;
 
-    [[nodiscard]] AbstractXpertFlowStep* getTDAExporter() const override;
+    [[nodiscard]] AbstractXpertFlowStep* getTADExporter() const override;
 
     /// \brief Get the step responsible for doses validation.
     /// \return An instance of DoseValidator.

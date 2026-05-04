@@ -19,27 +19,27 @@ AddressData::AddressData(
 {
 }
 
-std::string AddressData::getStreet() const
+const std::string& AddressData::getStreet() const
 {
     return m_street;
 }
 
-std::string AddressData::getPostalCode() const
+const std::string& AddressData::getPostalCode() const
 {
     return m_postalCode;
 }
 
-std::string AddressData::getCity() const
+const std::string& AddressData::getCity() const
 {
     return m_city;
 }
 
-std::string AddressData::getState() const
+const std::string& AddressData::getState() const
 {
     return m_state;
 }
 
-std::string AddressData::getCountry() const
+const std::string& AddressData::getCountry() const
 {
     return m_country;
 }
@@ -50,12 +50,12 @@ std::string AddressData::getCountry() const
 
 PhoneData::PhoneData(std::string _number, std::string _type) : m_number(std::move(_number)), m_type(std::move(_type)) {}
 
-std::string PhoneData::getNumber() const
+const std::string& PhoneData::getNumber() const
 {
     return m_number;
 }
 
-std::string PhoneData::getType() const
+const std::string& PhoneData::getType() const
 {
     return m_type;
 }
@@ -68,12 +68,12 @@ EmailData::EmailData(std::string _address, std::string _type) : m_address(std::m
 {
 }
 
-std::string EmailData::getAddress() const
+const std::string& EmailData::getAddress() const
 {
     return m_address;
 }
 
-std::string EmailData::getType() const
+const std::string& EmailData::getType() const
 {
     return m_type;
 }
@@ -90,29 +90,29 @@ PersonData::PersonData(
         unique_ptr<AddressData> _address,
         unique_ptr<PhoneData> _phone,
         unique_ptr<EmailData> _email,
-        std::optional<std::string> _birthdate = std::nullopt)
+        std::optional<std::string> _birthdate)
     : m_id(std::move(_id)), m_title(std::move(_title)), m_firstName(std::move(_firstName)),
       m_lastName(std::move(_lastName)), m_address(std::move(_address)), m_phone(std::move(_phone)),
       m_email(std::move(_email)), m_birthdate(std::move(_birthdate))
 {
 }
 
-std::string PersonData::getId() const
+const std::string& PersonData::getId() const
 {
     return m_id;
 }
 
-std::string PersonData::getTitle() const
+const std::string& PersonData::getTitle() const
 {
     return m_title;
 }
 
-std::string PersonData::getFirstName() const
+const std::string& PersonData::getFirstName() const
 {
     return m_firstName;
 }
 
-std::string PersonData::getLastName() const
+const std::string& PersonData::getLastName() const
 {
     return m_lastName;
 }
@@ -137,8 +137,6 @@ const EmailData* PersonData::getEmail() const
     return m_email.get();
 }
 
-// Ajouter birthday !
-
 /**************************************************
  |                InstituteData                   |
  **************************************************/
@@ -154,12 +152,12 @@ InstituteData::InstituteData(
 {
 }
 
-std::string InstituteData::getId() const
+const std::string& InstituteData::getId() const
 {
     return m_id;
 }
 
-std::string InstituteData::getName() const
+const std::string& InstituteData::getName() const
 {
     return m_name;
 }

@@ -39,17 +39,17 @@ Configuration::Configuration(
 {
 }
 
-std::string Configuration::getName() const
+const std::string& Configuration::getName() const
 {
     return m_configName;
 }
 
-std::string Configuration::getDrug() const
+const std::string& Configuration::getDrug() const
 {
     return m_drugId;
 }
 
-std::string Configuration::getDrugModel() const
+const std::string& Configuration::getDrugModel() const
 {
     return m_drugModelId;
 }
@@ -140,7 +140,7 @@ bool ConfigCovariate::isInRange(double _val, const std::vector<Constraint>& _ran
             _range.begin(), _range.end(), [&](const Constraint& _constraint) { return _constraint.evaluate(_val); });
 }
 
-std::string ConfigCovariate::getCovariateId() const
+const std::string& ConfigCovariate::getCovariateId() const
 {
     return m_covariateId;
 }

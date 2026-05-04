@@ -35,7 +35,7 @@ public:
     AbstractXpertFlowStepProvider() = default;
 
     /// \brief Destructor.
-    virtual ~AbstractXpertFlowStepProvider(){};
+    virtual ~AbstractXpertFlowStepProvider(){}; // LCOV_EXCL_LINE
 
     /// \brief Get the step responsible for covariate validation and drug model selection.
     /// \return The corresponding AbstractXpertFlowStep.
@@ -45,7 +45,7 @@ public:
 
     [[nodiscard]] virtual AbstractXpertFlowStep* getJustificationCreator() const = 0;
 
-    [[nodiscard]] virtual AbstractXpertFlowStep* getTDAExporter() const = 0;
+    [[nodiscard]] virtual AbstractXpertFlowStep* getTADExporter() const = 0;
 
     /// \brief Get the step responsible for dose validation.
     /// \return The corresponding AbstractXpertFlowStep.

@@ -53,8 +53,6 @@ public:
             const std::string& _str, Configurations& _configurations, ComputationLimits& _computationLimits);
 
 private:
-    std::vector<Configuration> m_configurations;
-
     const std::vector<std::string>& ignoredTags() const override;
 
     ///

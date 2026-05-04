@@ -37,7 +37,7 @@ DEFAULT_OUT_DIR_PATH = "out"
 LOGFILE_NAME = "000_LOG.txt"
 
 DEFAULT_CDSS_CLI_PATH = "../../build/tucuxi_cdss_cli"
-DEFAULT_DRUG_FILES_DIR = "../../../tucuxi-drugs/drugfiles/"
+DEFAULT_DRUG_FILES_DIR = "../../test/drugfiles/"
 DEFAULT_LANGUAGE_FILES_DIR = "../../language/"
 DEFAULT_HTML_TEMPLATES_DIR = "../../html_template/"
 DEFAULT_TEMPLATE_NAME = "chuv_imatinib_full"

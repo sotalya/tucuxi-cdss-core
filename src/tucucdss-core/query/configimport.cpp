@@ -45,11 +45,11 @@ ConfigImport::Status ConfigImport::importFromString(
 ConfigImport::Status ConfigImport::importDocument(
         Common::XmlDocument& _document, Configurations& _configurations, ComputationLimits& _computationLimits)
 {
-    static const char* CONFIG_ROOT_NAME = "cdssConfig";
-    static const char* CONFIGS_NODE_NAME = "configs";
-    static const char* CONFIG_NODE_NAME = "config";
-    static const char* GENERAL_CONFIG_NODE_NAME = "generalConfig";
-    static const char* COMPUTATION_LIMITS_NODE_NAME = "computationLimits";
+    static constexpr const char* CONFIG_ROOT_NAME = "cdssConfig";
+    static constexpr const char* CONFIGS_NODE_NAME = "configs";
+    static constexpr const char* CONFIG_NODE_NAME = "config";
+    static constexpr const char* GENERAL_CONFIG_NODE_NAME = "generalConfig";
+    static constexpr const char* COMPUTATION_LIMITS_NODE_NAME = "computationLimits";
 
     auto root = _document.getRoot();
     if (root.getName() != CONFIG_ROOT_NAME) {
@@ -65,9 +65,9 @@ ConfigImport::Status ConfigImport::importDocument(
         auto computationLimitsTag = generalConfigTag->getChildren(COMPUTATION_LIMITS_NODE_NAME);
         if (computationLimitsTag->getName() == COMPUTATION_LIMITS_NODE_NAME) {
 
-            static const char* PRED_POINTS_NODE_NAME = "nbPredictionPoints";
-            static const char* PCT_POINTS_NODE_NAME = "nbPercentilesPoints";
-            static const char* DOSAGE_POSSIBILITIES_NODE_NAME = "nbDosagePossibilities";
+            static constexpr const char* PRED_POINTS_NODE_NAME = "nbPredictionPoints";
+            static constexpr const char* PCT_POINTS_NODE_NAME = "nbPercentilesPoints";
+            static constexpr const char* DOSAGE_POSSIBILITIES_NODE_NAME = "nbDosagePossibilities";
 
             auto predPointsConfig = computationLimitsTag->getChildren(PRED_POINTS_NODE_NAME);
             if (predPointsConfig->getName() == PRED_POINTS_NODE_NAME) {

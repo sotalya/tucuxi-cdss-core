@@ -226,7 +226,7 @@ public:
         currentDosageWithScore.m_targetsEvaluation.push_back(currentTarget);
         adjustmentData->setCurrentDosageWithScore(currentDosageWithScore);
 
-        _xpertRequestResult.setAdjustmentData(move(adjustmentData));
+        _xpertRequestResult.setAdjustmentData(std::move(adjustmentData));
     }
 };
 
@@ -919,6 +919,119 @@ TEST_F(JustificationCreatorTest, PerformLastingIntervalLower)
 
     const Justification& justification = xpertRequestResult.getJustification();
     EXPECT_EQ(justification.getJustificationInterval(), JustificationInterval::LOWER);
+}
+
+/// \brief Boundary test: lasting interval exactly 24h.
+TEST_F(JustificationCreatorTest, PerformLastingIntervalExactly24Hours)
+{
+    vector<std::string> models{TestUtils::originalImatinibModelString};
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryDailyDosage, models, xpertQueryResult);
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    Core::LastingDose lastingDose(
+            500.0, Common::TucuUnit("mg"), oralRoute, Common::Duration(), Common::Duration(std::chrono::hours(24)));
+
+    Core::DosageLoop dosageLoop(lastingDose);
+    Common::DateTime adjStart("2024-05-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Common::DateTime adjEnd("2024-06-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+
+    Core::DosageAdjustment adj = buildAdjustment(dosageLoop, adjStart, adjEnd, 950.0, 1000.0, 0.9);
+    setupAdjustmentData(xpertRequestResult, adj, 700.0, 1000.0);
+
+    JustificationCreator justificationCreator;
+    justificationCreator.perform(xpertRequestResult);
+
+    const Justification& justification = xpertRequestResult.getJustification();
+    EXPECT_FALSE(justification.getFirstDoseText().empty());
+}
+
+/// \brief Boundary test: lasting interval strictly between 24h and 168h.
+TEST_F(JustificationCreatorTest, PerformLastingIntervalBetween24And168Hours)
+{
+    vector<std::string> models{TestUtils::originalImatinibModelString};
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryDailyDosage, models, xpertQueryResult);
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    Core::LastingDose lastingDose(
+            500.0, Common::TucuUnit("mg"), oralRoute, Common::Duration(), Common::Duration(std::chrono::hours(48)));
+
+    Core::DosageLoop dosageLoop(lastingDose);
+    Common::DateTime adjStart("2024-05-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Common::DateTime adjEnd("2024-06-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+
+    Core::DosageAdjustment adj = buildAdjustment(dosageLoop, adjStart, adjEnd, 950.0, 1000.0, 0.9);
+    setupAdjustmentData(xpertRequestResult, adj, 700.0, 1000.0);
+
+    JustificationCreator justificationCreator;
+    justificationCreator.perform(xpertRequestResult);
+
+    const Justification& justification = xpertRequestResult.getJustification();
+    EXPECT_FALSE(justification.getFirstDoseText().empty());
+}
+
+/// \brief Boundary test: lasting interval exactly 168h (7 days).
+TEST_F(JustificationCreatorTest, PerformLastingIntervalExactly168Hours)
+{
+    vector<std::string> models{TestUtils::originalImatinibModelString};
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryDailyDosage, models, xpertQueryResult);
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    Core::LastingDose lastingDose(
+            500.0, Common::TucuUnit("mg"), oralRoute, Common::Duration(), Common::Duration(std::chrono::hours(168)));
+
+    Core::DosageLoop dosageLoop(lastingDose);
+    Common::DateTime adjStart("2024-05-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Common::DateTime adjEnd("2024-06-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+
+    Core::DosageAdjustment adj = buildAdjustment(dosageLoop, adjStart, adjEnd, 950.0, 1000.0, 0.9);
+    setupAdjustmentData(xpertRequestResult, adj, 700.0, 1000.0);
+
+    JustificationCreator justificationCreator;
+    justificationCreator.perform(xpertRequestResult);
+
+    const Justification& justification = xpertRequestResult.getJustification();
+    EXPECT_FALSE(justification.getFirstDoseText().empty());
+}
+
+/// \brief Full equal case:
+///        - old dose = new dose
+///        - current exposure = target best
+///        - old interval = new interval
+TEST_F(JustificationCreatorTest, PerformFullJustificationEqual)
+{
+    vector<std::string> models{TestUtils::originalImatinibModelString};
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryDailyDosage, models, xpertQueryResult);
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    Core::DailyDose dailyDose(
+            450.0,
+            Common::TucuUnit("mg"),
+            oralRoute,
+            Common::Duration(),
+            Common::TimeOfDay(Common::Duration(std::chrono::hours(8)) + Common::Duration(std::chrono::minutes(30))));
+
+    Core::DosageLoop dosageLoop(dailyDose);
+    Common::DateTime adjStart("2024-05-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Common::DateTime adjEnd("2024-06-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+
+    Core::DosageAdjustment adj = buildAdjustment(dosageLoop, adjStart, adjEnd, 1000.0, 1000.0, 0.9);
+    setupAdjustmentData(xpertRequestResult, adj, 1000.0, 1000.0);
+
+    JustificationCreator justificationCreator;
+    justificationCreator.perform(xpertRequestResult);
+
+    const Justification& justification = xpertRequestResult.getJustification();
+
+    EXPECT_EQ(justification.getJustificationType(), JustificationType::SIMPLE);
+    EXPECT_EQ(justification.getJustificationDoseSign(), JustificationDoseSign::EQUAL);
+    EXPECT_EQ(justification.getJustificationExposureSign(), JustificationExposureSign::EQUAL);
+    EXPECT_EQ(justification.getJustificationInterval(), JustificationInterval::EQUAL);
+    EXPECT_DOUBLE_EQ(justification.getFirstDoseValue(), 450.0);
+    EXPECT_FALSE(justification.getFirstDoseText().empty());
 }
 
 

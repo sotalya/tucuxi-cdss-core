@@ -519,8 +519,8 @@ TEST_F(XpertQueryResultTest, AdminDataGetter)
 
     // Execute
 
-    XpertQueryResult xpertQueryResultWithEmptyAdmin(move(queryEmptyAdmin), "");
-    XpertQueryResult xpertQueryResultWithFullAdmin(move(queryCompleteAdmin), "");
+    XpertQueryResult xpertQueryResultWithEmptyAdmin(std::move(queryEmptyAdmin), "");
+    XpertQueryResult xpertQueryResultWithFullAdmin(std::move(queryCompleteAdmin), "");
 
     // Compare
 
@@ -632,7 +632,7 @@ TEST_F(XpertQueryResultTest, XpertRequestResultGetter)
     XpertQueryImport::Status importResult = importer.importFromString(query, queryStringCorrectValuesPart);
 
     // Execute
-    XpertQueryResult xpertQueryResult(move(query), "");
+    XpertQueryResult xpertQueryResult(std::move(query), "");
 
     // Compare
     EXPECT_EQ(importResult, XpertQueryImport::Status::Ok);
@@ -670,7 +670,7 @@ TEST_F(XpertQueryResultTest, XpertRequestDataRetriever)
     XpertQueryImport::Status importResult = importer.importFromString(query, queryStringCorrectValuesFull);
 
     // Execute
-    XpertQueryResult xpertQueryResult(move(query), "");
+    XpertQueryResult xpertQueryResult(std::move(query), "");
 
     // Compare
     EXPECT_EQ(importResult, XpertQueryImport::Status::Ok);
@@ -722,7 +722,7 @@ TEST_F(XpertQueryResultTest, ComputationTimeRetriever)
     XpertQueryImport::Status importResult = importer.importFromString(query, queryStringCorrectDateTime);
 
     // Execute
-    XpertQueryResult xpertQueryResult(move(query), "");
+    XpertQueryResult xpertQueryResult(std::move(query), "");
 
     // Compare
     EXPECT_EQ(importResult, XpertQueryImport::Status::Ok);

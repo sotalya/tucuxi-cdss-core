@@ -21,6 +21,12 @@ static uint32_t const NB_LOOKBACK_HOURS = 48;
 
 void PADCollector::perform(XpertRequestResult& _xpertRequestResult)
 {
+    // Check if there is a drug model.
+    if (_xpertRequestResult.getDrugModel() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No drug model set.");
+        return;
+    }
+
     // Check if there is a treatment.
     if (_xpertRequestResult.getTreatment() == nullptr) {
         _xpertRequestResult.setErrorMessage("No treatment set.");
@@ -34,9 +40,8 @@ void PADCollector::perform(XpertRequestResult& _xpertRequestResult)
         return;
     }
 
-    // Check if there is a drug model.
-    if (_xpertRequestResult.getDrugModel() == nullptr) {
-        _xpertRequestResult.setErrorMessage("No drug model set.");
+    if (_xpertRequestResult.getTreatment()->getDosageHistory().isEmpty()) {
+        // If no dosage history there is no way to compute the pre-adjustments PK parameters
         return;
     }
 
@@ -45,7 +50,7 @@ void PADCollector::perform(XpertRequestResult& _xpertRequestResult)
 
     // Compute pre-adjustment apriori data.
     std::string responseId;
-    Core::PercentileRanks ranks(100);
+    Core::PercentileRanks ranks(99);
     iota(ranks.begin(), ranks.end(), 1);
     double nbPointsPerHour = 20;
 

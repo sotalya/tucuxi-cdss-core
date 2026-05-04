@@ -121,17 +121,19 @@ std::string XpertRequestResultHtmlExport::makeHtmlString(
             json["samples"],
             json["treatment"]);
 
-    if (_xpertRequestResult.getAdjustmentData() == nullptr || _xpertRequestResult.getCycleStats().getStats().size() == 0
+    getAdjustmentsJson(_xpertRequestResult.getAdjustmentData(), json["adjustments"]);
+    if (_xpertRequestResult.getAdjustmentData() != nullptr) {
+        getTargetsJson(_xpertRequestResult.getAdjustmentData(), json["targets"]);
+        getGraphDataJson(_xpertRequestResult, json["graph_data"]);
+    }
+    getParametersJson(_xpertRequestResult, json["pks"]);
+
+    if (_xpertRequestResult.getAdjustmentData() == nullptr || _xpertRequestResult.getCycleStats().getStats().empty()
         || _xpertRequestResult.getPADAposterioriConcentrations() == nullptr) {
-        getAdjustmentsJson(_xpertRequestResult.getAdjustmentData(), json["adjustments"]);
     }
     else {
-        getAdjustmentsJson(_xpertRequestResult.getAdjustmentData(), json["adjustments"]);
-        getTargetsJson(_xpertRequestResult.getAdjustmentData(), json["targets"]);
-        getParametersJson(_xpertRequestResult, json["pks"]);
         getPredictionsJson(_xpertRequestResult, json["predictions"]);
         getComputationCovariatesJson(_xpertRequestResult, json["computation_covariates"]);
-        getGraphDataJson(_xpertRequestResult, json["graph_data"]);
         getCompGraphDataJson(_xpertRequestResult, json["compgraph_data"]);
         getPDAAprioriGraphDataJson(_xpertRequestResult, json["pda_apriori_data"]);
         getPDAAposterioriGraphDataJson(_xpertRequestResult, json["pda_aposteriori_data"]);
@@ -530,11 +532,9 @@ void XpertRequestResultHtmlExport::getTimeRangeJson(
         const Core::DosageTimeRange* _timeRange, inja::json& _dosageTimeRangeJson) const
 {
     // Set date from value
-    stringstream fromDateStream;
     _dosageTimeRangeJson["date_from"] = dateTimeToString(_timeRange->getStartDate());
 
     // Set date to value
-    stringstream toDateStream;
     _dosageTimeRangeJson["date_to"] = dateTimeToString(_timeRange->getEndDate());
 
     getAbstractDosageJson(*_timeRange->getDosage(), _dosageTimeRangeJson, "");
@@ -570,8 +570,6 @@ void XpertRequestResultHtmlExport::getDosageJson(
         const std::string& _dosageIndicationChain) const
 {
     LanguageManager& langMgr = LanguageManager::getInstance();
-
-    stringstream offsetStream;
 
     auto dosageList = _dosage.getDosageList();
     auto formulationAndRoute = dosageList.back().getFormulationAndRoute();
@@ -628,8 +626,6 @@ void XpertRequestResultHtmlExport::getDosageJson(
         const std::string& _dosageIndicationChain) const
 {
     LanguageManager& langMgr = LanguageManager::getInstance();
-
-    stringstream offsetStream;
 
     auto dosageList = _dosage.getDosageList();
     auto formulationAndRoute = _dosage.getFormulationAndRoute();
@@ -856,21 +852,27 @@ void XpertRequestResultHtmlExport::getSingleDoseJson(
     _dosageTimeRangeJson["single_doses"].emplace_back(singleDoseJson);
 }
 
-std::optional<std::string> XpertRequestResultHtmlExport::get_dosage(const inja::json& j) const
+std::optional<std::string> XpertRequestResultHtmlExport::get_dosage(const inja::json& _j) const
 {
-    if (!j.contains("dosage_time_ranges") || !j["dosage_time_ranges"].is_array())
+    if (!_j.contains("dosage_time_ranges") || !_j["dosage_time_ranges"].is_array()) {
         return std::nullopt;
-    if (j["dosage_time_ranges"].empty())
+    }
+    if (_j["dosage_time_ranges"].empty()) {
         return std::nullopt;
-    const auto& firstRange = j["dosage_time_ranges"][0];
+    }
 
-    if (!firstRange.contains("single_doses") || !firstRange["single_doses"].is_array())
+    const auto& firstRange = _j["dosage_time_ranges"][0];
+
+    if (!firstRange.contains("single_doses") || !firstRange["single_doses"].is_array()) {
         return std::nullopt;
-    if (firstRange["single_doses"].empty())
+    }
+    if (firstRange["single_doses"].empty()) {
         return std::nullopt;
+    }
     const auto& firstDose = firstRange["single_doses"][0];
-    if (!firstDose.contains("dosage") || !firstDose["dosage"].is_string())
+    if (!firstDose.contains("dosage") || !firstDose["dosage"].is_string()) {
         return std::nullopt;
+    }
 
     return firstDose["dosage"].get<std::string>();
 }
@@ -903,7 +905,6 @@ void XpertRequestResultHtmlExport::getSamplesJson(
         const auto& sampleValidationResult = _sampleResults.at(i);
 
         // Get the sample date
-        stringstream dateStream;
         sampleJson["date"] = dateTimeToString(sampleValidationResult.getSource()->getDate());
 
         // Get the sample measure
@@ -929,20 +930,20 @@ void XpertRequestResultHtmlExport::getSamplesJson(
         }
 
         if (i + 1 == _sampleResults.size()) {
-            std::string dosage_string = "";
+            std::string dosageString;
             auto dosage = get_dosage(_treatmentJson);
 
             if (dosage) {
-                dosage_string = *dosage;
+                dosageString = *dosage;
             }
             else {
                 // Valeur absente ou type incorrect
             }
-            sampleJson["warning_sentence"] = _sampleResults.at(i).computePercentileSentence(
+            sampleJson["warning_sentence"] = SampleValidationResult::computePercentileSentence(
                     sampleValidationResult.getGroupNumberOver99Percentile(),
                     sampleValidationResult.getSource()->getValue(),
                     sampleValidationResult.getSource()->getUnit().toString(),
-                    dosage_string,
+                    dosageString,
                     sampleValidationResult.isAscending());
         }
 
@@ -1490,10 +1491,10 @@ void XpertRequestResultHtmlExport::getPDAAprioriGraphDataJson(
 {
     auto percentilesResult = _xpertRequestResult.getPADAprioriPercentiles();
 
-    std::vector<int> tab_rank = {5, 10, 25, 50, 75, 90, 95};
+    std::vector<int> tabRank = {5, 10, 25, 50, 75, 90, 95};
 
     // For each rank, iterate on 24h periods and retrieve time and values.
-    for (int rank : tab_rank) {
+    for (int rank : tabRank) {
         // for (size_t rank = 1; rank <= 99; ++rank) {
         auto percentileData = percentilesResult->getPercentileData(rank);
         for (const auto& period : percentileData) {

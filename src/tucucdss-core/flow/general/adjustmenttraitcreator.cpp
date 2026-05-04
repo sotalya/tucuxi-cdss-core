@@ -43,12 +43,12 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
             _xpertRequestResult.getDrugModel()->getFormulationAndRoutes();
     const Core::FullFormulationAndRoute* fullFormulationAndRoute = nullptr;
 
-    // If there is not treatment, get the default formulation and route.
+    // If there is no treatment, get the default formulation and route.
     if (_xpertRequestResult.getTreatment()->getDosageHistory().isEmpty()) {
         fullFormulationAndRoute = modelFormulationsAndRoutes.getDefault();
-        // Else find the corresponding one.
     }
     else {
+        // Else find the corresponding one.
         fullFormulationAndRoute = modelFormulationsAndRoutes.get(
                 _xpertRequestResult.getTreatment()->getDosageHistory().getLastFormulationAndRoute());
     }

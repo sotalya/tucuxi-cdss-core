@@ -82,11 +82,11 @@ public:
 
     /// \brief Get the identifier of the drug to adjust.
     /// \return The drug identifier.
-    [[nodiscard]] std::string getDrugId() const;
+    [[nodiscard]] const std::string& getDrugId() const;
 
     /// \brief Get the identifier of configuration.
     /// \return The configuration identifier
-    [[nodiscard]] std::string getConfigId() const;
+    [[nodiscard]] const std::string& getConfigId() const;
 
     /// \brief Get the output format of the report.
     /// \return The output format of the report.
@@ -116,8 +116,6 @@ public:
     /// \return The formulation and route selection option.
     [[nodiscard]] Core::FormulationAndRouteSelectionOption getFormulationAndRouteSelectionOption() const;
 
-
-    // [[nodiscard]] bool setConfiguration(const ConfigImport& importer);
 protected:
     /// \brief Identifier of the drug that TuberXpert must use.
     std::string m_drugId;
@@ -145,8 +143,6 @@ protected:
 
     /// \brief Identifier of the configuration
     std::string m_configId;
-
-    // Configuration m_configuration;
 };
 
 } // namespace Xpert

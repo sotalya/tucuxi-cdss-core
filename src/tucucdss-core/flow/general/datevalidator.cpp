@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+#include <cmath>
 #include <memory>
 
 #include "datevalidator.h"
@@ -15,7 +16,7 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-#define NUM_HALF_LIVES 5
+constexpr int NUM_HALF_LIVES = 5;
 
 void DateValidator::perform(XpertRequestResult& _xpertRequestResult)
 {
@@ -53,7 +54,7 @@ void DateValidator::perform(XpertRequestResult& _xpertRequestResult)
                 + std::string("], skipping dates validation"));
         return;
     }
-    Common::Duration halfLife = Common::Duration(std::chrono::seconds(static_cast<long>(halfLifeSeconds + 0.5)));
+    Common::Duration halfLife = Common::Duration(std::chrono::seconds(std::lround(halfLifeSeconds)));
 
     // Retrieve the dosage history.
     Core::DosageHistory const& dosageHistory = _xpertRequestResult.getTreatment()->getDosageHistory();
@@ -101,16 +102,14 @@ void DateValidator::perform(XpertRequestResult& _xpertRequestResult)
             _xpertRequestResult.setErrorMessage(LanguageManager::getInstance().translate("meas_after_adj"));
             return;
         }
-        else {
-            --it; // last date <= adjustmentDate
-            if (*it + halfLife * NUM_HALF_LIVES < adjustmentDate) {
-                std::string warning = LanguageManager::getInstance().translate("meas_too_far_adj");
-                logHelper.warn(
-                        std::string("Sample with date ") + it->str()
-                        + std::string(" is too far from the adjustment date"));
-                Core::Sample const* const samplePtr = findSampleByDate(samples, *it);
-                sampleResults.push_back(SampleDateValidationResult(samplePtr, warning, WarningLevel::NORMAL));
-            }
+
+        --it; // last date <= adjustmentDate
+        if (*it + halfLife * NUM_HALF_LIVES < adjustmentDate) {
+            std::string warning = LanguageManager::getInstance().translate("meas_too_far_adj");
+            logHelper.warn(
+                    std::string("Sample with date ") + it->str() + std::string(" is too far from the adjustment date"));
+            Core::Sample const* const samplePtr = findSampleByDate(samples, *it);
+            sampleResults.push_back(SampleDateValidationResult(samplePtr, warning, WarningLevel::NORMAL));
         }
     }
 
@@ -258,6 +257,7 @@ std::vector<Common::DateTime> DateValidator::extractDoseDates(
     std::vector<Common::DateTime> doseDates;
     auto dosageList = _singleDoseAtTimeList.getDosageList();
 
+    doseDates.reserve(dosageList.size());
     for (auto const& dosage : dosageList) {
         doseDates.push_back(dosage.getDateTime());
     }
@@ -271,7 +271,7 @@ std::vector<Common::DateTime> DateValidator::extractDoseDates(
 {
     std::vector<Common::DateTime> doseDates;
     auto dosageList = _simpleDoseList.getDosageList();
-
+    doseDates.reserve(dosageList.size());
     for (auto const& dosage : dosageList) {
         doseDates.push_back(dosage.getDateTime());
     }

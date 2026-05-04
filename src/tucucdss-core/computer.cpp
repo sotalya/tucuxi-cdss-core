@@ -84,7 +84,7 @@ ComputingStatus Computer::computeFromString(const ComputingConfig& _config, cons
     Tucuxi::Core::SingleOverloadEvaluator::getInstance()->setValues(
             computationLimits.getPredPointsNo(),
             computationLimits.getPctPointsNo(),
-            computationLimits.getDosagePossibilitiesNo());
+            static_cast<int>(computationLimits.getDosagePossibilitiesNo()));
 
     XpertQueryResult xpertQueryResult(
             std::move(query), _config.outputPath, _config.templateName, _config.templatePath, _config.jsonDump);
@@ -145,7 +145,6 @@ void Computer::executeFlow(
         const ComputingConfig& _config,
         const AbstractXpertFlowStepProvider& _stepProvider) const
 {
-
     Common::LoggerHelper logHelper;
 
     /**************************************************************
@@ -159,6 +158,7 @@ void Computer::executeFlow(
 
     logHelper.info("Extraction succeed.");
 
+
     /**************************************************************
      *                Loading the translations file                *
      * ************************************************************/
@@ -169,7 +169,7 @@ void Computer::executeFlow(
 
     try {
         std::string translationsFileName;
-        if (_config.language != "") {
+        if (!_config.language.empty()) {
             translationsFileName = _config.languagePath + DIR_SEPARATOR + _config.language + ".xml";
         }
         else {
@@ -197,6 +197,7 @@ void Computer::executeFlow(
         return;
     }
 
+
     /**************************************************************
      *        Drug model selection and covariates validation      *
      * ************************************************************/
@@ -220,6 +221,7 @@ void Computer::executeFlow(
     logHelper.info(
             "Covariates validated and drug model selected: " + _xpertRequestResult.getDrugModel()->getDrugModelId());
 
+
     /**************************************************************
      *                        Doses validation                    *
      * ************************************************************/
@@ -233,6 +235,7 @@ void Computer::executeFlow(
     }
 
     logHelper.info("Dosages successfully validated.");
+
 
     /**************************************************************
      *                       Samples validation                   *
@@ -285,6 +288,19 @@ void Computer::executeFlow(
     }
 
 
+    /**************************************************************
+     *                     TAD Calculation                        *
+     * ************************************************************/
+    logHelper.info("Calculation of the TAD...");
+    // This step is in a try-catch block because this is where we catch potential
+    // issues with doses.
+    try {
+        _stepProvider.getTADExporter()->perform(_xpertRequestResult);
+    }
+    catch (const std::exception& e) {
+        return;
+    }
+
 
     /**************************************************************
      *                  Creating adjustment trait                 *
@@ -318,18 +334,6 @@ void Computer::executeFlow(
         logHelper.info("Adjustment request submission succeed.");
     }
 
-    /**************************************************************
-     *                     TDA Calculation                        *
-     * ************************************************************/
-    logHelper.info("Calculation of the TDA..");
-    // This step is in a try-catch block because this is where we catch potential
-    // issues with doses.
-    try {
-        _stepProvider.getTDAExporter()->perform(_xpertRequestResult);
-    }
-    catch (const std::exception& e) {
-        return;
-    }
 
     /**************************************************************
      *                     Pre-adjustment data collection         *
@@ -337,11 +341,13 @@ void Computer::executeFlow(
     logHelper.info("Calculation of pre-adjustment data...");
     _stepProvider.getPADCollector()->perform(_xpertRequestResult);
 
+
     /**************************************************************
      *                     Justification Creation                 *
      * ************************************************************/
     logHelper.info("Creation of justification sentence..");
     _stepProvider.getJustificationCreator()->perform(_xpertRequestResult);
+
 
     /**************************************************************
      *                      Report generation                     *

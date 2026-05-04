@@ -70,11 +70,11 @@ public:
     [[nodiscard]] bool isAscending() const;
 
     static std::string computePercentileSentence(
-            unsigned percentile,
-            double sampleValue,
-            const std::string& sampleUnit,
-            const std::string& doseText,
-            bool isAscending);
+            unsigned _percentile,
+            double _sampleValue,
+            const std::string& _sampleUnit,
+            const std::string& _doseText,
+            bool _isAscending);
 
 protected:
     /// \brief Compute a warning message based on a group position number.
@@ -84,7 +84,7 @@ protected:
     /// \return The warning message for the group position number. May be emptry string.
     static std::string computeWarning(unsigned _groupNumberOver99Percentile);
 
-    static PercentileBucket bucketOf(unsigned percentile);
+    static PercentileBucket bucketOf(unsigned _percentile);
 
     /// \brief Position of the group on the 99 percentiles.
     unsigned m_groupNumberOver99Percentile;
