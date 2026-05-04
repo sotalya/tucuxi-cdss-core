@@ -72,25 +72,13 @@ Queries are expressed as XML documents following the Tucuxi query schema. The `X
 
 Full documentation is located in the [`docs/`](docs/) folder and is built with [Sphinx](https://www.sphinx-doc.org/). It covers:
 
-| Section | Content |
-|---|---|
-| [Introduction](docs/source/01_introduction/) | Project background and motivation |
-| [Overview](docs/source/02_overview/) | High-level system description |
-| [Architecture](docs/source/03_architecture/) | Component design and data flow |
-| [Installation](docs/source/04_installation/) | Detailed setup instructions |
-| [Configuration](docs/source/05_configuration/) | Drug model and system configuration |
-| [User Guide](docs/source/06_user_guide/) | How to run queries and interpret results |
-| [Data](docs/source/07_data/) | Input/output data formats |
-| [SRS](docs/source/08_srs/) | Software Requirements Specification |
-| [SDS](docs/source/09_sds/) | Software Design Specification |
-| [V&V Plan](docs/source/10_vvp/) | Verification & Validation Plan |
-| [Testing](docs/source/11_testing/) | Test strategy and results |
-
 To build the HTML documentation locally:
 ```sh
 ./scripts/linux/run doc
 ```
 The output is written to `build/docs/`.
+
+You can however access the last documenation build here: https://tucuxi-cdss-core.readthedocs.io/en/latest/
 
 ---
 
