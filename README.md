@@ -11,6 +11,7 @@ This is part of the Tucuxi ecosystem. It wraps [tucuxi-core](https://github.com/
 > git clone --recursive <repository-url>
 > ```
 
+The last documentation version is available here: https://tucuxi-cdss-core.readthedocs.io/en/latest/
 ---
 
 ## Table of Contents
@@ -100,7 +101,7 @@ All other dependencies (nlohmann/json, inja, tucuxi-core) are included as submod
 
 The project ships a `run` helper script that wraps all build, test, and tooling commands.
 
-**Linux** — quick start:
+**Linux/MacOS** — quick start:
 ```sh
 ./scripts/linux/run setup    # copy git hooks
 ./scripts/linux/run build    # configure + build (debug by default)
@@ -118,8 +119,6 @@ For the full list of available commands (`build`, `build-unittest`, `run-unittes
 ```sh
 ./scripts/linux/run help
 ```
-
-Full build and CI documentation is in [`scripts/linux/common/common.sh`](scripts/linux/common/common.sh) and the per-command scripts under [`scripts/linux/commands/`](scripts/linux/commands/).
 
 ---
 
@@ -177,16 +176,15 @@ See [CITATION.cff](CITATION.cff) for a machine-readable citation.
 
 ## Authors
 
-- Yann Thoma — [yann.thoma@heig-vd.ch](mailto:yann.thoma@heig-vd.ch) — HEIG-VD, HES-SO
-- Roberto Rigamonti — [roberto.rigamonti@heig-vd.ch](mailto:roberto.rigamonti@heig-vd.ch) — HEIG-VD, HES-SO
-- Bruno Da Rocha Carvalho — [bruno.darochacarvalho@heig-vd.ch](mailto:bruno.darochacarvalho@heig-vd.ch) — HEIG-VD, HES-SO
+- Yann Thoma — HEIG-VD, HES-SO (maintainer)
+- Roberto Rigamonti — HEIG-VD, HES-SO
+- Bruno Da Rocha Carvalho — HEIG-VD, HES-SO
 - Melvyn Herzig
 - Annie E. Cathignol
-- Yuan J. Pétermann
 
 See [AUTHORS.md](AUTHORS.md) and [CONTRIBUTORS.md](CONTRIBUTORS.md) for the full list.
 
-This work is funded by the **Swiss National Science Foundation**.
+The initial version ot this work has funded by the **Swiss National Science Foundation**.
 
 ---
 
