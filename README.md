@@ -21,8 +21,6 @@ The last documentation version is available here: https://tucuxi-cdss-core.readt
 - [Documentation](#documentation)
 - [Requirements](#requirements)
 - [Building](#building)
-  - [Linux](#linux)
-  - [Windows](#windows)
 - [Running the Tests](#running-the-tests)
 - [Usage](#usage)
 - [Citation](#citation)
