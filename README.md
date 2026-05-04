@@ -27,6 +27,7 @@ The last documentation version is available here: https://tucuxi-cdss-core.readt
 - [Usage](#usage)
 - [Citation](#citation)
 - [Authors](#authors)
+- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -185,6 +186,12 @@ See [CITATION.cff](CITATION.cff) for a machine-readable citation.
 See [AUTHORS.md](AUTHORS.md) and [CONTRIBUTORS.md](CONTRIBUTORS.md) for the full list.
 
 The initial version ot this work has funded by the **Swiss National Science Foundation**.
+
+---
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on setting up your environment, code style, commit message conventions, and how to submit a pull request.
 
 ---
 
