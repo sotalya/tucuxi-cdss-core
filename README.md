@@ -2,7 +2,7 @@
 
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
 
-A configurable **Clinical Decision Support System (CDSS)** for **Model-Informed Precision Dosing (MIPD)** and **Therapeutic Drug Monitoring (TDM)**. Given a patient's drug treatment history and pharmacokinetic/pharmacodynamic (PK/PD) drug models, Tucuxi-CDSS-Core predicts drug concentrations in blood and automatically proposes dosage adaptations. The output consists in an HTML report or of a more structure XML file.
+A configurable **Clinical Decision Support System (CDSS)** for **Model-Informed Precision Dosing (MIPD)** and **Therapeutic Drug Monitoring (TDM)**. Given a patient's drug treatment history and pharmacokinetic (PK) drug models, Tucuxi-CDSS-Core predicts drug concentrations in blood and automatically proposes dosage adaptations. The output consists in an HTML report or of a more structure XML file.
 
 This is part of the Tucuxi ecosystem. It wraps [tucuxi-core](https://github.com/sotalya/tucuxi-core) (the PK computation engine) and [tucuquery](libs/tucuxi-core) (the query layer) with a higher-level Xpert query/result pipeline suited for integration into hospital clinical decision support workflows.
 
@@ -32,10 +32,9 @@ This is part of the Tucuxi ecosystem. It wraps [tucuxi-core](https://github.com/
 
 ## Features
 
-- Drug concentration **prediction** using population PK/PD models
+- Drug concentration **prediction** using population PK models
 - Automatic **dosage adaptation** proposals (a posteriori Bayesian estimation)
 - Configurable per-drug decision rules via XML configuration files
-- **Multi-drug, multi-request** query processing in a single call
 - HTML report generation from customisable Jinja2-style templates
 - Cross-platform: Linux, Windows, macOS
 
