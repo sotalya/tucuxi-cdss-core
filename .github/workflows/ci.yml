@@ -98,7 +98,7 @@ jobs:
         run: |
           ./scripts/linux/run clean
           ./scripts/linux/run build --debug
-          ./scripts/linux/run unittest
+          ./scripts/linux/run run-unittest
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -129,7 +129,7 @@ jobs:
         run: |
           ./scripts/linux/run clean
           ./scripts/linux/run build --release
-          ./scripts/linux/run unittest
+          ./scripts/linux/run run-unittest
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -226,7 +226,7 @@ jobs:
         run: |
           ./scripts/linux/run clean
           ./scripts/linux/run build --release
-          ./scripts/linux/run unittest
+          ./scripts/linux/run run-unittest
 
       - uses: actions/upload-artifact@v4
         if: always()
