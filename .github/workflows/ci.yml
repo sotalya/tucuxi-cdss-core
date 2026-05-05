@@ -100,12 +100,6 @@ jobs:
           ./scripts/linux/run build --debug
           ./scripts/linux/run run-unittest
 
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: linux-debug-build
-          path: build/
-
   test-linux-pr-to-main:
     name: Linux release test PR -> main
     runs-on: ubuntu-latest
@@ -130,12 +124,6 @@ jobs:
           ./scripts/linux/run clean
           ./scripts/linux/run build --release
           ./scripts/linux/run run-unittest
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: linux-release-build-pr-main
-          path: build/
 
   nightly-dev:
     name: Nightly dev validations
@@ -167,10 +155,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: nightly-coverage
-          path: |
-            build/
-            build/coverage/
+          name: nightly-coverage-html
+          path: build/coverage/html/
+          if-no-files-found: error
 
   release-guard:
     name: Release guard
@@ -229,13 +216,10 @@ jobs:
           ./scripts/linux/run run-unittest
 
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: release-linux
-          path: |
-            build/
-            dist/
-          if-no-files-found: ignore
+          name: tucuxi-cdss-cli-linux
+          path: build/release/main/tucuxi_cdss_cli
+          if-no-files-found: error
 
   release-windows:
     name: Release Windows build
@@ -255,10 +239,35 @@ jobs:
           .\scripts\win\run.ps1 gtest
 
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: release-windows
-          path: |
-            build/
-            dist/
-          if-no-files-found: ignore
+          name: tucuxi-cdss-cli-windows
+          path: build\release\main\tucuxi_cdss_cli.exe
+          if-no-files-found: error
+    
+  release-macos:
+    name: Release macOS build
+    runs-on: macos-latest
+    needs: release-guard
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install deps
+        shell: bash
+        run: |
+          brew install cmake ninja
+
+      - name: Build release macOS
+        shell: bash
+        run: |
+          ./scripts/linux/run clean
+          ./scripts/linux/run build --release
+          ./scripts/linux/run run-unittest
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tucuxi-cdss-cli-macos
+          path: build/release/main/tucuxi_cdss_cli
+          if-no-files-found: error
