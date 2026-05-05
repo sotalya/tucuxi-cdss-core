@@ -236,7 +236,7 @@ jobs:
         run: |
           .\scripts\win\run.ps1 clean
           .\scripts\win\run.ps1 build --release
-          .\scripts\win\run.ps1 gtest
+          .\scripts\win\run.ps1 run-gtest
 
       - uses: actions/upload-artifact@v4
         with:
