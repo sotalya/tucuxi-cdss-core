@@ -12,7 +12,7 @@ on:
       - "v*.*.*"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   guard-pr-to-dev:
@@ -271,3 +271,36 @@ jobs:
           name: tucuxi-cdss-cli-macos
           path: build/release/main/tucuxi_cdss_cli
           if-no-files-found: error
+  
+  publish-release:
+    name: Publish GitHub Release
+    runs-on: ubuntu-latest
+    needs:
+      - release-linux
+      - release-windows
+      - release-macos
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Rename release assets
+        shell: bash
+        run: |
+          mkdir release-assets
+
+          cp artifacts/tucuxi-cdss-cli-linux/tucuxi_cdss_cli \
+            release-assets/tucuxi_cdss_cli-${GITHUB_REF_NAME}-linux
+
+          cp artifacts/tucuxi-cdss-cli-macos/tucuxi_cdss_cli \
+            release-assets/tucuxi_cdss_cli-${GITHUB_REF_NAME}-macos
+
+          cp artifacts/tucuxi-cdss-cli-windows/tucuxi_cdss_cli.exe \
+            release-assets/tucuxi_cdss_cli-${GITHUB_REF_NAME}-windows.exe
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*
+          generate_release_notes: true
