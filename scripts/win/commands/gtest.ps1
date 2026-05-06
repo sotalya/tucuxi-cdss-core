@@ -6,7 +6,7 @@ function cmd_build_gtest {
 
     Write-Host "==> Building gtests ($script:CONFIG)"
     cmake -S "$script:REPO_ROOT\test\gtest" -B $script:GTEST_BUILD_DIR `
-        -DCMAKE_BUILD_TYPE=$buildType
+        "-DCMAKE_BUILD_TYPE=$buildType"
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
     cmake --build $script:GTEST_BUILD_DIR -j $nproc
