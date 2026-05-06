@@ -14,8 +14,9 @@ function cmd_build_gtest {
 }
 
 function cmd_run_gtest {
-    $exe = "$script:GTEST_BUILD_DIR\tucu-cdss-tests.exe"
-
+    $buildType = cmake_build_type
+    $exe = "$script:GTEST_BUILD_DIR\$buildType\tucu-cdss-tests.exe"
+    Write-Host "exe: $exe"
     Write-Host "==> Running gtests ($script:CONFIG)"
     if (-not (Test-Path $exe)) {
         Write-Host "==> gtest binary not found, building first..."
