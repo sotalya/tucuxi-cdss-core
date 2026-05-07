@@ -241,7 +241,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: tucuxi-cdss-cli-windows
-          path: build\release\main\tucuxi_cdss_cli.exe
+          path: build_win\release\main\tucuxi_cdss_cli.exe
           if-no-files-found: error
     
   release-macos:
