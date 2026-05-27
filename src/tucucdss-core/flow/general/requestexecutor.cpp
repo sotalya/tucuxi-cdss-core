@@ -89,6 +89,12 @@ void RequestExecutor::perform(XpertRequestResult& _xpertRequestResult)
                     std::move(concTrait), _xpertRequestResult, treatment, concResult);
         }
 
+        if (concResult == nullptr || concResult->getData().empty()) {
+            _xpertRequestResult.setErrorMessage("Failed to extract parameters for the "
+                                                "current prediction type.");
+            return;
+        }
+
         _xpertRequestResult.addParameters(concResult->getData().front().m_parameters);
     }
 
