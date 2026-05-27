@@ -640,8 +640,7 @@ Core::AdjustmentWithCurrentDosageOption XpertQueryImport::getChildAdjustmentWith
 
     static map<std::string, Core::AdjustmentWithCurrentDosageOption> m = {
             {"alwaysAdjust", Core::AdjustmentWithCurrentDosageOption::AlwaysAdjust},
-            {"dontAdjustIfCurrentInRange",
-             Core::AdjustmentWithCurrentDosageOption::DontAdjustIfCurrentInRange}};
+            {"dontAdjustIfCurrentInRange", Core::AdjustmentWithCurrentDosageOption::DontAdjustIfCurrentInRange}};
 
     std::string value = adjustmentWithCurrentDosageOptionRootIterator->getValue();
     auto it = m.find(value);
