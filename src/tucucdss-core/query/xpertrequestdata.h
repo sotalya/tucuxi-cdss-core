@@ -64,7 +64,8 @@ public:
     /// \param _loadingOption Define whether a loading dose can be offered.
     /// \param _restPeriodOption Define whether a rest period can be offered.
     /// \param _targetExtractionOption Define the target extraction option.
-    /// \param _formulationAndRouteSelectionOption Define the selection of the formulation and route option
+    /// \param _formulationAndRouteSelectionOption Define the selection of the formulation and route option.
+    /// \param _adjustmentWithCurrentDosageOption Define whether to skip adjustment if current dosage is in range.
     /// \param _configId Identifier of the configuration
     XpertRequestData(
             std::string _drugId,
@@ -75,6 +76,7 @@ public:
             RestPeriodOption _restPeriodOption,
             Core::TargetExtractionOption _targetExtractionOption,
             Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption,
+            Core::AdjustmentWithCurrentDosageOption _adjustmentWithCurrentDosageOption,
             std::string _configId);
 
 
@@ -116,6 +118,10 @@ public:
     /// \return The formulation and route selection option.
     [[nodiscard]] Core::FormulationAndRouteSelectionOption getFormulationAndRouteSelectionOption() const;
 
+    /// \brief Get the option controlling whether to skip the adjustment search when current dosage is in range.
+    /// \return The adjustment with current dosage option value.
+    [[nodiscard]] Core::AdjustmentWithCurrentDosageOption getAdjustmentWithCurrentDosageOption() const;
+
 protected:
     /// \brief Identifier of the drug that TuberXpert must use.
     std::string m_drugId;
@@ -140,6 +146,9 @@ protected:
 
     /// \brief What formulation and route should be used to generate candidates.
     Core::FormulationAndRouteSelectionOption m_formulationAndRouteSelectionOption;
+
+    /// \brief Whether to skip the dosage adjustment search if the current dosage is already in the target range.
+    Core::AdjustmentWithCurrentDosageOption m_adjustmentWithCurrentDosageOption;
 
     /// \brief Identifier of the configuration
     std::string m_configId;

@@ -1562,6 +1562,93 @@ public:
                                         </requests>
                                     </query>)";
 
+    std::string queryStringAdjWithCurrentDosageSetInRequest =
+            R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+                                        <date>2022-06-20T10:00:00</date>
+
+                                        <drugTreatment>
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <drugs>
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <samples>
+                                                    </samples>
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <requests>
+                                            <xpertRequest>
+                                                <drugId>imatinib</drugId>
+                                                <configId>imatinib.gotta2012</configId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <options>
+                                                    <adjustmentWithCurrentDosageOption>dontAdjustIfCurrentInRange</adjustmentWithCurrentDosageOption>
+                                                </options>
+                                            </xpertRequest>
+                                        </requests>
+                                    </query>)";
+
+    std::string queryStringAdjWithCurrentDosageNotSetInRequest =
+            R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+                                        <date>2022-06-20T10:00:00</date>
+
+                                        <drugTreatment>
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <drugs>
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <samples>
+                                                    </samples>
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <requests>
+                                            <xpertRequest>
+                                                <drugId>imatinib</drugId>
+                                                <configId>imatinib.gotta2012</configId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                            </xpertRequest>
+                                        </requests>
+                                    </query>)";
+
     std::string queryStringLastIntakeDosageHistory =
             R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
@@ -2430,6 +2517,61 @@ TEST_F(AdjustmentTraitCreatorTest, FormulationAndRouteNotSetInRequestATCreator)
     EXPECT_EQ(
             xpertRequestResult.getAdjustmentTrait()->getFormulationAndRouteSelectionOption()
                     == Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute,
+            true);
+}
+
+/// \brief Test cases for the getAdjustmentTraitCreator method.
+///        This method checks that the adjustment with current dosage option
+///        is correctly propagated from the xpertRequest to the computing trait
+///        when it is explicitly set to "dontAdjustIfCurrentInRange".
+///        There must be no error (i.e. shouldContinueProcessing returns true).
+/// \param none but uses the related fixture
+TEST_F(AdjustmentTraitCreatorTest, AdjWithCurrentDosageSetInRequestATCreator)
+{
+    // Prepare the XpertRequestResult
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(
+            queryStringAdjWithCurrentDosageSetInRequest,
+            TestUtils::originalImatinibModelString,
+            xpertQueryResult);
+
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    // Execute
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+
+    // Compare
+    EXPECT_EQ(xpertRequestResult.shouldContinueProcessing(), true);
+    EXPECT_EQ(
+            xpertRequestResult.getAdjustmentTrait()->getAdjustmentWithCurrentDosageOption()
+                    == Core::AdjustmentWithCurrentDosageOption::DontAdjustIfCurrentInRange,
+            true);
+}
+
+/// \brief Test cases for the getAdjustmentTraitCreator method.
+///        This method checks that the adjustment with current dosage option
+///        defaults to "AlwaysAdjust" when it is not defined in the xpertRequest.
+///        There must be no error (i.e. shouldContinueProcessing returns true).
+/// \param none but uses the related fixture
+TEST_F(AdjustmentTraitCreatorTest, AdjWithCurrentDosageNotSetInRequestATCreator)
+{
+    // Prepare the XpertRequestResult
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(
+            queryStringAdjWithCurrentDosageNotSetInRequest,
+            TestUtils::originalImatinibModelString,
+            xpertQueryResult);
+
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    // Execute
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+
+    // Compare
+    EXPECT_EQ(xpertRequestResult.shouldContinueProcessing(), true);
+    EXPECT_EQ(
+            xpertRequestResult.getAdjustmentTrait()->getAdjustmentWithCurrentDosageOption()
+                    == Core::AdjustmentWithCurrentDosageOption::AlwaysAdjust,
             true);
 }
 

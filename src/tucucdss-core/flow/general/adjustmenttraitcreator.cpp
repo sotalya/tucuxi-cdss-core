@@ -109,6 +109,10 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
     Core::FormulationAndRouteSelectionOption formulationAndRouteSelectionOption =
             _xpertRequestResult.getXpertRequest().getFormulationAndRouteSelectionOption();
 
+    // Adjustment with current dosage option.
+    Core::AdjustmentWithCurrentDosageOption adjustmentWithCurrentDosageOption =
+            _xpertRequestResult.getXpertRequest().getAdjustmentWithCurrentDosageOption();
+
     // Creating and setting the trait.
     Core::ComputingTraitAdjustment computingTraitAdjustment = Core::ComputingTraitAdjustment(
             responseId,
@@ -122,7 +126,8 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
             restPeriodOption,
             steadyStateTargetOption,
             targetExtractionOption,
-            formulationAndRouteSelectionOption);
+            formulationAndRouteSelectionOption,
+            adjustmentWithCurrentDosageOption);
 
     _xpertRequestResult.setAdjustmentTrait(computingTraitAdjustment);
 }

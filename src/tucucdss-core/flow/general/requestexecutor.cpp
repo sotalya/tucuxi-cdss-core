@@ -49,7 +49,11 @@ void RequestExecutor::perform(XpertRequestResult& _xpertRequestResult)
     }
 
     // Save the parameters for the current request type (A priori or A posteriori).
-    _xpertRequestResult.addParameters(adjustmentResult->getAdjustments().front().getData().front().m_parameters);
+    // When dontAdjustIfCurrentInRange short-circuits, the returned adjustment has no CycleData.
+    if (!adjustmentResult->getAdjustments().front().getData().empty()) {
+        _xpertRequestResult.addParameters(
+                adjustmentResult->getAdjustments().front().getData().front().m_parameters);
+    }
 
     // Save the adjustment data into the XpertRequestResult
     _xpertRequestResult.setAdjustmentData(std::move(adjustmentResult));
@@ -301,7 +305,8 @@ void RequestExecutor::tweakComputingTraitAdjustment(
             _baseTrait->getRestPeriodOption(),
             _baseTrait->getSteadyStateTargetOption(),
             _baseTrait->getTargetExtractionOption(),
-            _baseTrait->getFormulationAndRouteSelectionOption());
+            _baseTrait->getFormulationAndRouteSelectionOption(),
+            _baseTrait->getAdjustmentWithCurrentDosageOption());
 }
 
 } // namespace Xpert
