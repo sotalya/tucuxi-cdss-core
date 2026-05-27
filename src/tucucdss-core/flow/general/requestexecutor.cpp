@@ -49,10 +49,47 @@ void RequestExecutor::perform(XpertRequestResult& _xpertRequestResult)
     }
 
     // Save the parameters for the current request type (A priori or A posteriori).
-    // When dontAdjustIfCurrentInRange short-circuits, the returned adjustment has no CycleData.
     if (!adjustmentResult->getAdjustments().front().getData().empty()) {
-        _xpertRequestResult.addParameters(
-                adjustmentResult->getAdjustments().front().getData().front().m_parameters);
+        _xpertRequestResult.addParameters(adjustmentResult->getAdjustments().front().getData().front().m_parameters);
+    }
+    else {
+        // dontAdjustIfCurrentInRange short-circuit: the returned
+        // adjustment has no CycleData. Run a concentration request
+        // for the current prediction type to extract parameters.
+        unique_ptr<Core::ComputingTraitAdjustment> scTrait =
+                make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
+        unique_ptr<Core::ComputingTraitConcentration> concTrait = nullptr;
+        tweakComputingTraitConcentration(
+                scTrait.get(), scTrait->getEnd(), 1, scTrait->getComputingOption().getParametersType(), concTrait);
+        unique_ptr<Core::SinglePredictionData> concResult = nullptr;
+        executeRequestAndGetResult<Core::ComputingTraitConcentration, Core::SinglePredictionData>(
+                std::move(concTrait), _xpertRequestResult, concResult);
+
+        if (concResult == nullptr) {
+            _xpertRequestResult.setErrorMessage("Failed to extract parameters for the "
+                                                "current prediction type.");
+            return;
+        }
+
+        if (concResult->getData().empty()) {
+            concResult = nullptr;
+            tweakComputingTraitConcentration(
+                    scTrait.get(), scTrait->getEnd(), 1, scTrait->getComputingOption().getParametersType(), concTrait);
+
+            Core::DrugTreatment treatment = Core::DrugTreatment();
+            const auto& adjustments = adjustmentResult->getAdjustments();
+            const auto& dosageHistory = adjustments[0].getDosageHistory();
+            const auto& dosageTimeRangeList = dosageHistory.getDosageTimeRanges();
+
+            for (auto& dosageTimeRange : dosageTimeRangeList) {
+                treatment.getModifiableDosageHistory().addTimeRange(*dosageTimeRange);
+            }
+
+            executeRequestAndGetResult<Core::ComputingTraitConcentration, Core::SinglePredictionData>(
+                    std::move(concTrait), _xpertRequestResult, treatment, concResult);
+        }
+
+        _xpertRequestResult.addParameters(concResult->getData().front().m_parameters);
     }
 
     // Save the adjustment data into the XpertRequestResult

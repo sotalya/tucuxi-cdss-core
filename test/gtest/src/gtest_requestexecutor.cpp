@@ -973,28 +973,25 @@ TEST_F(RequestExecutorTest, DontAdjustIfCurrentInRangeWhenInRange)
 {
     // Prepare the XpertRequestResult
     unique_ptr<XpertQueryResult> xpertQueryResult;
-    TestUtils::setupEnv(
-            queryStringDontAdjustInRange,
-            TestUtils::originalImatinibModelString,
-            xpertQueryResult);
+    TestUtils::setupEnv(queryStringDontAdjustInRange, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-    XpertRequestResult& xpertRequestResult =
-            xpertQueryResult->getXpertRequestResults()[0];
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
     // Execute
-    TestUtils::flowStepProvider.getAdjustmentTraitCreator()
-            ->perform(xpertRequestResult);
-    TestUtils::flowStepProvider.getRequestExecutor()
-            ->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
     // Compare
     EXPECT_EQ(xpertRequestResult.shouldContinueProcessing(), true);
     EXPECT_NE(xpertRequestResult.getAdjustmentData(), nullptr);
-    EXPECT_EQ(
-            xpertRequestResult.getAdjustmentData()
-                    ->getAdjustments()
-                    .size(),
-            1);
+    EXPECT_EQ(xpertRequestResult.getAdjustmentData()->getAdjustments().size(), 1);
+
+    // The short-circuit must still populate all parameter groups. With a sample the base trait is a posteriori, so we
+    // expect 3 groups (population, a priori, a posteriori).
+    EXPECT_EQ(xpertRequestResult.getParameters().size(), 3);
+    EXPECT_FALSE(xpertRequestResult.getParameters()[0].empty());
+    EXPECT_EQ(xpertRequestResult.getParameters()[0].size(), xpertRequestResult.getParameters()[1].size());
+    EXPECT_EQ(xpertRequestResult.getParameters()[1].size(), xpertRequestResult.getParameters()[2].size());
 }
 
 /// \brief Test cases for the RequestExecutor::perform method.
@@ -1006,28 +1003,24 @@ TEST_F(RequestExecutorTest, DontAdjustIfCurrentInRangeWhenOutOfRange)
 {
     // Prepare the XpertRequestResult
     unique_ptr<XpertQueryResult> xpertQueryResult;
-    TestUtils::setupEnv(
-            queryStringDontAdjustOutOfRange,
-            TestUtils::originalImatinibModelString,
-            xpertQueryResult);
+    TestUtils::setupEnv(queryStringDontAdjustOutOfRange, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-    XpertRequestResult& xpertRequestResult =
-            xpertQueryResult->getXpertRequestResults()[0];
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
     // Execute
-    TestUtils::flowStepProvider.getAdjustmentTraitCreator()
-            ->perform(xpertRequestResult);
-    TestUtils::flowStepProvider.getRequestExecutor()
-            ->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
     // Compare
     EXPECT_EQ(xpertRequestResult.shouldContinueProcessing(), true);
     EXPECT_NE(xpertRequestResult.getAdjustmentData(), nullptr);
-    EXPECT_GT(
-            xpertRequestResult.getAdjustmentData()
-                    ->getAdjustments()
-                    .size(),
-            1);
+    EXPECT_GT(xpertRequestResult.getAdjustmentData()->getAdjustments().size(), 1);
+
+    // The non-short-circuit path (normal adjustment search) must also populate all 3 parameter groups.
+    EXPECT_EQ(xpertRequestResult.getParameters().size(), 3);
+    EXPECT_FALSE(xpertRequestResult.getParameters()[0].empty());
+    EXPECT_EQ(xpertRequestResult.getParameters()[0].size(), xpertRequestResult.getParameters()[1].size());
+    EXPECT_EQ(xpertRequestResult.getParameters()[1].size(), xpertRequestResult.getParameters()[2].size());
 }
 
 /// \brief Test cases for the RequestExecutor::perform method.
@@ -1039,28 +1032,18 @@ TEST_F(RequestExecutorTest, AlwaysAdjustWhenInRange)
 {
     // Prepare the XpertRequestResult
     unique_ptr<XpertQueryResult> xpertQueryResult;
-    TestUtils::setupEnv(
-            queryStringAlwaysAdjustInRange,
-            TestUtils::originalImatinibModelString,
-            xpertQueryResult);
+    TestUtils::setupEnv(queryStringAlwaysAdjustInRange, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-    XpertRequestResult& xpertRequestResult =
-            xpertQueryResult->getXpertRequestResults()[0];
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
     // Execute
-    TestUtils::flowStepProvider.getAdjustmentTraitCreator()
-            ->perform(xpertRequestResult);
-    TestUtils::flowStepProvider.getRequestExecutor()
-            ->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
     // Compare
     EXPECT_EQ(xpertRequestResult.shouldContinueProcessing(), true);
     EXPECT_NE(xpertRequestResult.getAdjustmentData(), nullptr);
-    EXPECT_GT(
-            xpertRequestResult.getAdjustmentData()
-                    ->getAdjustments()
-                    .size(),
-            1);
+    EXPECT_GT(xpertRequestResult.getAdjustmentData()->getAdjustments().size(), 1);
 }
 
 /// \brief Test cases for the RequestExecutor::perform method.
@@ -1072,28 +1055,18 @@ TEST_F(RequestExecutorTest, DefaultOptionAbsentProducesMultipleCandidates)
 {
     // Prepare the XpertRequestResult
     unique_ptr<XpertQueryResult> xpertQueryResult;
-    TestUtils::setupEnv(
-            queryStringNoOptionInRange,
-            TestUtils::originalImatinibModelString,
-            xpertQueryResult);
+    TestUtils::setupEnv(queryStringNoOptionInRange, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-    XpertRequestResult& xpertRequestResult =
-            xpertQueryResult->getXpertRequestResults()[0];
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
     // Execute
-    TestUtils::flowStepProvider.getAdjustmentTraitCreator()
-            ->perform(xpertRequestResult);
-    TestUtils::flowStepProvider.getRequestExecutor()
-            ->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
     // Compare
     EXPECT_EQ(xpertRequestResult.shouldContinueProcessing(), true);
     EXPECT_NE(xpertRequestResult.getAdjustmentData(), nullptr);
-    EXPECT_GT(
-            xpertRequestResult.getAdjustmentData()
-                    ->getAdjustments()
-                    .size(),
-            1);
+    EXPECT_GT(xpertRequestResult.getAdjustmentData()->getAdjustments().size(), 1);
 }
 
 /// \brief Test cases for the RequestExecutor::perform method.
@@ -1105,28 +1078,18 @@ TEST_F(RequestExecutorTest, DontAdjustWithEmptyDosageHistory)
 {
     // Prepare the XpertRequestResult
     unique_ptr<XpertQueryResult> xpertQueryResult;
-    TestUtils::setupEnv(
-            queryStringDontAdjustEmptyHistory,
-            TestUtils::originalImatinibModelString,
-            xpertQueryResult);
+    TestUtils::setupEnv(queryStringDontAdjustEmptyHistory, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-    XpertRequestResult& xpertRequestResult =
-            xpertQueryResult->getXpertRequestResults()[0];
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
     // Execute
-    TestUtils::flowStepProvider.getAdjustmentTraitCreator()
-            ->perform(xpertRequestResult);
-    TestUtils::flowStepProvider.getRequestExecutor()
-            ->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
     // Compare
     EXPECT_EQ(xpertRequestResult.shouldContinueProcessing(), true);
     EXPECT_NE(xpertRequestResult.getAdjustmentData(), nullptr);
-    EXPECT_GT(
-            xpertRequestResult.getAdjustmentData()
-                    ->getAdjustments()
-                    .size(),
-            1);
+    EXPECT_GT(xpertRequestResult.getAdjustmentData()->getAdjustments().size(), 1);
 }
 
 } // namespace Xpert
