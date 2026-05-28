@@ -7,5 +7,6 @@ source "$REPO_ROOT/scripts/linux/common/cmake.sh"
 cmd_setup() {
     echo "==> Copying hooks to .git/hooks"
     cp "$REPO_ROOT/scripts/hooks/"* "$REPO_ROOT/.git/hooks/"
+    chmod +x "$REPO_ROOT/.git/hooks/"*
     echo "==> Setup complete"
 }
