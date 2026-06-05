@@ -478,6 +478,12 @@ unique_ptr<XpertRequestData> XpertQueryImport::createXpertRequestData(
                     OPTIONS_NODE_NAME,
                     Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute);
 
+    Core::AdjustmentWithCurrentDosageOption adjustmentWithCurrentDosageOption =
+            getChildAdjustmentWithCurrentDosageOptionEnumOptional(
+                    _xpertRequestRootIterator,
+                    OPTIONS_NODE_NAME,
+                    Core::AdjustmentWithCurrentDosageOption::AlwaysAdjust);
+
 
     return make_unique<XpertRequestData>(
             drugId,
@@ -488,6 +494,7 @@ unique_ptr<XpertRequestData> XpertQueryImport::createXpertRequestData(
             restPeriodOption,
             targetExtractionOption,
             formulationAndRouteSelectionOption,
+            adjustmentWithCurrentDosageOption,
             configId);
 }
 
@@ -608,6 +615,34 @@ Core::FormulationAndRouteSelectionOption XpertQueryImport::getChildFormulationAn
              Tucuxi::Core::FormulationAndRouteSelectionOption::DefaultFormulationAndRoute}};
 
     std::string value = formulationAndRouteSelectionOptioneRootIterator->getValue();
+    auto it = m.find(value);
+    if (it != m.end()) {
+        return it->second;
+    }
+
+    return _default;
+}
+
+Core::AdjustmentWithCurrentDosageOption XpertQueryImport::getChildAdjustmentWithCurrentDosageOptionEnumOptional(
+        Common::XmlNodeIterator _xpertRequestRootIterator,
+        const std::string& _childName,
+        Core::AdjustmentWithCurrentDosageOption _default)
+{
+
+    static const std::string ADJUSTMENT_WITH_CURRENT_DOSAGE_OPTION_NODE = "adjustmentWithCurrentDosageOption";
+
+    // Get the node containing the adjustment with current dosage option node.
+    Common::XmlNodeIterator optionsRootIterator = _xpertRequestRootIterator->getChildren(_childName);
+
+    Common::XmlNodeIterator adjustmentWithCurrentDosageOptionRootIterator =
+            optionsRootIterator->getChildren(ADJUSTMENT_WITH_CURRENT_DOSAGE_OPTION_NODE);
+
+
+    static map<std::string, Core::AdjustmentWithCurrentDosageOption> m = {
+            {"alwaysAdjust", Core::AdjustmentWithCurrentDosageOption::AlwaysAdjust},
+            {"dontAdjustIfCurrentInRange", Core::AdjustmentWithCurrentDosageOption::DontAdjustIfCurrentInRange}};
+
+    std::string value = adjustmentWithCurrentDosageOptionRootIterator->getValue();
     auto it = m.find(value);
     if (it != m.end()) {
         return it->second;

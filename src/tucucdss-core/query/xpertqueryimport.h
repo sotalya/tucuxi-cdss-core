@@ -167,6 +167,17 @@ protected:
             const std::string& _childName,
             Core::FormulationAndRouteSelectionOption _default);
 
+    /// \brief Extract the adjustmentWithCurrentDosageOption choice from an xpertRequest iterator.
+    ///        Does not set any import error. If the element does not exist, return the given default value.
+    /// \param _xpertRequestRootIterator XpertRequest root iterator.
+    /// \param _childName Node name of the node containing the adjustmentWithCurrentDosageOption.
+    /// \param _default Default value to return if the child element or the option does not exist.
+    /// \return The value from the adjustmentWithCurrentDosageOption if it exists, otherwise _default.
+    [[nodiscard]] Core::AdjustmentWithCurrentDosageOption getChildAdjustmentWithCurrentDosageOptionEnumOptional(
+            Common::XmlNodeIterator _xpertRequestRootIterator,
+            const std::string& _childName,
+            Core::AdjustmentWithCurrentDosageOption _default);
+
     /// \brief For a given node iterator, extract the date from a child node.
     ///        Does not set any import error.
     /// \param _rootIterator Root iterator that has the child node.

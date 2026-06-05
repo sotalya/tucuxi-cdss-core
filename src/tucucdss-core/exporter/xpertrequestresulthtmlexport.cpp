@@ -601,8 +601,8 @@ void XpertRequestResultHtmlExport::getDosageJson(
     // Get the last dosage.
     auto singleDosageAtTime = dosageList.back();
     stringstream dosageStream;
-    dosageStream << "" << singleDosageAtTime.getDoseValue() << " " << unit.toString() << ""
-                 << " (" << adminRoute << ")";
+    dosageStream << "" << singleDosageAtTime.getDoseValue() << " " << unit.toString() << "" << " (" << adminRoute
+                 << ")";
 
     std::string newDosageIndicationChain = prefixDosage(dosageStream.str(), _dosageIndicationChain);
 
@@ -657,8 +657,7 @@ void XpertRequestResultHtmlExport::getDosageJson(
     // Get the last dosage.
     auto simpleDosage = dosageList.back();
     stringstream dosageStream;
-    dosageStream << "" << simpleDosage.getDoseValue() << " " << unit.toString() << ""
-                 << " (" << adminRoute << ")";
+    dosageStream << "" << simpleDosage.getDoseValue() << " " << unit.toString() << "" << " (" << adminRoute << ")";
 
     std::string newDosageIndicationChain = prefixDosage(dosageStream.str(), _dosageIndicationChain);
 
@@ -1190,12 +1189,11 @@ void XpertRequestResultHtmlExport::getTargetsJson(
 
         // Get the bounds
         stringstream boundsStream;
-        boundsStream << langMgr.translate("inefficacy") << ": " << inefficacyAlarm << " / "
-                     << "<b>" << langMgr.translate("min") << ": " << static_cast<int>(target.getTarget().getValueMin())
-                     << " / " << langMgr.translate("best") << ": "
-                     << static_cast<int>(target.getTarget().getValueBest()) << " / " << langMgr.translate("max") << ": "
-                     << static_cast<int>(target.getTarget().getValueMax()) << " / "
-                     << "</b>" << langMgr.translate("toxicity") << ": " << toxicityAlarm;
+        boundsStream << langMgr.translate("inefficacy") << ": " << inefficacyAlarm << " / " << "<b>"
+                     << langMgr.translate("min") << ": " << static_cast<int>(target.getTarget().getValueMin()) << " / "
+                     << langMgr.translate("best") << ": " << static_cast<int>(target.getTarget().getValueBest())
+                     << " / " << langMgr.translate("max") << ": " << static_cast<int>(target.getTarget().getValueMax())
+                     << " / " << "</b>" << langMgr.translate("toxicity") << ": " << toxicityAlarm;
 
         // --------------- /!\                      END TO REMOVE                                 /!\ -----------
 

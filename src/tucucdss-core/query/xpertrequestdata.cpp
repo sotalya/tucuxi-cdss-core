@@ -15,11 +15,13 @@ XpertRequestData::XpertRequestData(
         RestPeriodOption _restPeriodOption,
         Core::TargetExtractionOption _targetExtractionOption,
         Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption,
+        Core::AdjustmentWithCurrentDosageOption _adjustmentWithCurrentDosageOption,
         std::string _configId)
     : m_drugId(std::move(_drugId)), m_outputFormat(_outputFormat), m_outputLang(_outputLang),
       m_adjustmentTime(_adjustmentTime), m_loadingOption(_loadingOption), m_restPeriodOption(_restPeriodOption),
       m_targetExtractionOption(_targetExtractionOption),
-      m_formulationAndRouteSelectionOption(_formulationAndRouteSelectionOption), m_configId(std::move(_configId))
+      m_formulationAndRouteSelectionOption(_formulationAndRouteSelectionOption),
+      m_adjustmentWithCurrentDosageOption(_adjustmentWithCurrentDosageOption), m_configId(std::move(_configId))
 {
 }
 
@@ -66,6 +68,11 @@ Core::TargetExtractionOption XpertRequestData::getTargetExtractionOption() const
 Core::FormulationAndRouteSelectionOption XpertRequestData::getFormulationAndRouteSelectionOption() const
 {
     return m_formulationAndRouteSelectionOption;
+}
+
+Core::AdjustmentWithCurrentDosageOption XpertRequestData::getAdjustmentWithCurrentDosageOption() const
+{
+    return m_adjustmentWithCurrentDosageOption;
 }
 
 } // namespace Xpert
