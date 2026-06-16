@@ -117,8 +117,7 @@ ParseResult parse(
             _config.configFileName = result["config"].as<std::string>();
         }
         else {
-            std::cout << "Configuration file not specified --- "
-                      << "set by default to ./config.xml\n\n";
+            std::cout << "Configuration file not specified --- " << "set by default to ./config.xml\n\n";
             _config.configFileName = "./config.xml";
         }
         if (!std::filesystem::exists(_config.configFileName)) {
@@ -137,8 +136,7 @@ ParseResult parse(
         }
         if (!std::filesystem::exists(_config.outputPath)) {
             std::cout << "The output directory: " << _config.outputPath
-                      << " is not existent, it will be created automatically"
-                      << "\n\n";
+                      << " is not existent, it will be created automatically" << "\n\n";
             std::filesystem::create_directory(_config.outputPath);
         }
 
@@ -146,8 +144,8 @@ ParseResult parse(
             _config.templatePath = result["templatepath"].as<std::string>();
         }
         else {
-            std::cout << "The HTML template directory has not been specified --- "
-                      << "defaulting to " << _config.templatePath << "\n\n";
+            std::cout << "The HTML template directory has not been specified --- " << "defaulting to "
+                      << _config.templatePath << "\n\n";
         }
         if (!std::filesystem::exists(_config.templatePath)) {
             std::cout << "The  HTML template directory: " << _config.templatePath << " is missing\n\n";

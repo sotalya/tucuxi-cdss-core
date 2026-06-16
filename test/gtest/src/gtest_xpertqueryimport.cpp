@@ -852,6 +852,70 @@ public:
 
 
 
+    std::string xmlStringAdjWithCurrentDosageAlwaysAdjust =
+            R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+                                        <date>2018-07-11T13:45:30</date>
+                                        <drugTreatment>
+                                            <patient><covariates></covariates></patient>
+                                            <drugs>
+                                                <drug>
+                                                    <drugId>rifampicin</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <treatment><dosageHistory></dosageHistory></treatment>
+                                                    <samples></samples>
+                                                    <targets></targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <requests>
+                                            <xpertRequest>
+                                                <drugId>rifampicin</drugId>
+                                                <configId>imatinib.gotta2012</configId>
+                                                <output><format>xml</format><language>en</language></output>
+                                                <options>
+                                                    <adjustmentWithCurrentDosageOption>alwaysAdjust</adjustmentWithCurrentDosageOption>
+                                                </options>
+                                            </xpertRequest>
+                                        </requests>
+                                    </query>)";
+
+    std::string xmlStringAdjWithCurrentDosageDontAdjust =
+            R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+                                        <date>2018-07-11T13:45:30</date>
+                                        <drugTreatment>
+                                            <patient><covariates></covariates></patient>
+                                            <drugs>
+                                                <drug>
+                                                    <drugId>rifampicin</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <treatment><dosageHistory></dosageHistory></treatment>
+                                                    <samples></samples>
+                                                    <targets></targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <requests>
+                                            <xpertRequest>
+                                                <drugId>rifampicin</drugId>
+                                                <configId>imatinib.gotta2012</configId>
+                                                <output><format>xml</format><language>en</language></output>
+                                                <options>
+                                                    <adjustmentWithCurrentDosageOption>dontAdjustIfCurrentInRange</adjustmentWithCurrentDosageOption>
+                                                </options>
+                                            </xpertRequest>
+                                        </requests>
+                                    </query>)";
+
     std::string xmlStringAllValuesCompleteRequest = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -901,6 +965,7 @@ public:
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                    <adjustmentWithCurrentDosageOption>dontAdjustIfCurrentInRange</adjustmentWithCurrentDosageOption>
                                                 </options>
                                             </xpertRequest>
                                         </requests>
@@ -1418,6 +1483,10 @@ TEST_F(XpertQueryImportTest, CompleteXpertRequestXmlLoader)
             xpertRequest.getFormulationAndRouteSelectionOption()
                     == Core::FormulationAndRouteSelectionOption::AllFormulationAndRoutes,
             true);
+    EXPECT_EQ(
+            xpertRequest.getAdjustmentWithCurrentDosageOption()
+                    == Core::AdjustmentWithCurrentDosageOption::DontAdjustIfCurrentInRange,
+            true);
 }
 
 
@@ -1449,6 +1518,56 @@ TEST_F(XpertQueryImportTest, MinimalXpertRequestXmlLoader)
     EXPECT_EQ(
             xpertRequest.getFormulationAndRouteSelectionOption()
                     == Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute,
+            true);
+    EXPECT_EQ(
+            xpertRequest.getAdjustmentWithCurrentDosageOption()
+                    == Core::AdjustmentWithCurrentDosageOption::AlwaysAdjust,
+            true);
+}
+
+
+/// \brief Test cases for XpertQueryImport.
+///        Load an xml with adjustmentWithCurrentDosageOption explicitly set
+///        to "alwaysAdjust" and verify the imported value.
+/// \param none but uses the related fixture
+TEST_F(XpertQueryImportTest, AdjWithCurrentDosageAlwaysAdjustXmlLoader)
+{
+    unique_ptr<XpertQueryData> query = nullptr;
+
+    XpertQueryImport importer;
+    XpertQueryImport::Status importResult =
+            importer.importFromString(query, xmlStringAdjWithCurrentDosageAlwaysAdjust);
+
+    EXPECT_EQ(importResult, XpertQueryImport::Status::Ok);
+    EXPECT_EQ(query->getXpertRequests().size(), 1);
+
+    const XpertRequestData& xpertRequest = *(query->getXpertRequests()[0]);
+    EXPECT_EQ(
+            xpertRequest.getAdjustmentWithCurrentDosageOption()
+                    == Core::AdjustmentWithCurrentDosageOption::AlwaysAdjust,
+            true);
+}
+
+
+/// \brief Test cases for XpertQueryImport.
+///        Load an xml with adjustmentWithCurrentDosageOption explicitly set
+///        to "dontAdjustIfCurrentInRange" and verify the imported value.
+/// \param none but uses the related fixture
+TEST_F(XpertQueryImportTest, AdjWithCurrentDosageDontAdjustXmlLoader)
+{
+    unique_ptr<XpertQueryData> query = nullptr;
+
+    XpertQueryImport importer;
+    XpertQueryImport::Status importResult =
+            importer.importFromString(query, xmlStringAdjWithCurrentDosageDontAdjust);
+
+    EXPECT_EQ(importResult, XpertQueryImport::Status::Ok);
+    EXPECT_EQ(query->getXpertRequests().size(), 1);
+
+    const XpertRequestData& xpertRequest = *(query->getXpertRequests()[0]);
+    EXPECT_EQ(
+            xpertRequest.getAdjustmentWithCurrentDosageOption()
+                    == Core::AdjustmentWithCurrentDosageOption::DontAdjustIfCurrentInRange,
             true);
 }
 
