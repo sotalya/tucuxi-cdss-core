@@ -168,7 +168,7 @@
     <translation key="error">Erreur</translation>
 
     <!-- Covariate Checker -->
-    <translation key="no_covar_given">N'a pas été founie pour les calculs!</translation>
+    <translation key="no_covar_given">N'a pas été fournie pour les calculs!</translation>
     <translation key="empty_covar_value">Ne doit pas être vide! La valeur par défaut est utilisée.</translation>
     <translation key="invalid_range">Doit être entre</translation>
     <translation key="and">et</translation>
