@@ -85,7 +85,7 @@ std::string dateTimeToString(const DateTime& _dateTime, bool _withTime = true);
 ///        which every display of an elapsed post-dose interval must be routed.
 /// \param _duration Elapsed duration between the last dose and the sample.
 /// \return The formatted "XXhYYm" string, or an empty string when the interval is negative (a sample drawn before any
-///         dose) or undefined, which must not render as a time.
+///         dose), which must not render as a time.
 std::string durationToTimeAfterDoseString(const Common::Duration& _duration);
 
 /// \brief Beautify a string that represents a covariate value.
