@@ -7,219 +7,8 @@
 			<nbPercentilesPoints>10000</nbPercentilesPoints>
 			<nbDosagePossibilities>20000</nbDosagePossibilities>
 		</computationLimits>
-	</generalConfig>
-	<configs>
-		<config>
-			<configId>vancomycin.colin2019</configId>
-			<drugId>vancomycin</drugId>
-			<drugModelId>ch.tucuxi.vancomycin.colin2019</drugModelId>
-			<description>
-			  <desc lang='en'>A pooled population-pharmacokinetic model built in NONMEM based on data from 14 different studies in different patient populations. The pooled dataset contains information across a broad range of patient subgroups ranging from premature neonates to extremely obese patients and from adult Japanese healthy volun-teers to critically ill and trauma patients In total, 8300 vancomycin drug concentrations from 2554 individuals were included in the dataset. Individuals were adults (720), newborns (559), elderly patients (512), obese adults (274), very elderly patients (213), underweight adults, (158) and children and adolescents (118).</desc>
-			</description>
-			<covariates>
-				<covariate>
-					<covariateId>age</covariateId>
-					<covariateType>ageInYears</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>16</value>
-							<operator>gt</operator>
-						</constraint>
-						<constraint>
-							<value>130</value>
-							<operator>lt</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>18</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>110</value>
-							<operator>leq</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-				<covariate>
-					<covariateId>bodyweight</covariateId>
-					<covariateType>standard</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>45</value>
-							<operator>gt</operator>
-						</constraint>
-						<constraint>
-							<value>135</value>
-							<operator>lt</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>50</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>130</value>
-							<operator>leq</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-				<covariate>
-					<covariateId>sex</covariateId>
-					<covariateType>sex</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>0.0</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>1.0</value>
-							<operator>leq</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>0.0</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>1.0</value>
-							<operator>leq</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-				<covariate>
-					<covariateId>scr</covariateId>
-					<covariateType>standard</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>0.0</value>
-							<operator>gt</operator>
-						</constraint>
-						<constraint>
-							<value>2000</value>
-							<operator>leq</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>1.0</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>1000</value>
-							<operator>leq</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-				<covariate>
-					<covariateId>creatinine</covariateId>
-					<covariateType>standard</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>0.0</value>
-							<operator>gt</operator>
-						</constraint>
-						<constraint>
-							<value>3000</value>
-							<operator>leq</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>1.0</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>1000</value>
-							<operator>leq</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-				<covariate>
-					<covariateId>ga</covariateId>
-					<covariateType>standard</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>19</value>
-							<operator>gt</operator>
-						</constraint>
-						<constraint>
-							<value>300</value>
-							<operator>lt</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>20</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>200</value>
-							<operator>leq</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-				<covariate>
-					<covariateId>pna</covariateId>
-					<covariateType>ageInDays</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>0</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>50000</value>
-							<operator>lt</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>1000</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>40000</value>
-							<operator>leq</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-				<covariate>
-					<covariateId>haem</covariateId>
-					<covariateType>standard</covariateType>
-					<dataType>double</dataType>
-					<validRange>
-						<constraint>
-							<value>0.0</value>
-							<operator>geq</operator>
-						</constraint>
-						<constraint>
-							<value>1.0</value>
-							<operator>leq</operator>
-						</constraint>
-					</validRange>
-					<typicalRange>
-						<constraint>
-							<value>0.0</value>
-							<operator>gt</operator>
-						</constraint>
-						<constraint>
-							<value>1.0</value>
-							<operator>lt</operator>
-						</constraint>
-					</typicalRange>
-				</covariate>
-			</covariates>
-		</config>
-
+    	</generalConfig>
+    	<configs>
 		<config>
 			<configId>vancomycin.goti2018</configId>
 			<drugId>vancomycin</drugId>
@@ -257,6 +46,7 @@
 					<covariateId>bodyweight</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+                         <unit>kg</unit>
 					<validRange>
 						<constraint>
 							<value>45</value>
@@ -307,6 +97,7 @@
 					<covariateId>scr</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+                         <unit>umol/l</unit>
 					<validRange>
 						<constraint>
 							<value>0.0</value>
@@ -332,6 +123,7 @@
 					<covariateId>creatinine</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+                         <unit>umol/l</unit>
 					<validRange>
 						<constraint>
 							<value>0.0</value>
@@ -443,6 +235,7 @@
 					<covariateId>bodyweight</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>kg</unit>
 					<validRange>
 						<constraint>
 							<value>0.0</value>
@@ -468,6 +261,7 @@
 					<covariateId>creatinine_umol</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>umol/l</unit>
 					<validRange>
 						<constraint>
 							<value>10</value>
@@ -504,6 +298,7 @@
 					<covariateId>bodyweight</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>kg</unit>
 					<validRange>
 						<constraint>
 							<value>0.0</value>
@@ -529,6 +324,7 @@
 					<covariateId>clcr</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>ml/min</unit>
 					<validRange>
 						<constraint>
 							<value>0.0</value>
@@ -579,6 +375,7 @@
 					<covariateId>height</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>cm</unit>
 					<validRange>
 						<constraint>
 							<value>10</value>
@@ -604,6 +401,7 @@
 					<covariateId>creatinine</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>umol/l</unit>
 					<validRange>
 						<constraint>
 							<value>0.0</value>
@@ -695,6 +493,7 @@
 					<covariateId>bodyweight</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>kg</unit>
 					<validRange>
 						<constraint>
 							<value>40</value>
@@ -792,6 +591,7 @@
 					<covariateId>bodyweight</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>kg</unit>
 					<validRange>
 						<constraint>
 							<value>40.2</value>
@@ -842,6 +642,7 @@
 					<covariateId>height</covariateId>
 					<covariateType>standard</covariateType>
 					<dataType>double</dataType>
+					<unit>cm</unit>
 					<validRange>
 						<constraint>
 							<value>1.10</value>
