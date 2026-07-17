@@ -922,8 +922,8 @@ void XpertRequestResultHtmlExport::getSamplesJson(
         sampleJson["warning_level"] = warningLevelToString(sampleValidationResult.getWarningLevel());
 
         if (!_timeAfterDoseDurations.empty()) {
-            // Render the elapsed post-dose interval through the single XXhYYm formatter. A negative or undefined
-            // interval yields an empty string, which the template shows as "N/A" rather than a time.
+            // Render the elapsed post-dose interval through the single XXhYYm formatter. A negative interval yields an
+            // empty string, which the template shows as "N/A" rather than a time.
             sampleJson["tad"] = durationToTimeAfterDoseString(_timeAfterDoseDurations.at(i));
         }
 
