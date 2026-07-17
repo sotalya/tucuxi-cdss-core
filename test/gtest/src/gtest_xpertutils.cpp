@@ -884,7 +884,7 @@ TEST(AgeInCalculatorTest, YearsConversion)
     EXPECT_DOUBLE_EQ(expected, getAgeIn(ageType, birthDate, computationTime));
 }
 
-/// \brief The formatter renders both components, zero-padded, as "XXhYYm".
+/// \brief The formatter renders both components as "<hours>h<mm>m"; minutes are zero-padded to two digits.
 TEST(DurationToTimeAfterDoseStringTest, FormatsBothComponents)
 {
     // 1 h 45 min renders as "1h45m", not "1.8 h".
