@@ -168,8 +168,8 @@ std::string dateTimeToString(const Common::DateTime& _dateTime, bool _withTime)
 
 std::string durationToTimeAfterDoseString(const Common::Duration& _duration)
 {
-    // A negative interval means the sample predates every dose; an unset or undefined interval is likewise not a
-    // valid post-dose delay. Neither renders as a time, so an empty string is returned in that case.
+    // A negative interval means the sample predates every dose and is not a valid post-dose delay.
+    // It must not render as a time, so an empty string is returned in that case.
     if (_duration.isNegative()) {
         return "";
     }
