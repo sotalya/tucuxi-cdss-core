@@ -88,7 +88,8 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
     }
 
     // Best candidate option.
-    Core::BestCandidatesOption candidatesOption = Core::BestCandidatesOption::BestDosagePerInterval;
+//    Core::BestCandidatesOption candidatesOption = Core::BestCandidatesOption::BestDosagePerInterval;
+    Core::BestCandidatesOption candidatesOption = Core::BestCandidatesOption::BestDosage;
 
     // Loading option.
     Core::LoadingOption loadingOption =
