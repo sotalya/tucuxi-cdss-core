@@ -16,7 +16,7 @@
     <translation key="txt_measured_of_prefix">The measured level of </translation>
     <translation key="txt_with_dose_prefix"> in patients receiving the drug at a dosage of </translation>
 
-    <translation key="txt_sample_in_ascending"> is difficult to interpret as it is taken during the drug absorption phase, which is characterized by high intra- and inter-individual variability. In general, it is recommended to perform sampling at least {hours}h post-dose for a more accurate interpretation. Nevertheless this level </translation>
+    <translation key="txt_sample_in_ascending"> is difficult to interpret as it is taken during the drug absorption phase, which is characterized by high intra- and inter-individual variability. In general, it is recommended to perform sampling later after the dose, once the absorption phase is over, for a more accurate interpretation. Nevertheless this level </translation>
 
     <!-- Main clause according to the 5 ranges -->
     <translation key="txt_expected_p25_p75"> corresponds to the concentrations usually observed</translation>
@@ -178,14 +178,19 @@
 
     <!-- Justification sentences -->
 
-    <translation key="above_exposure">The daily drug exposure is above to the therapeutic target.</translation>
-    <translation key="bellow_exposure">The daily drug exposure is below to the therapeutic target.</translation>
-    <translation key="equal_exposure">The daily drug exposure is equal to the therapeutic target. </translation>
-    <translation key="increase_dosage">Therefore, it is recommended to increase the dose</translation>
-    <translation key="decrease_dosage">Therefore, it is recommended to decrease the dose</translation>
-    <translation key="equal_dosage">Therefore, it is recommended to keep the dose</translation>
+    <translation key="above_exposure">The estimated exposure is above the therapeutic target.</translation>
+    <translation key="below_exposure">The estimated exposure is below the therapeutic target.</translation>
+    <translation key="equal_exposure">The estimated exposure matches the therapeutic target.</translation>
+    <translation key="increase_dosage">Therefore, a higher overall dose is recommended</translation>
+    <translation key="decrease_dosage">Therefore, a lower overall dose is recommended</translation>
+    <translation key="equal_dosage">Therefore, the same overall dose is recommended</translation>
+    <translation key="in_place_of">in place of</translation>
+    <translation key="every_day">every day</translation>
+    <translation key="every_week">every week</translation>
+    <translation key="every_days">every {count} days</translation>
+    <translation key="every_hours">every {count} h</translation>
     <translation key="new_dosage">This first dosage should be the best, considering the information about this patient.</translation>
-    <translation key="starting_from">Starting from:</translation>
+    <translation key="starting_from">Starting from</translation>
     <translation key="justification_rest_period">A resting period shall be observed before the following dosage.</translation>
     <translation key="justification_adaptative_dose">Take the following dose starting at</translation>
     <translation key="justification_before_title">Before starting new dosage:</translation>

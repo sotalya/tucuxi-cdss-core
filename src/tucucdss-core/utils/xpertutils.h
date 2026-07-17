@@ -5,6 +5,7 @@
 #include <string>
 
 #include "tucucommon/datetime.h"
+#include "tucucommon/duration.h"
 #include "tucucommon/translatablestring.h"
 
 #include "tucucore/computingcomponent.h"
@@ -77,6 +78,15 @@ std::string timeOfDayToString(const Common::TimeOfDay& _timeOfDay);
 ///                  The default value is true.
 /// \return The string of the resulting conversion.
 std::string dateTimeToString(const DateTime& _dateTime, bool _withTime = true);
+
+/// \brief Render an elapsed post-dose interval as a "XXhYYm" string. The hour component is never rolled over into
+///        days: a 26 h 30 min interval renders as "26h30m", not "1d2h30m". The minute component is always present and
+///        zero-padded to two digits. The value is rounded to the nearest minute. This is the single formatter through
+///        which every display of an elapsed post-dose interval must be routed.
+/// \param _duration Elapsed duration between the last dose and the sample.
+/// \return The formatted "XXhYYm" string, or an empty string when the interval is negative (a sample drawn before any
+///         dose), which must not render as a time.
+std::string durationToTimeAfterDoseString(const Common::Duration& _duration);
 
 /// \brief Beautify a string that represents a covariate value.
 ///        If the DataType is Bool, returns the translation of "yes" or "no".

@@ -49,6 +49,16 @@ void Justification::setJustificationInterval(JustificationInterval _interval)
     m_justificationInterval = _interval;
 }
 
+void Justification::setPreviousRegimen(const std::string& _regimen)
+{
+    m_previousRegimen = _regimen;
+}
+
+void Justification::setRecommendedRegimen(const std::string& _regimen)
+{
+    m_recommendedRegimen = _regimen;
+}
+
 const std::string& Justification::getFirstDoseText() const
 {
     return m_firstDoseText;
@@ -92,6 +102,16 @@ JustificationExposureSign Justification::getJustificationExposureSign() const
 JustificationInterval Justification::getJustificationInterval() const
 {
     return m_justificationInterval;
+}
+
+const std::string& Justification::getPreviousRegimen() const
+{
+    return m_previousRegimen;
+}
+
+const std::string& Justification::getRecommendedRegimen() const
+{
+    return m_recommendedRegimen;
 }
 
 } // namespace Xpert

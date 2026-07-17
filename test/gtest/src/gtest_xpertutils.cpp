@@ -884,5 +884,59 @@ TEST(AgeInCalculatorTest, YearsConversion)
     EXPECT_DOUBLE_EQ(expected, getAgeIn(ageType, birthDate, computationTime));
 }
 
+/// \brief The formatter renders both components as "<hours>h<mm>m"; minutes are zero-padded to two digits.
+TEST(DurationToTimeAfterDoseStringTest, FormatsBothComponents)
+{
+    // 1 h 45 min renders as "1h45m", not "1.8 h".
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(1), chrono::minutes(45), chrono::seconds(0))),
+            "1h45m");
+
+    // A zero hour component still shows both parts.
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(0), chrono::minutes(45), chrono::seconds(0))),
+            "0h45m");
+
+    // A zero minute component is zero-padded to two digits.
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(2), chrono::minutes(0), chrono::seconds(0))),
+            "2h00m");
+}
+
+/// \brief Hours never roll over into days: 26 h 30 min stays "26h30m".
+TEST(DurationToTimeAfterDoseStringTest, DoesNotRollOverIntoDays)
+{
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(26), chrono::minutes(30), chrono::seconds(0))),
+            "26h30m");
+}
+
+/// \brief The value is rounded to the nearest minute, with carry into hours.
+TEST(DurationToTimeAfterDoseStringTest, RoundsToNearestMinute)
+{
+    // 1 h 45 min 29 s rounds down to 1h45m.
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(1), chrono::minutes(45), chrono::seconds(29))),
+            "1h45m");
+
+    // 1 h 45 min 31 s rounds up to 1h46m.
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(1), chrono::minutes(45), chrono::seconds(31))),
+            "1h46m");
+
+    // Rounding carries into the hour component: 1 h 59 min 45 s -> 2h00m.
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(1), chrono::minutes(59), chrono::seconds(45))),
+            "2h00m");
+}
+
+/// \brief A negative interval (a sample drawn before any dose) does not render as a time and yields an empty string.
+TEST(DurationToTimeAfterDoseStringTest, NegativeIntervalYieldsEmptyString)
+{
+    EXPECT_EQ(
+            durationToTimeAfterDoseString(Common::Duration(chrono::hours(0), chrono::minutes(-30), chrono::seconds(0))),
+            "");
+}
+
 } // namespace Xpert
 } // namespace Tucuxi

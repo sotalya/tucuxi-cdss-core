@@ -84,6 +84,9 @@ private:
     std::string m_secondDoseText;      ///< Description of the second dose (if applicable)
     Common::DateTime m_secondDoseDate; ///< Date of the second dose (if applicable)
 
+    std::string m_previousRegimen;    ///< Human-readable previous regimen
+    std::string m_recommendedRegimen; ///< Human-readable recommended regimen
+
 public:
     ///
     /// \brief Default constructor for Justification.
@@ -145,6 +148,18 @@ public:
     void setJustificationInterval(JustificationInterval _interval);
 
     ///
+    /// \brief Sets the human-readable previous regimen (dose and interval).
+    /// \param _regimen The previous regimen text.
+    ///
+    void setPreviousRegimen(const std::string& _regimen);
+
+    ///
+    /// \brief Sets the human-readable recommended regimen (dose and interval).
+    /// \param _regimen The recommended regimen text.
+    ///
+    void setRecommendedRegimen(const std::string& _regimen);
+
+    ///
     /// \brief Retrieves the text of the first dose.
     /// \return A constant reference to the first dose text.
     ///
@@ -197,6 +212,18 @@ public:
     /// \return The interval change (LOWER, HIGHER, EQUAL, NEW).
     ///
     [[nodiscard]] JustificationInterval getJustificationInterval() const;
+
+    ///
+    /// \brief Retrieves the human-readable previous regimen.
+    /// \return A constant reference to the previous regimen text.
+    ///
+    [[nodiscard]] const std::string& getPreviousRegimen() const;
+
+    ///
+    /// \brief Retrieves the human-readable recommended regimen.
+    /// \return A constant reference to the recommended regimen text.
+    ///
+    [[nodiscard]] const std::string& getRecommendedRegimen() const;
 };
 
 } // namespace Xpert

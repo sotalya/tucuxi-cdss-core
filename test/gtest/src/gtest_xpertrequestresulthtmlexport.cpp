@@ -3,6 +3,7 @@
 
 #include "testutils.h"
 #include "tucucdss-core/exporter/xpertrequestresulthtmlexport.h"
+#include "tucucdss-core/query/justification.h"
 #include "tucucdss-core/result/xpertqueryresult.h"
 
 /// \brief Gtest of XpertRequestResultHtmlExport.
@@ -101,6 +102,64 @@ TEST_F(XpertRequestResultHtmlExportTest, InheritsFromAbstractXpertRequestResultE
     XpertRequestResultHtmlExport exporter;
     AbstractXpertRequestResultExport* abstractPtr = &exporter;
     EXPECT_NE(abstractPtr, nullptr);
+}
+
+/// \brief Test-only subclass exposing the protected justification JSON builder.
+class ExposedHtmlExport : public XpertRequestResultHtmlExport
+{
+public:
+    using XpertRequestResultHtmlExport::getJustificationJson;
+};
+
+/// \brief The composed justification sentences must name the actual regimens (recommended in place of previous), carry
+///        no unresolved placeholder, and contain no "unknown translation" fallback.
+TEST_F(XpertRequestResultHtmlExportTest, JustificationDosageSentenceNamesActualRegimens)
+{
+    // SIMPLE, below-target, dose-increase justification.
+    std::string translations = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<translations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="translations_file.xsd">
+    <translation key="justification_before_title">Before starting new dosage:</translation>
+    <translation key="justification_new_title">New dosage:</translation>
+    <translation key="starting_from">Starting from:</translation>
+    <translation key="below_exposure">The estimated exposure is below the therapeutic target.</translation>
+    <translation key="increase_dosage">Therefore, a higher overall dose is recommended</translation>
+    <translation key="in_place_of">in place of</translation>
+</translations>)";
+    TestUtils::loadTranslationsFile(translations);
+
+    // Build an INCREASE justification: 400 mg every 12 h in place of 450 mg every 24 h. The direction is set by the
+    // caller; the sentence names the actual regimens.
+    Justification justification;
+    justification.setJustificationType(JustificationType::SIMPLE);
+    justification.setJustificationExposureSign(JustificationExposureSign::BELOW);
+    justification.setJustificationDoseSign(JustificationDoseSign::INCREASE);
+    justification.setPreviousRegimen("450 mg every day");
+    justification.setRecommendedRegimen("400 mg every 12 h");
+    justification.setFirstDoseText("400 mg every 12 h");
+    justification.setFirstDoseValue(400.0);
+
+    ExposedHtmlExport exporter;
+    inja::json justificationJson;
+    exporter.getJustificationJson(justification, justificationJson);
+
+    // Every string value produced must be free of placeholders and translated.
+    for (auto it = justificationJson.begin(); it != justificationJson.end(); ++it) {
+        if (it->is_string()) {
+            std::string value = it->get<std::string>();
+            EXPECT_FALSE(TestUtils::containsUnresolvedPlaceholder(value)) << "key " << it.key() << ": " << value;
+            EXPECT_EQ(value.find("unknown translation"), std::string::npos) << "key " << it.key();
+        }
+    }
+
+    // The dosage sentence names both regimens and the connector.
+    std::string dosageSentence = justificationJson["justification_dosage_sentence"].get<std::string>();
+    EXPECT_EQ(
+            dosageSentence,
+            "Therefore, a higher overall dose is recommended: 400 mg every 12 h in place of 450 mg every day.")
+            << dosageSentence;
+
+    // No separate interval sentence is emitted anymore.
+    EXPECT_EQ(justificationJson["justification_interval_sentence"].get<std::string>(), "");
 }
 
 } // namespace Xpert
