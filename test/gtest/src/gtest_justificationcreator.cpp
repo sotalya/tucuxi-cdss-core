@@ -323,7 +323,11 @@ TEST_F(JustificationCreatorTest, PerformSimpleLastingDose)
 
 
 /// \brief SIMPLE justification with a WeeklyDose adjustment.
-///        Old treatment: 450 mg daily. New adjustment: 800 mg weekly on Monday.
+///        Old treatment: 450 mg every 24 h.
+///        New adjustment: 800 mg weekly on Monday.
+///        The unit dose rises (450 -> 800) but the overall exposure, each regimen normalised to 24 h, falls (450 ->
+///        114), so the direction is a DECREASE. The direction is decided on the overall exposure, not on the unit
+///        dose, which is why this expectation is DECREASE and not INCREASE.
 TEST_F(JustificationCreatorTest, PerformSimpleWeeklyDose)
 {
     vector<std::string> models{TestUtils::originalImatinibModelString};
@@ -351,9 +355,11 @@ TEST_F(JustificationCreatorTest, PerformSimpleWeeklyDose)
 
     const Justification& justification = xpertRequestResult.getJustification();
     EXPECT_EQ(justification.getJustificationType(), JustificationType::SIMPLE);
-    EXPECT_EQ(justification.getJustificationDoseSign(), JustificationDoseSign::INCREASE);
+    EXPECT_EQ(justification.getJustificationDoseSign(), JustificationDoseSign::DECREASE);
     EXPECT_DOUBLE_EQ(justification.getFirstDoseValue(), 800.0);
     EXPECT_FALSE(justification.getFirstDoseText().empty());
+    // A weekly regimen reads "every week", not "every 168 h".
+    EXPECT_EQ(justification.getRecommendedRegimen(), "800 mg every week");
 }
 
 
@@ -1032,6 +1038,94 @@ TEST_F(JustificationCreatorTest, PerformFullJustificationEqual)
     EXPECT_EQ(justification.getJustificationInterval(), JustificationInterval::EQUAL);
     EXPECT_DOUBLE_EQ(justification.getFirstDoseValue(), 450.0);
     EXPECT_FALSE(justification.getFirstDoseText().empty());
+}
+
+
+/// \brief The unit dose falls (450 -> 400) but the overall exposure rises (each regimen normalised to 24 h: 450 ->
+///        800), so the primary clause must say INCREASE.
+TEST_F(JustificationCreatorTest, PerformDailyDoseIncreaseFromFractionation)
+{
+    vector<std::string> models{TestUtils::originalImatinibModelString};
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryDailyDosage, models, xpertQueryResult);
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    // New adjustment: 400 mg every 12 h = 800 mg/day.
+    Core::LastingDose lastingDose(
+            400.0, Common::TucuUnit("mg"), oralRoute, Common::Duration(), Common::Duration(std::chrono::hours(12)));
+    Core::DosageLoop dosageLoop(lastingDose);
+    Common::DateTime adjStart("2024-05-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Common::DateTime adjEnd("2024-06-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Core::DosageAdjustment adj = buildAdjustment(dosageLoop, adjStart, adjEnd, 700.0, 1000.0, 0.9);
+
+    // Current exposure below target.
+    setupAdjustmentData(xpertRequestResult, adj, 700.0, 1000.0);
+
+    JustificationCreator justificationCreator;
+    justificationCreator.perform(xpertRequestResult);
+
+    const Justification& justification = xpertRequestResult.getJustification();
+    EXPECT_EQ(justification.getJustificationDoseSign(), JustificationDoseSign::INCREASE);
+    // The actual regimens are named, not a synthesized per-period figure.
+    EXPECT_EQ(justification.getRecommendedRegimen(), "400 mg every 12 h");
+    EXPECT_EQ(justification.getPreviousRegimen(), "450 mg every day");
+}
+
+/// \brief The inverse case, overall exposure falling while the unit dose rises. Old 450 mg every 24 h, new 500 mg
+///        every 48 h. The unit dose rises (450 -> 500) but the exposure normalised to 24 h falls (450 -> 250):
+///        DECREASE.
+TEST_F(JustificationCreatorTest, PerformDailyDoseDecreaseDespiteHigherUnitDose)
+{
+    vector<std::string> models{TestUtils::originalImatinibModelString};
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryDailyDosage, models, xpertQueryResult);
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    Core::LastingDose lastingDose(
+            500.0, Common::TucuUnit("mg"), oralRoute, Common::Duration(), Common::Duration(std::chrono::hours(48)));
+    Core::DosageLoop dosageLoop(lastingDose);
+    Common::DateTime adjStart("2024-05-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Common::DateTime adjEnd("2024-06-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Core::DosageAdjustment adj = buildAdjustment(dosageLoop, adjStart, adjEnd, 1200.0, 1000.0, 0.9);
+
+    setupAdjustmentData(xpertRequestResult, adj, 1200.0, 1000.0);
+
+    JustificationCreator justificationCreator;
+    justificationCreator.perform(xpertRequestResult);
+
+    const Justification& justification = xpertRequestResult.getJustification();
+    EXPECT_EQ(justification.getJustificationDoseSign(), JustificationDoseSign::DECREASE);
+    // A whole number of days reads as days: 48 h is "every 2 days".
+    EXPECT_EQ(justification.getRecommendedRegimen(), "500 mg every 2 days");
+    EXPECT_EQ(justification.getPreviousRegimen(), "450 mg every day");
+}
+
+/// \brief Overall exposure is unchanged but redistributed. Old 450 mg every 24 h, new 225 mg every 12 h. Same exposure
+///        normalised to 24 h (450 = 450) over more administrations: neither increase nor decrease, so the sign is
+///        EQUAL.
+TEST_F(JustificationCreatorTest, PerformDailyDoseUnchangedWhenRedistributed)
+{
+    vector<std::string> models{TestUtils::originalImatinibModelString};
+    unique_ptr<XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryDailyDosage, models, xpertQueryResult);
+    XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    Core::LastingDose lastingDose(
+            225.0, Common::TucuUnit("mg"), oralRoute, Common::Duration(), Common::Duration(std::chrono::hours(12)));
+    Core::DosageLoop dosageLoop(lastingDose);
+    Common::DateTime adjStart("2024-05-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Common::DateTime adjEnd("2024-06-12 10:15:00", "%Y-%m-%d %H:%M:%S");
+    Core::DosageAdjustment adj = buildAdjustment(dosageLoop, adjStart, adjEnd, 950.0, 1000.0, 0.9);
+
+    setupAdjustmentData(xpertRequestResult, adj, 950.0, 1000.0);
+
+    JustificationCreator justificationCreator;
+    justificationCreator.perform(xpertRequestResult);
+
+    const Justification& justification = xpertRequestResult.getJustification();
+    EXPECT_EQ(justification.getJustificationDoseSign(), JustificationDoseSign::EQUAL);
+    EXPECT_EQ(justification.getRecommendedRegimen(), "225 mg every 12 h");
+    EXPECT_EQ(justification.getPreviousRegimen(), "450 mg every day");
 }
 
 

@@ -21,6 +21,7 @@ struct DosageInfo
     Interval interval;
     double timeInterval;
     std::string doseText;
+    std::string doseUnit;
 };
 
 ///
@@ -44,7 +45,8 @@ private:
             Justification& _justification,
             const XpertRequestResult& _xpertRequestResult,
             const Core::DosageAdjustment& _bestAdj);
-    void setJustificationDose(Justification& _justification, double _oldDose, double _newDose);
+    void setJustificationDose(
+            Justification& _justification, const DosageInfo& _oldDosage, const DosageInfo& _newDosage);
     void treatJustificationIntervalInfo(
             Justification& _justification, const DosageInfo& _oldDosage, const DosageInfo& _newDosage);
 

@@ -128,5 +128,41 @@ TEST_F(SampleValidationResultTest, PercentileSentenceGeneration)
     EXPECT_TRUE(sentence.find("1.50 ug/l") != std::string::npos);
 }
 
+/// \brief The reworded ascending-phase warning must reach the report clean,
+TEST_F(SampleValidationResultTest, AscendingSentenceHasNoUnresolvedPlaceholder)
+{
+    std::string translations = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<translations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="translations_file.xsd">
+    <translation key="txt_measured_of_prefix">The measured level of </translation>
+    <translation key="txt_with_dose_prefix"> in patients receiving the drug at a dosage of </translation>
+    <translation key="txt_expected_p25_p75"> corresponds to the concentrations usually observed</translation>
+    <translation key="txt_sample_in_ascending"> is difficult to interpret as it is taken during the drug absorption phase, which is characterized by high intra- and inter-individual variability. In general, it is recommended to perform sampling later after the dose, once the absorption phase is over, for a more accurate interpretation. Nevertheless this level </translation>
+</translations>)";
+    TestUtils::loadTranslationsFile(translations);
+
+    std::string sentence = SampleValidationResult::computePercentileSentence(50, 1.5, "ug/l", "400 mg", true);
+
+    EXPECT_FALSE(TestUtils::containsUnresolvedPlaceholder(sentence)) << sentence;
+    EXPECT_EQ(sentence.find("unknown translation"), std::string::npos) << sentence;
+    EXPECT_EQ(sentence.find("Nh"), std::string::npos) << sentence;
+}
+
+/// \brief The placeholder-detection test helper itself: it must flag an unsubstituted "{name}" and ignore ordinary
+///        text and stray braces.
+TEST(ContainsUnresolvedPlaceholderTest, DetectsUnresolvedPlaceholders)
+{
+    // The class of defect behind the historical "Nh post-dose" string.
+    EXPECT_TRUE(TestUtils::containsUnresolvedPlaceholder("sample at least {hours}h post-dose"));
+    EXPECT_TRUE(TestUtils::containsUnresolvedPlaceholder("from {daily_before} to {daily_after}"));
+
+    // Fully substituted or placeholder-free text is clean.
+    EXPECT_FALSE(TestUtils::containsUnresolvedPlaceholder("sampling 1h45m post-dose"));
+    EXPECT_FALSE(TestUtils::containsUnresolvedPlaceholder("from 450.00 mg to 800.00 mg"));
+
+    // Stray isolated braces are not treated as placeholders.
+    EXPECT_FALSE(TestUtils::containsUnresolvedPlaceholder("a { b } c"));
+    EXPECT_FALSE(TestUtils::containsUnresolvedPlaceholder("no braces here"));
+}
+
 } // namespace Xpert
 } // namespace Tucuxi

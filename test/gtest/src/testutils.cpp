@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+#include <cctype>
+
 #include "testutils.h"
 
 #include "tucucore/drugmodelchecker.h"
@@ -2040,6 +2042,10 @@ const std::string TestUtils::englishTranslationFile = R"(<?xml version="1.0" enc
                                                         <translation key="interval">interval</translation>
                                                         <translation key="daily_at">daily at</translation>
                                                         <translation key="every">every</translation>
+                                                        <translation key="every_day">every day</translation>
+                                                        <translation key="every_week">every week</translation>
+                                                        <translation key="every_days">every {count} days</translation>
+                                                        <translation key="every_hours">every {count} h</translation>
                                                         <translation key="day_1">Monday</translation>
                                                         <translation key="day_2">Tuesday</translation>
                                                         <translation key="day_3">Wednesday</translation>
@@ -2215,4 +2221,25 @@ void TestUtils::loadTranslationsFile(const std::string& _translationsFileXml)
 {
     Tucuxi::Xpert::LanguageManager& languageManager = Tucuxi::Xpert::LanguageManager::getInstance();
     languageManager.loadTranslations(_translationsFileXml);
+}
+
+bool TestUtils::containsUnresolvedPlaceholder(const std::string& _text)
+{
+    // Scan for a "{name}" region: an opening brace, one or more identifier characters (letters, digits or underscore),
+    // then a closing brace. This matches an unsubstituted fmt-style placeholder while ignoring stray isolated braces
+    // that may legitimately appear in report text.
+    for (size_t openPos = _text.find('{'); openPos != std::string::npos; openPos = _text.find('{', openPos + 1)) {
+
+        size_t cursor = openPos + 1;
+        while (cursor < _text.size()
+               && (std::isalnum(static_cast<unsigned char>(_text[cursor])) != 0 || _text[cursor] == '_')) {
+            ++cursor;
+        }
+
+        // A non-empty identifier immediately closed by '}' is a placeholder.
+        if (cursor > openPos + 1 && cursor < _text.size() && _text[cursor] == '}') {
+            return true;
+        }
+    }
+    return false;
 }

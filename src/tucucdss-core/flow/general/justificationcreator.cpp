@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+#include <cmath>
 #include <memory>
+
+#include <spdlog/fmt/fmt.h>
 
 #include "justificationcreator.h"
 
@@ -9,6 +12,124 @@
 
 namespace Tucuxi {
 namespace Xpert {
+
+namespace {
+
+/// \brief Number of hours in one day, used to normalise a regimen to a 24 h exposure.
+constexpr double HOURS_PER_DAY = 24.0;
+
+/// \brief Number of hours in one week, used to normalise a weekly regimen to a 24 h exposure.
+constexpr double HOURS_PER_WEEK = 168.0;
+
+/// \brief Absolute tolerance under which two normalised exposures are considered equal, so that floating point noise
+///        does not flip the direction.
+constexpr double DAILY_DOSE_EPSILON = 1e-6;
+
+/// \brief Compute a regimen's drug exposure normalised to a 24 h period, in the dose unit of the regimen:
+///        exposure = unit_dose * (24 / tau_hours).
+///        This value is used ONLY to decide the direction of the recommendation (increase, decrease, unchanged); it is
+///        never displayed, because for a regimen that is not daily (for example weekly) it is a per-day figure that is
+///        not taken on any single day. The report shows the actual regimens instead.
+/// \param _dosage Abstract dosage information (unit dose and interval).
+/// \return The 24 h normalised exposure. Falls back to the unit dose when the interval cannot yield a meaningful
+///         period.
+double computeDailyDose(const DosageInfo& _dosage)
+{
+    switch (_dosage.interval) {
+    case Interval::DAILY:
+        // One administration every 24 h: the daily dose is the unit dose.
+        return _dosage.dose;
+    case Interval::WEEKLY:
+        // One administration every 7 days.
+        return _dosage.dose * HOURS_PER_DAY / HOURS_PER_WEEK;
+    case Interval::LASTING:
+        // One administration every tau hours.
+        if (_dosage.timeInterval > 0.0) {
+            return _dosage.dose * HOURS_PER_DAY / _dosage.timeInterval;
+        }
+        return _dosage.dose;
+    }
+    return _dosage.dose;
+}
+
+/// \brief Format a numeric value without trailing zeros, so that a whole value renders without a decimal part (450.00
+///        becomes "450") while a fractional value keeps only the digits it needs (12.50 becomes "12.5").
+/// \param _value Value to format.
+/// \return The trimmed textual representation.
+std::string formatTrimmed(double _value)
+{
+    std::string text = doubleToString(_value);
+    std::string::size_type dotPos = text.find('.');
+    if (dotPos == std::string::npos) {
+        return text;
+    }
+
+    std::string::size_type lastNonZero = text.find_last_not_of('0');
+    // Drop the decimal point as well when no fractional digit remains.
+    if (text[lastNonZero] == '.') {
+        --lastNonZero;
+    }
+    text.erase(lastNonZero + 1);
+    return text;
+}
+
+/// \brief Render the interval of a lasting dose as a natural phrase. A whole number of days is expressed in days
+///        ("every day", "every 2 days", and so a monthly regimen reads "every 30 days"); anything else falls back to
+///        hours ("every 12 h").
+/// \param _hours Interval of the lasting dose, in hours.
+/// \param _langMgr Language manager used to translate the phrase.
+/// \return The interval phrase, or an empty string when the period is unknown.
+std::string formatLastingInterval(double _hours, LanguageManager& _langMgr)
+{
+    if (_hours <= 0.0) {
+        return "";
+    }
+
+    // A whole number of days reads more naturally as days than as hours.
+    if (std::fmod(_hours, HOURS_PER_DAY) == 0.0) {
+        double days = _hours / HOURS_PER_DAY;
+        if (days == 1.0) {
+            return _langMgr.translate("every_day");
+        }
+        return fmt::format(_langMgr.translate("every_days"), fmt::arg("count", formatTrimmed(days)));
+    }
+
+    return fmt::format(_langMgr.translate("every_hours"), fmt::arg("count", formatTrimmed(_hours)));
+}
+
+/// \brief Render a regimen as its actual intake, "<dose> <unit> <interval>", for instance "400 mg every 12 h", "450 mg
+///         every day" or "800 mg every week".
+/// \param _dosage Abstract dosage information (dose, unit and interval).
+/// \return The human-readable regimen text.
+std::string formatRegimen(const DosageInfo& _dosage)
+{
+    LanguageManager& langMgr = LanguageManager::getInstance();
+
+    std::string intervalPhrase;
+    switch (_dosage.interval) {
+    case Interval::DAILY:
+        intervalPhrase = langMgr.translate("every_day");
+        break;
+    case Interval::WEEKLY:
+        intervalPhrase = langMgr.translate("every_week");
+        break;
+    case Interval::LASTING:
+        intervalPhrase = formatLastingInterval(_dosage.timeInterval, langMgr);
+        break;
+    }
+
+    std::stringstream regimen;
+    regimen << formatTrimmed(_dosage.dose) << " " << _dosage.doseUnit;
+
+    // Omit the interval only when it is not known (a lasting dose with no period), in which case just the dose and
+    // unit are shown.
+    if (!intervalPhrase.empty()) {
+        regimen << " " << intervalPhrase;
+    }
+    return regimen.str();
+}
+
+} // namespace
 
 void JustificationCreator::perform(XpertRequestResult& _xpertRequestResult)
 {
@@ -44,7 +165,7 @@ void JustificationCreator::perform(XpertRequestResult& _xpertRequestResult)
         getAbstractDosage(*bestAdj.getDosageHistory().getDosageTimeRanges().at(1)->getDosage(), newDosage);
         justification.setJustificationType(JustificationType::DOUBLE);
 
-        setJustificationDose(justification, oldDosage.dose, newDosage.dose);
+        setJustificationDose(justification, oldDosage, newDosage);
 
         treatJustificationIntervalInfo(justification, oldDosage, newDosage);
         justification.setSecondDoseText(newDosage.doseText);
@@ -52,7 +173,7 @@ void JustificationCreator::perform(XpertRequestResult& _xpertRequestResult)
     }
     else {
         justification.setJustificationType(JustificationType::SIMPLE);
-        setJustificationDose(justification, oldDosage.dose, firstDosage.dose);
+        setJustificationDose(justification, oldDosage, firstDosage);
         treatJustificationIntervalInfo(justification, oldDosage, firstDosage);
     }
 
@@ -98,17 +219,30 @@ void JustificationCreator::setJustificationExposure(
     }
 }
 
-void JustificationCreator::setJustificationDose(Justification& _justification, double _oldDose, double _newDose)
+void JustificationCreator::setJustificationDose(
+        Justification& _justification, const DosageInfo& _oldDosage, const DosageInfo& _newDosage)
 {
-    if (_oldDose == -1) {
+    // A new treatment has no previous regimen to compare against.
+    if (_oldDosage.dose == -1) {
         _justification.setJustificationDoseSign(JustificationDoseSign::NEW);
         return;
     }
 
-    if (_oldDose > _newDose) {
+    // The direction of the recommendation is decided on the overall drug exposure, obtained by normalising each
+    // regimen to a 24 h period, not on the unit dose. A unit dose can fall while the overall exposure rises, for
+    // instance 450 mg every 24 h becoming 400 mg every 12 h, so only the normalised comparison gives the true
+    // direction. The regimens themselves, the actual dose taken at once and its interval, are reported as they stand
+    // stand, so no averaged figure is shown.
+    double exposureBefore = computeDailyDose(_oldDosage);
+    double exposureAfter = computeDailyDose(_newDosage);
+
+    _justification.setPreviousRegimen(formatRegimen(_oldDosage));
+    _justification.setRecommendedRegimen(formatRegimen(_newDosage));
+
+    if (exposureBefore - exposureAfter > DAILY_DOSE_EPSILON) {
         _justification.setJustificationDoseSign(JustificationDoseSign::DECREASE);
     }
-    else if (_oldDose < _newDose) {
+    else if (exposureAfter - exposureBefore > DAILY_DOSE_EPSILON) {
         _justification.setJustificationDoseSign(JustificationDoseSign::INCREASE);
     }
     else {
@@ -214,6 +348,7 @@ void JustificationCreator::getSingleDose(const Core::SingleDose& _dosage, Dosage
     }
 
     _dosageInfo.dose = _dosage.getDose();
+    _dosageInfo.doseUnit = _dosage.getDoseUnit().toString();
 }
 
 void JustificationCreator::getDosage(const Core::DosageLoop& _dosage, DosageInfo& _dosageInfo) const

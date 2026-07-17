@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include <cctype>
+#include <cmath>
+#include <cstdint>
 #include <iomanip>
 #include <sstream>
 
@@ -162,6 +164,25 @@ std::string dateTimeToString(const Common::DateTime& _dateTime, bool _withTime)
                               chrono::seconds(_dateTime.second())));
 
     return dateTimeStream.str();
+}
+
+std::string durationToTimeAfterDoseString(const Common::Duration& _duration)
+{
+    // A negative interval means the sample predates every dose; an unset or undefined interval is likewise not a
+    // valid post-dose delay. Neither renders as a time, so an empty string is returned in that case.
+    if (_duration.isNegative()) {
+        return "";
+    }
+
+    // Round to the nearest minute, then split into whole hours and the remaining minutes. Hours are never rolled over
+    // into days, so a value beyond 24 hours keeps accumulating in the hour component.
+    int64_t totalMinutes = static_cast<int64_t>(llround(_duration.toMinutes()));
+    int64_t hours = totalMinutes / 60;
+    int64_t minutes = totalMinutes % 60;
+
+    stringstream stream;
+    stream << hours << 'h' << setfill('0') << setw(2) << minutes << 'm';
+    return stream.str();
 }
 
 std::string beautifyString(const std::string& _value, Core::DataType _type, const std::string& _id)

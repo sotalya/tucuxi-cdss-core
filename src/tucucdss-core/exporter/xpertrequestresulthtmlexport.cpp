@@ -922,10 +922,9 @@ void XpertRequestResultHtmlExport::getSamplesJson(
         sampleJson["warning_level"] = warningLevelToString(sampleValidationResult.getWarningLevel());
 
         if (!_timeAfterDoseDurations.empty()) {
-            stringstream tadStream;
-            tadStream.precision(2);
-            tadStream << _timeAfterDoseDurations.at(i).toHours() << " h";
-            sampleJson["tad"] = tadStream.str();
+            // Render the elapsed post-dose interval through the single XXhYYm formatter. A negative or undefined
+            // interval yields an empty string, which the template shows as "N/A" rather than a time.
+            sampleJson["tad"] = durationToTimeAfterDoseString(_timeAfterDoseDurations.at(i));
         }
 
         if (i + 1 == _sampleResults.size()) {
@@ -1054,7 +1053,7 @@ void XpertRequestResultHtmlExport::getJustificationJson(
         _justificationJson["justification_exposure_sentence"] = langMgr.translate("above_exposure");
         break;
     case JustificationExposureSign::BELOW:
-        _justificationJson["justification_exposure_sentence"] = langMgr.translate("bellow_exposure");
+        _justificationJson["justification_exposure_sentence"] = langMgr.translate("below_exposure");
         break;
     case JustificationExposureSign::EQUAL:
         _justificationJson["justification_exposure_sentence"] = langMgr.translate("equal_exposure");
@@ -1063,40 +1062,45 @@ void XpertRequestResultHtmlExport::getJustificationJson(
         _justificationJson["justification_exposure_sentence"] = "";
     }
 
-    switch (_justification.getJustificationInterval()) {
-    case JustificationInterval::HIGHER:
-        _justificationJson["justification_interval_sentence"] = langMgr.translate("higher_interval");
+    // The dosing interval is already carried by the regimen texts in the dosage sentence (each names its own
+    // interval), so no separate interval sentence is emitted.
+    _justificationJson["justification_interval_sentence"] = "";
+
+    // The dosage sentence states the direction of the recommendation on the overall exposure, then names the actual
+    // regimens: the recommended intake in place of the previous one. No averaged or per-period figure is shown.
+    std::string directionKey;
+    std::string directionSign;
+    switch (_justification.getJustificationDoseSign()) {
+    case JustificationDoseSign::DECREASE:
+        directionKey = "decrease_dosage";
+        directionSign = "decrease";
         break;
-    case JustificationInterval::EQUAL:
-        _justificationJson["justification_interval_sentence"] = langMgr.translate("equal_interval");
+    case JustificationDoseSign::INCREASE:
+        directionKey = "increase_dosage";
+        directionSign = "increase";
         break;
-    case JustificationInterval::LOWER:
-        _justificationJson["justification_interval_sentence"] = langMgr.translate("lower_interval");
+    case JustificationDoseSign::EQUAL:
+        directionKey = "equal_dosage";
+        directionSign = "equal";
         break;
+    case JustificationDoseSign::NEW:
     default:
-        _justificationJson["justification_interval_sentence"] = "";
+        directionKey = "new_dosage";
+        directionSign = "new";
         break;
     }
 
-    switch (_justification.getJustificationDoseSign()) {
-    case JustificationDoseSign::DECREASE:
-        _justificationJson["justification_dosage_sentence"] = langMgr.translate("decrease_dosage");
-        _justificationJson["justification_sign"] = "decrease";
-        break;
-    case JustificationDoseSign::INCREASE:
-        _justificationJson["justification_dosage_sentence"] = langMgr.translate("increase_dosage");
-        _justificationJson["justification_sign"] = "increase";
-        break;
-    case JustificationDoseSign::EQUAL:
-        _justificationJson["justification_dosage_sentence"] = langMgr.translate("equal_dosage");
-        _justificationJson["justification_sign"] = "equal";
-        break;
-    case JustificationDoseSign::NEW:
-        _justificationJson["justification_dosage_sentence"] = langMgr.translate("new_dosage");
-        _justificationJson["justification_sign"] = "new";
-        break;
-    default:
-        _justificationJson["justification_exposure_sentence"] = "";
+    _justificationJson["justification_sign"] = directionSign;
+
+    if (_justification.getJustificationDoseSign() == JustificationDoseSign::NEW) {
+        // A first treatment has no previous regimen to compare against.
+        _justificationJson["justification_dosage_sentence"] = langMgr.translate(directionKey);
+    }
+    else {
+        std::stringstream dosageSentence;
+        dosageSentence << langMgr.translate(directionKey) << ": " << _justification.getRecommendedRegimen() << " "
+                       << langMgr.translate("in_place_of") << " " << _justification.getPreviousRegimen() << ".";
+        _justificationJson["justification_dosage_sentence"] = dosageSentence.str();
     }
 }
 

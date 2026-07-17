@@ -89,7 +89,7 @@ std::string SampleValidationResult::computePercentileSentence(
     std::string sentence = fmt::format("{} {} ", prefixMeasured, valueStr);
 
     if (_isAscending) {
-        sentence += fmt::format(langMgr.translate("txt_sample_in_ascending"), fmt::arg("hours", "N"));
+        sentence += langMgr.translate("txt_sample_in_ascending");
     }
 
     sentence += fmt::format("{} {} {}", body, prefixDose, _doseText);

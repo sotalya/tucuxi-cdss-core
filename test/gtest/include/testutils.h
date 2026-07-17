@@ -58,6 +58,13 @@ public:
     /// \brief Load a given translations file.
     /// \param _translationsFileXml Xml string of the translations file to load.
     static void loadTranslationsFile(const std::string& _translationsFileXml);
+
+    /// \brief Tell whether a rendered string still contains an unresolved substitution placeholder of the form
+    ///        "{name}". A report string reaching the user must never contain one: it means a template variable was left unbound
+    ///        Tests sweep warning and justification templates with this predicate.
+    /// \param _text Rendered string to inspect.
+    /// \return True if an unresolved "{name}" placeholder is present.
+    static bool containsUnresolvedPlaceholder(const std::string& _text);
 };
 
 #endif // TESTUTILS_H
