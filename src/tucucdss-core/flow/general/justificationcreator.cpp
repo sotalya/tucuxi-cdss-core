@@ -231,8 +231,8 @@ void JustificationCreator::setJustificationDose(
     // The direction of the recommendation is decided on the overall drug exposure, obtained by normalising each
     // regimen to a 24 h period, not on the unit dose. A unit dose can fall while the overall exposure rises, for
     // instance 450 mg every 24 h becoming 400 mg every 12 h, so only the normalised comparison gives the true
-    // direction. The regimens themselves, the actual dose taken at once and its interval, are reported as they stand
-    // stand, so no averaged figure is shown.
+    // direction. The regimens themselves, the actual dose taken at once and its interval, are reported as they stand, so no
+    // averaged figure is shown.
     double exposureBefore = computeDailyDose(_oldDosage);
     double exposureAfter = computeDailyDose(_newDosage);
 
