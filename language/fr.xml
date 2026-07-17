@@ -190,7 +190,7 @@
     <translation key="every_days">tous les {count} jours</translation>
     <translation key="every_hours">toutes les {count} h</translation>
     <translation key="new_dosage">Ce premier dosage devrait être le meilleur, compte tenu des informations concernant ce patient.</translation>
-    <translation key="starting_from">À partir de:</translation>
+    <translation key="starting_from">À partir de</translation>
     <translation key="justification_rest_period">Une période de repos doit être observée avant le dosage suivant.</translation>
     <translation key="justification_adaptative_dose">Prendre la dose suivante à partir de</translation>
     <translation key="justification_before_title">Avant de commencer un nouveau dosage :</translation>

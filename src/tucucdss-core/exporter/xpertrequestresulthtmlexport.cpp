@@ -1022,7 +1022,7 @@ void XpertRequestResultHtmlExport::getJustificationJson(
         _justificationJson["type"] = "simple";
 
         std::stringstream ss;
-        ss << _justification.getFirstDoseText() << "(<strong>" << langMgr.translate("starting_from") << "</strong>"
+        ss << _justification.getFirstDoseText() << "<br/>(<strong>" << langMgr.translate("starting_from") << " </strong>"
            << dateTimeToString(_justification.getFirstDoseDate()) << ")";
 
         _justificationJson["dosage_sentence"] = ss.str();
@@ -1035,14 +1035,14 @@ void XpertRequestResultHtmlExport::getJustificationJson(
         }
         else {
             std::stringstream ss;
-            ss << langMgr.translate("justification_adaptative_dose") << ":<strong>"
+            ss << langMgr.translate("justification_adaptative_dose") << " <strong>"
                << dateTimeToString(_justification.getFirstDoseDate())
                << "</strong>: " << _justification.getFirstDoseText();
             _justificationJson["before_dosage_sentence"] = ss.str();
         }
 
         std::stringstream ss;
-        ss << _justification.getSecondDoseText() << "(<strong>" << langMgr.translate("starting_from") << "</strong>"
+        ss << _justification.getSecondDoseText() << "<br/>(<strong>" << langMgr.translate("starting_from") << " </strong>"
            << dateTimeToString(_justification.getSecondDoseDate()) << ")";
 
         _justificationJson["dosage_sentence"] = ss.str();

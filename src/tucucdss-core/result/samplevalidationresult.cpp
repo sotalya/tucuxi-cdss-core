@@ -92,7 +92,7 @@ std::string SampleValidationResult::computePercentileSentence(
         sentence += langMgr.translate("txt_sample_in_ascending");
     }
 
-    sentence += fmt::format("{} {} {}", body, prefixDose, _doseText);
+    sentence += fmt::format("{} {} {}.", body, prefixDose, _doseText);
 
     if (!optSuffix.empty()) {
         sentence += optSuffix;
