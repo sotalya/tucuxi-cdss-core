@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include <fstream>
+#include <filesystem>
 
 #include "computer.h"
 
@@ -61,12 +62,26 @@ ComputingStatus Computer::computeFromString(const ComputingConfig& _config, cons
 
     unique_ptr<XpertQueryData> query = nullptr;
 
+    // Remove any previous import_error.log before a fresh attempt.
+    {
+      std::error_code ec;
+      std::filesystem::remove(_config.outputPath + "/import_error.log", ec);
+    }
+
     XpertQueryImport importer;
     XpertQueryImport::Status importResult = importer.importFromString(query, _inputString);
 
     if (importResult != XpertQueryImport::Status::Ok) {
 
         logHelper.error("Query import error, see details : {}", importer.getErrorMessage());
+        // Write detailed import error to a file so the backend can relay it.
+        {
+          std::ofstream errFile(_config.outputPath + "/import_error.log");
+          if (errFile.is_open()) {
+            errFile << "Query import error: " << importer.getErrorMessage();
+            errFile.close();
+          }
+        }
         return ComputingStatus::IMPORT_ERROR;
     }
 
