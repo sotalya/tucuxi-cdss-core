@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /* ===== Mini-helpers Vanilla (remplacent jQuery) ===== */
-const $  = (sel, ctx = document) => ctx.querySelector(sel);
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
 const setHTML = (sel, html) => {
@@ -26,7 +26,8 @@ const fmtDate = (iso) => new Date(iso).toISOString().slice(0, 10);
 async function fetchJSON() {
   try {
     const res = await fetch("data_result.json");
-    if (!res.ok) throw new Error("Network response was not ok " + res.statusText);
+    if (!res.ok)
+      throw new Error("Network response was not ok " + res.statusText);
     return await res.json();
   } catch (err) {
     console.error("fetchJSON error:", err);
@@ -38,7 +39,7 @@ async function fetchJSON() {
  * Parsing / normalisation
  * ============================================================================= */
 function parseJsonMaybeString(fullJson) {
-  return (typeof fullJson === "string") ? JSON.parse(fullJson) : fullJson;
+  return typeof fullJson === "string" ? JSON.parse(fullJson) : fullJson;
 }
 
 function formatBirthdate(birthdate) {
@@ -54,29 +55,38 @@ function capitalizeFirst(str) {
  * Section: Header / Contacts
  * ============================================================================= */
 function renderHospital(data) {
-  setHTML("#hospitalName",    data.contacts?.mandator?.institute?.name ?? "N/A");
-  setHTML("#hospitalContact", data.contacts?.mandator?.institute?.phone ?? "N/A");
+  setHTML("#hospitalName", data.contacts?.mandator?.institute?.name ?? "N/A");
+  setHTML(
+    "#hospitalContact",
+    data.contacts?.mandator?.institute?.phone ?? "N/A",
+  );
   setHTML(
     "#reportDate",
-    data.header?.computation_time ? data.header.computation_time : "N/A"
+    data.header?.computation_time ? data.header.computation_time : "N/A",
   );
 }
 
 function renderPractitioner(data) {
-  setHTML("#practitionerName",     data.contacts?.mandator?.name ?? "N/A");
-  setHTML("#practitionerLocation", data.contacts?.mandator?.institute?.name ?? "N/A");
-  setHTML("#practitionerEmail",    data.contacts?.mandator?.email ?? "N/A");
-  setHTML("#practitionerPhone",    data.contacts?.mandator?.phone ?? "N/A");
+  setHTML("#practitionerName", data.contacts?.mandator?.name ?? "N/A");
+  setHTML(
+    "#practitionerLocation",
+    data.contacts?.mandator?.institute?.name ?? "N/A",
+  );
+  setHTML("#practitionerEmail", data.contacts?.mandator?.email ?? "N/A");
+  setHTML("#practitionerPhone", data.contacts?.mandator?.phone ?? "N/A");
 }
 
 function renderPatient(data) {
-  setHTML("#patientId",      data.contacts?.patient?.id ?? "N/A");
-  setHTML("#patientName",    data.contacts?.patient?.name ?? "N/A");
+  setHTML("#patientId", data.contacts?.patient?.id ?? "N/A");
+  setHTML("#patientName", data.contacts?.patient?.name ?? "N/A");
   setHTML("#patientAddress", data.contacts?.patient?.address ?? "N/A");
-  setHTML("#patientCity",    "N/A");
-  setHTML("#patientEmail",   data.contacts?.patient?.email ?? "N/A");
-  setHTML("#patientPhone",   data.contacts?.patient?.phone ?? "N/A");
-  setHTML("#patientDOB",     formatBirthdate(data.contacts?.patient?.birthdate ?? ""));
+  setHTML("#patientCity", "N/A");
+  setHTML("#patientEmail", data.contacts?.patient?.email ?? "N/A");
+  setHTML("#patientPhone", data.contacts?.patient?.phone ?? "N/A");
+  setHTML(
+    "#patientDOB",
+    formatBirthdate(data.contacts?.patient?.birthdate ?? ""),
+  );
 }
 
 /* =============================================================================
@@ -86,22 +96,43 @@ function computeAndRenderDrugName(data) {
   const drugName = data.intro?.drug_id || "";
   const formattedDrugName = capitalizeFirst(drugName);
 
-  $$(".drug_name").forEach((el) => { el.innerHTML = formattedDrugName; });
+  $$(".drug_name").forEach((el) => {
+    el.innerHTML = formattedDrugName;
+  });
   return formattedDrugName;
 }
 
 function renderTranslations(data) {
-  $$(".dosage_translate").forEach((el) => { el.innerHTML = data.adjustments?.dosage_translation ?? "N/A"; });
+  $$(".dosage_translate").forEach((el) => {
+    el.innerHTML = data.adjustments?.dosage_translation ?? "N/A";
+  });
 
-  setHTML("#hospital_translate",          data.report_translation?.hospital_translate ?? "N/A");
-  setHTML("#report_date_translate",       data.report_translation?.report_date_translate ?? "N/A");
-  setHTML("#requesting_practi_translate", data.report_translation?.requesting_practi_translate ?? "N/A");
-  setHTML("#page_title",                  data.report_translation?.page_title ?? "N/A");
+  setHTML(
+    "#hospital_translate",
+    data.report_translation?.hospital_translate ?? "N/A",
+  );
+  setHTML(
+    "#report_date_translate",
+    data.report_translation?.report_date_translate ?? "N/A",
+  );
+  setHTML(
+    "#requesting_practi_translate",
+    data.report_translation?.requesting_practi_translate ?? "N/A",
+  );
+  setHTML("#page_title", data.report_translation?.page_title ?? "N/A");
 
-  $$(".name_translate").forEach((el) => { el.innerHTML = data.contacts?.name_translation ?? "N/A"; });
-  $$(".phone_translate").forEach((el) => { el.innerHTML = data.contacts?.phone_translation ?? "N/A"; });
-  $$(".address_translation").forEach((el) => { el.innerHTML = data.contacts?.address_translation ?? "N/A"; });
-  $$(".email_translation").forEach((el) => { el.innerHTML = data.contacts?.email_translation ?? "N/A"; });
+  $$(".name_translate").forEach((el) => {
+    el.innerHTML = data.contacts?.name_translation ?? "N/A";
+  });
+  $$(".phone_translate").forEach((el) => {
+    el.innerHTML = data.contacts?.phone_translation ?? "N/A";
+  });
+  $$(".address_translation").forEach((el) => {
+    el.innerHTML = data.contacts?.address_translation ?? "N/A";
+  });
+  $$(".email_translation").forEach((el) => {
+    el.innerHTML = data.contacts?.email_translation ?? "N/A";
+  });
 }
 
 /* =============================================================================
@@ -109,7 +140,8 @@ function renderTranslations(data) {
  * ============================================================================= */
 function renderCovariates(data) {
   const covariates = data.covariates?.covariates || [];
-  const clinicalParams = data.computation_covariates?.computation_covariates || [];
+  const clinicalParams =
+    data.computation_covariates?.computation_covariates || [];
   const clinicalParamNames = clinicalParams.map((p) => p.name);
 
   let warningsCovariate = [];
@@ -117,9 +149,11 @@ function renderCovariates(data) {
   if (covariates.length > 0) {
     let html = "";
 
-    const clinicalCovariates = covariates.filter((c) => clinicalParamNames.includes(c.name));
+    const clinicalCovariates = covariates.filter((c) =>
+      clinicalParamNames.includes(c.name),
+    );
     const otherCovariates = covariates.filter(
-      (c) => (!clinicalParamNames.includes(c.name) && c.name !== "birthdate")
+      (c) => !clinicalParamNames.includes(c.name) && c.name !== "birthdate",
     );
 
     if (clinicalCovariates.length && otherCovariates.length) {
@@ -157,12 +191,17 @@ function renderCovariates(data) {
     setHTML("#covariateDate", covariates[0]?.date ?? "N/A");
     setHTML("#covariatesBody", html);
   } else {
-    setHTML("#covariatesBody", '<tr><td colspan="2">No covariates available</td></tr>');
+    setHTML(
+      "#covariatesBody",
+      '<tr><td colspan="2">No covariates available</td></tr>',
+    );
   }
 
   if (warningsCovariate.length > 0) {
     let list = "";
-    warningsCovariate.forEach((w) => { list += `<li><strong>${w.name}</strong>: ${w.warning}</li>`; });
+    warningsCovariate.forEach((w) => {
+      list += `<li><strong>${w.name}</strong>: ${w.warning}</li>`;
+    });
     setHTML("#warningsCovariateList", list);
   } else {
     hide("#warningsCovariateContainer");
@@ -186,7 +225,10 @@ function renderPkParams(data) {
     });
     setHTML("#pharmaParamsBody", html);
   } else {
-    setHTML("#pharmaParamsBody", '<tr><td colspan="3">No clinical params available</td></tr>');
+    setHTML(
+      "#pharmaParamsBody",
+      '<tr><td colspan="3">No clinical params available</td></tr>',
+    );
   }
 }
 
@@ -218,7 +260,8 @@ function renderSamples(data, formattedDrugName) {
 
   samples.forEach((sample) => {
     const hasWarn = Boolean(sample.warning);
-    if (hasWarn) warningsSample.push({ name: sample.date, warning: sample.warning });
+    if (hasWarn)
+      warningsSample.push({ name: sample.date, warning: sample.warning });
 
     samplesHtml += `
         <tr class="${hasWarn ? "warning-row" : ""}">
@@ -229,8 +272,11 @@ function renderSamples(data, formattedDrugName) {
     if (sample.warning_sentence) {
       const level = (sample.warning_level || "normal").toLowerCase();
       const inlineLevelClass =
-        level === "warning" ? "level-warning" :
-        level === "critical" ? "level-critical" : "";
+        level === "warning"
+          ? "level-warning"
+          : level === "critical"
+            ? "level-critical"
+            : "";
 
       samplesHtml += `
           <tr class="sample-inline-warning">
@@ -253,7 +299,9 @@ function renderSamples(data, formattedDrugName) {
 
   if (warningsSample.length > 0) {
     let list = "";
-    warningsSample.forEach((w) => { list += `<li><strong>${w.name}</strong>: ${w.warning}</li>`; });
+    warningsSample.forEach((w) => {
+      list += `<li><strong>${w.name}</strong>: ${w.warning}</li>`;
+    });
     setHTML("#warningsSampleList", list);
   } else {
     hide("#warningsSampleContainer");
@@ -320,7 +368,10 @@ function renderCurrentDosage(data, formattedDrugName) {
  * Section: Exposure + Recommendation + Graph placeholders in HTML
  * ============================================================================= */
 function renderExposureAndRecommendation(data, formattedDrugName) {
-  setHTML("#dailyExposure",     data?.compgraph_data?.compgraph_data?.[0]?.valueBefore ?? "N/A");
+  setHTML(
+    "#dailyExposure",
+    data?.compgraph_data?.compgraph_data?.[0]?.valueBefore ?? "N/A",
+  );
   setHTML("#therapeuticTarget", data?.targets?.targets?.[0]?.value ?? "N/A");
 
   const justificationInfo = data?.report_translation?.justification_info?.[0];
@@ -331,7 +382,7 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
       increase: "<!-- INLINE_IMG:assets/increase_logo.txt -->",
       decrease: "<!-- INLINE_IMG:assets/decrease_logo.txt -->",
       equal: "<!-- INLINE_IMG:assets/equal_logo.txt -->",
-      new: ""
+      new: "",
     };
     const arrow = arrowMap[justificationInfo.justification_sign] || "";
 
@@ -339,7 +390,9 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
         <div class="section red-border">
           <div class="title red-line-title">Dosage Recommendation</div>
 
-          ${justificationInfo.type === "double" ? `
+          ${
+            justificationInfo.type === "double"
+              ? `
           <div class="dosage-block">
             <div class="dosage-icon">
               <img src="<!-- INLINE_IMG:assets/warning_logo.txt -->" alt="Warning Icon" class="icon"/>
@@ -348,7 +401,9 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
               <p class="dosage-before">${justificationInfo.before_title}</p>
               <p class="dosage-details">${justificationInfo.before_dosage_sentence}</p>
             </div>
-          </div>` : ""}
+          </div>`
+              : ""
+          }
 
           <div class="dosage-block">
             <div class="dosage-icon">
@@ -376,7 +431,9 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
   const content = document.getElementById("adjustmentContent");
   const valueBefore = data?.compgraph_data?.compgraph_data?.[0]?.valueBefore;
   const formattedValueBefore =
-    (typeof valueBefore === "number") ? valueBefore.toFixed(2) : (valueBefore ?? "N/A");
+    typeof valueBefore === "number"
+      ? valueBefore.toFixed(2)
+      : (valueBefore ?? "N/A");
 
   const regex = /Min:\s*(\d+).*Max:\s*(\d+)/;
   const matches = (data?.targets?.targets?.[0]?.bounds || "").match(regex);
@@ -396,13 +453,14 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
 
         <div>${dosageHtml}</div>
 
-        <div class="section">
+        <div id="drugExposureGraphSection">
           <div class="title">Drug exposure</div>
           <div id="graphContainer"></div>
-          <div class="title">Drug blood concentration over time</div>
-          <div class='canvasAdjustments'>
-            <canvas id='canBestAdj' width='716' height='474'></canvas>
-          </div>
+        </div>
+
+        <div class="title">Drug blood concentration over time</div>
+        <div class="canvasAdjustments">
+          <canvas id="canBestAdj" width="716" height="474"></canvas>
         </div>`;
   };
 
@@ -425,49 +483,81 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
  * Graph logic
  * ============================================================================= */
 function buildAdjustmentsData(jsonData) {
-  return jsonData?.graph_data?.adjustments?.map((adjustment) => {
-    return adjustment.cycles.map((cycle) => {
-      const times_list = cycle.times.split(",").map((i) => parseFloat(i));
-      const values_list = cycle.values.split(",").map((i) => parseFloat(i));
-      return [cycle.start, times_list, values_list];
-    });
-  }) || [];
+  return (
+    jsonData?.graph_data?.adjustments?.map((adjustment) => {
+      return adjustment.cycles.map((cycle) => {
+        const times_list = cycle.times.split(",").map((i) => parseFloat(i));
+        const values_list = cycle.values.split(",").map((i) => parseFloat(i));
+        return [cycle.start, times_list, values_list];
+      });
+    }) || []
+  );
 }
 
 function buildTargets(jsonData) {
-  return jsonData?.graph_data?.targets?.map((target) => {
-    return [target.type, parseFloat(target.min), parseFloat(target.best), parseFloat(target.max)];
-  }) || [];
+  return (
+    jsonData?.graph_data?.targets?.map((target) => {
+      return [
+        target.type,
+        parseFloat(target.min),
+        parseFloat(target.best),
+        parseFloat(target.max),
+      ];
+    }) || []
+  );
 }
 
 function buildPosterioriPrediction(jsonData) {
-  return jsonData?.pda_aposteriori_data?.concentrations?.map((c) => {
-    return [c.start, c.times.split(",").map(Number), c.values.split(",").map(Number)];
-  }) || [];
+  return (
+    jsonData?.pda_aposteriori_data?.concentrations?.map((c) => {
+      return [
+        c.start,
+        c.times.split(",").map(Number),
+        c.values.split(",").map(Number),
+      ];
+    }) || []
+  );
 }
 
 function computeEarliestDate(jsonData) {
   const dates = [];
 
   if (jsonData.graph_data?.adjustment_date) {
-    dates.push(new Date(jsonData.graph_data.adjustment_date.replace(/['"]/g, "")));
+    dates.push(
+      new Date(jsonData.graph_data.adjustment_date.replace(/['"]/g, "")),
+    );
   }
 
-  jsonData.pda_aposteriori_data?.concentrations?.forEach((c) => { if (c.start) dates.push(new Date(c.start)); });
-  jsonData.pda_apriori_data?.percentiles?.forEach((p) => { if (p.start) dates.push(new Date(p.start)); });
+  jsonData.pda_aposteriori_data?.concentrations?.forEach((c) => {
+    if (c.start) dates.push(new Date(c.start));
+  });
+  jsonData.pda_apriori_data?.percentiles?.forEach((p) => {
+    if (p.start) dates.push(new Date(p.start));
+  });
 
   return dates.reduce((min, current) => (current < min ? current : min));
 }
 
 function renderComparativeGraphs(dataList) {
+  const graphSection = document.getElementById("drugExposureGraphSection");
   const graphContainer = document.getElementById("graphContainer");
-  if (!graphContainer) {
-    console.log("Comparative graphic container does not exist in HTML!");
+  console.log("CONNNARD");
+  if (!graphContainer || !graphSection) return;
+
+  graphSection.style.display = "none";
+  graphContainer.innerHTML = "";
+
+  if (!Array.isArray(dataList) || !dataList.length) {
     return;
   }
 
-  graphContainer.innerHTML = "";
+  let graphCreated = false;
+
   dataList.forEach((dataCompGraph, index) => {
+    if (!dataCompGraph || Object.keys(dataCompGraph).length === 0) {
+      return;
+    }
+
     const canvas = document.createElement("canvas");
     canvas.id = `graphCanvas${index}`;
     canvas.width = 600;
@@ -490,12 +580,16 @@ function renderComparativeGraphs(dataList) {
       minY: 0,
       maxY: 170,
       fontSize: "10px",
-      police: "sans-serif"
+      police: "sans-serif",
     };
 
-    // Fonction existante (graphcreator.js / graphing.js)
     CgDrawGraph(canvas, payload);
+    graphCreated = true;
   });
+
+  if (graphCreated) {
+    graphSection.style.display = "";
+  }
 }
 
 function renderMainGraphs(jsonData) {
@@ -503,7 +597,9 @@ function renderMainGraphs(jsonData) {
   const targets = buildTargets(jsonData);
 
   if (!(adjustmentsData.length > 0 && targets.length > 0)) {
-    console.log("Aucune donnée disponible pour afficher les graphiques ou les cibles.");
+    console.log(
+      "Aucune donnée disponible pour afficher les graphiques ou les cibles.",
+    );
     return;
   }
 
@@ -527,8 +623,8 @@ function renderMainGraphs(jsonData) {
     jsonData?.pda_apriori_data?.percentiles,
     pda_aposteriori_Prediction, // A Posteriori Prediction
     pda_aposteriori_Prediction, // A Priori Prediction
-    [],                         // A Posteriori Percentiles
-    jsonData.samples?.samples || []
+    [], // A Posteriori Percentiles
+    jsonData.samples?.samples || [],
   );
 }
 
@@ -567,8 +663,6 @@ onReady(() => {
 
     renderMainGraphs(jsonData);
 
-    if (jsonData?.compgraph_data?.compgraph_data?.length > 0) {
-      renderComparativeGraphs(jsonData.compgraph_data.compgraph_data);
-    }
+    renderComparativeGraphs(jsonData?.compgraph_data?.compgraph_data || []);
   }
 });
