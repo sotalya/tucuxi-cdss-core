@@ -173,8 +173,8 @@
     <translation key="and">and</translation>
 
     <!-- Configuration range message -->
-    <translation key="exclude_range">exclude</translation>
-    <translation key="include_range">include</translation>
+    <translation key="exclude_range">exclusive</translation>
+    <translation key="include_range">inclusive</translation>
 
     <!-- Justification sentences -->
 

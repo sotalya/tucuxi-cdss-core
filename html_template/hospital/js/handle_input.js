@@ -435,7 +435,7 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
       ? valueBefore.toFixed(2)
       : (valueBefore ?? "N/A");
 
-  const regex = /Min:\s*(\d+).*Max:\s*(\d+)/;
+  const regex = /Min:\s*(\d+).*Best:\s*(\d+).*Max:\s*(\d+)/;
   const matches = (data?.targets?.targets?.[0]?.bounds || "").match(regex);
 
   const renderDefaultHTML = () => {
@@ -447,7 +447,7 @@ function renderExposureAndRecommendation(data, formattedDrugName) {
           </div>
           <table><tbody>
             <tr><td>Residual concentration</td><td><span id="dailyExposure">${formattedValueBefore} ug/l</span></td></tr>
-            <tr><td>Target</td><td>${data.targets.targets[0].value}, [${parseInt(matches?.[1] || "0", 10)},${parseInt(matches?.[2] || "0", 10)}]</td></tr>
+            <tr><td>Target</td><td>${parseInt(matches?.[2] || "0", 10)}, [${parseInt(matches?.[1] || "0", 10)},${parseInt(matches?.[3] || "0", 10)}] ug/l</td></tr>
           </tbody></table>
         </div>
 

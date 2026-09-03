@@ -1019,7 +1019,7 @@ function drawAxisTicks(cdata, ctx)
     var dateHalfWidth = 2 * hourHalfWidth;
 
 
-    var _1week = false;
+    var _dateOnTime = false;
 
     var maximumTimeInterval = 0;
     var timeIntervalDependingOnPrecision = 0;
@@ -1097,6 +1097,7 @@ function drawAxisTicks(cdata, ctx)
     maximumTicks = (proportionnalInterval(ticks, oldDate) === 1) ? (atime2screen(cdata, ticks[ticks.length - 1]) - cdata.bottomLeftX) / ((2 * dateHalfWidth) + 10) : (atime2screen(cdata, ticks[ticks.length - 1]) - cdata.bottomLeftX) / ((2 * hourHalfWidth) + 10)
     ticktimes = ((timeIntervalDependingOnPrecision > maximumTimeInterval) && (timeIntervalDependingOnPrecision <= maximumTicks)) ? ticks : ticktimes
     maximumTimeInterval = (maximumTimeInterval > ticktimes.length) ? maximumTimeInterval : ticktimes.length
+    _dateOnTime = (ticks === ticktimes) ? true : _dateOnTime;
 
     //1 tick / 72 hr
     ticks = []
@@ -1105,6 +1106,7 @@ function drawAxisTicks(cdata, ctx)
     maximumTicks = (proportionnalInterval(ticks, oldDate) === 1) ? (atime2screen(cdata, ticks[ticks.length - 1]) - cdata.bottomLeftX) / ((2 * dateHalfWidth) + 10) : (atime2screen(cdata, ticks[ticks.length - 1]) - cdata.bottomLeftX) / ((2 * hourHalfWidth) + 10)
     ticktimes = ((timeIntervalDependingOnPrecision > maximumTimeInterval) && (timeIntervalDependingOnPrecision <= maximumTicks)) ? ticks : ticktimes
     maximumTimeInterval = (maximumTimeInterval > ticktimes.length) ? maximumTimeInterval : ticktimes.length
+    _dateOnTime = (ticks === ticktimes) ? true : _dateOnTime;
 
     //1 tick / week
     ticks = []
@@ -1112,13 +1114,14 @@ function drawAxisTicks(cdata, ctx)
     oldDate = new Date(ticks[0] * 1000);
     maximumTicks = (proportionnalInterval(ticks, oldDate) === 1) ? (atime2screen(cdata, ticks[ticks.length - 1]) - cdata.bottomLeftX) / ((2 * dateHalfWidth) + 10) : (atime2screen(cdata, ticks[ticks.length - 1]) - cdata.bottomLeftX) / ((2 * hourHalfWidth) + 10)
     ticktimes = ((timeIntervalDependingOnPrecision > maximumTimeInterval) && (timeIntervalDependingOnPrecision <= maximumTicks)) ? ticks : ticktimes
-    _1week = (ticks === ticktimes) ? true : _1week;
+    _dateOnTime = (ticks === ticktimes) ? true : _dateOnTime;
 
 
     var oldDateUsed = false
     var cumulInterDateSize = 0
     var interdatesize = 0
     oldDate = new Date(ticktimes[0] * 1000)
+
     for (i = 0; i < ticktimes.length; i++) {
 
         //Draw the ticks on the axis
@@ -1143,7 +1146,7 @@ function drawAxisTicks(cdata, ctx)
                     ctx.fillText(formatDay(oldDate), - ((cumulInterDateSize + interdatesize) / 2) - dateHalfWidth, 30 * cdata.scale);
                     cumulInterDateSize = 0
                 }
-                else if(_1week){
+                else if(_dateOnTime){
                     if (i === ticktimes.length - 1){
                         ctx.fillText(formatDay(date), - dateHalfWidth, 15 * cdata.scale);
                     }
@@ -1170,7 +1173,7 @@ function drawAxisTicks(cdata, ctx)
                 oldDateUsed = true
             }
         }
-        else if(_1week && ticktimes.length === 1){
+        else if(_dateOnTime && ticktimes.length === 1){
             ctx.fillText(formatDay(oldDate), - (interdatesize) - dateHalfWidth, 15 * cdata.scale);
         }
 
@@ -1180,7 +1183,7 @@ function drawAxisTicks(cdata, ctx)
 
         // Increase length of ticks at the beggining and the end of a day
         if (!oldDateUsed){
-            if ((i === 0 && date.getHours() !== 0) || _1week){ // eslint-disable-line
+            if ((i === 0 && date.getHours() !== 0) || _dateOnTime){ // eslint-disable-line
 
             }
             else{

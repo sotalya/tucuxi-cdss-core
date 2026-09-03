@@ -63,7 +63,7 @@
                     <postalCode>1234</postalCode>
                     <city>My City</city>
                     <state>My State</state>
-                    <country>My Countre</country>
+                    <country>My Country</country>
                 </address>
                 <phone>
                     <number>0781234567</number>
@@ -101,7 +101,7 @@
             <covariates>
                 <covariate>
                     <covariateId>birthdate</covariateId>
-                    <date>2023-05-12T00:00:00</date>
+                    <date>2024-05-12T00:00:00</date>
                     <value>1981-01-01T00:00:00</value>
                     <unit></unit>
                     <dataType>date</dataType>
@@ -117,7 +117,7 @@
                 </covariate> -->
                 <covariate>
                     <covariateId>bodyweight</covariateId>
-                    <date>2023-05-12T00:00:00</date>
+                    <date>2024-05-12T00:00:00</date>
                     <value>123</value>
                     <unit>kg</unit>
                     <dataType>double</dataType>
